@@ -9,7 +9,8 @@ COSE DA FARE IN ORDINE :
 
 4. parsing
 
-	- prendere la prima parola e capire se esiste
+	- prendere la prima parola e capire se esiste (?) *//
+		*//	-> (oppure gestire l'errore "command not found" usando execve(vedi esempio video shell) semplificando cosí il parsing iniziale)
 	- capire se si hanno le autorizzazioni per avviarlo
 	- dare tutte le altre flag all'eseguibile, che gestirá i restanti errori (punto 5)
 
@@ -25,3 +26,5 @@ BASH BEHAVIOURS :
 2. ' cat | cat | ls ' capire come implementare l'attesa dei due comandi 'cat' che attendono input
 
 3. ' cd ' con e senza pipe - come modificare il path del parent senza sovrascrivere il processo
+
+4. ' export ' da solo deve fare il display dell'env in ordine alfabetico / ' export TEST=10 ' aggiunge una variabile nell'env
