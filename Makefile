@@ -6,7 +6,7 @@
 #    By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/22 15:36:33 by fdrudi            #+#    #+#              #
-#    Updated: 2022/04/22 16:18:01 by fdrudi           ###   ########.fr        #
+#    Updated: 2022/04/23 12:26:09 by fdrudi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,11 +18,11 @@ OBJ			=	$(SRC:.c=.o)
 
 OBJ_DIR		=	$(./OBJ)
 
-CC			=	gcc -ltermcap
+CC			=	gcc -readline -ltermcap
 
 RM			=	rm -f
 
-CFLAGS		=	-Wall -Wextra -Werror
+CFLAGS		=	#-Wall -Wextra -Werror
 
 %.o:%.c
 			$(CC) $(CFLAGS) -c $< -o $@

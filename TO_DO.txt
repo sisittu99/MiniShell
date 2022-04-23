@@ -1,0 +1,27 @@
+
+COSE DA FARE IN ORDINE :
+
+1. Creare nel parent il terminale (prompt)
+
+2. gestire fin da subito i segnali
+
+3. leggere la riga con rl_*
+
+4. parsing
+
+	- prendere la prima parola e capire se esiste
+	- capire se si hanno le autorizzazioni per avviarlo
+	- dare tutte le altre flag all'eseguibile, che gestirá i restanti errori (punto 5)
+
+5. A seconda del pipe o meno, aprire processi figli o eseguire direttamente nel parent
+
+	- capire se l'exe esiste
+	- darlo in pasto a execve per i p.child; a qualcun altro (?) per il parent
+
+BASH BEHAVIOURS :
+
+1. ' . '  capire cosa fa;
+
+2. ' cat | cat | ls ' capire come implementare l'attesa dei due comandi 'cat' che attendono input
+
+3. ' cd ' con e senza pipe - come modificare il path del parent senza sovrascrivere il processo
