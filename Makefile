@@ -6,19 +6,21 @@
 #    By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/22 15:36:33 by fdrudi            #+#    #+#              #
-#    Updated: 2022/04/23 12:26:09 by fdrudi           ###   ########.fr        #
+#    Updated: 2022/04/26 17:12:56 by fdrudi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	minishell
 
-SRC			=	SRC/main.c\
+SRC			=	SRC/main.c SRC/path.c\
 
 OBJ			=	$(SRC:.c=.o)
 
 OBJ_DIR		=	$(./OBJ)
 
-CC			=	gcc -readline -ltermcap
+LIBFT		=	./INCL/libft.a
+
+CC			=	gcc -lreadline -ltermcap
 
 RM			=	rm -f
 
@@ -28,7 +30,7 @@ CFLAGS		=	#-Wall -Wextra -Werror
 			$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME):	$(OBJ)
-			$(CC) $(CFLAGS) -o $(NAME) $(OBJ)
+			$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT)
 
 all:		$(NAME)
 
