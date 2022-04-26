@@ -8,7 +8,12 @@ int	main(int argc, char *argv[], char *envp[])
 	{
 		printf("bash-biutiful>$ ");
 		line = readline(prompt);
-		printf("%s\n", line);
+		if (line && *line)
+		{
+			add_history(line);
+			printf("%s\n", line);
+		}
+		free(line);
 	}
 	return (0);
 }
