@@ -10,7 +10,7 @@ char	**ft_path(char **envp)
 	while (i < 3)
 		index[i++] = 0;
 	to_find = "PATH";
-	while (envp)
+	while (envp[index[0]])
 	{
 		while (envp[index[0]][index[1]] == to_find[index[2]])
 		{

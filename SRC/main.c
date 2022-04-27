@@ -6,17 +6,26 @@ int	main(int argc, char *argv[], char *envp[])
 	char *prompt;
 	while (1)
 	{
-		printf("bash-biutiful>$ ");
-		line = readline(prompt);
-		if (line && *line)
+		line = readline("bash-biutiful>$ ");
+		if (!line)
+			return(write(2, "error: could not allocate!\n", 28));
+		if (line)
 		{
 			add_history(line);
-			printf("%s\n", line);
 		}
 		free(line);
 	}
 	return (0);
 }
+
+// ** SIGINT HANDLER ** //
+
+// static void	int_handler(int status) {
+// 	printf("\n"); // Move to a new line
+// 	rl_on_new_line(); // Regenerate the prompt on a newline
+// 	rl_replace_line("", 0); // Clear the previous text
+// 	rl_redisplay();
+// }
 
 // ** EXEC EXAMPLE ** //
 

@@ -12,6 +12,18 @@
 # include <stdio.h>
 # include "libft.h"
 
+// typedef struct s_list
+// {
+// 	char			**cmd;
+// 	int				pipe;
+// 	char			sep;
+// 	struct s_list	*next;
+// }				t_list;
+
+
+char	*ft_replace(char *s, char *envp[]);
+char	**ms_split(const char *s, char c, char *envp[]);
+
 // * PATH * //
 
 char	**ft_path(char **envp);

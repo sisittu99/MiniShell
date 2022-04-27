@@ -1,11 +1,11 @@
 
 COSE DA FARE IN ORDINE :
 
-1. Creare nel parent il terminale (prompt)
+# //*DONE*// 1. Creare nel parent il terminale (prompt)
 
 2. gestire fin da subito i segnali
 
-3. leggere la riga con rl_*
+# //*DONE*// 3. leggere la riga con rl_*
 
 4. parsing
 
