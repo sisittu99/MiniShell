@@ -1,9 +1,9 @@
 #include "../INCL/minishell.h"
 
-int	main(int argc, char *argv[], char *envp[])
+int	main(void)
 {
 	char *line;
-	char *prompt;
+	// char *prompt;
 	while (1)
 	{
 		line = readline("bash-biutiful>$ ");

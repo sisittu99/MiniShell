@@ -1,6 +1,6 @@
 #include "../INCL/minishell.h"
 
-int	nb_words(char *s, char c)
+static int	nb_words(char *s, char c)
 {
 	int		i;
 	int		j;
