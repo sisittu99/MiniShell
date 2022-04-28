@@ -29,7 +29,7 @@ int	main(int argc, char *argv[], char *envp[])
 			cmd = ms_split(line, ' ', envp);
 			i = 0;
 			while (cmd[i] != NULL)
-				printf("%s\n", cmd[i++]);
+				printf("%s$\n", cmd[i++]);
 			ft_free(cmd);
 		}
 	}

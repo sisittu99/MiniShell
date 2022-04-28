@@ -16,8 +16,14 @@ char	*find_it(char **envp, char *to_find)
 		{
 			index[1]++;
 			if (!to_find[index[2] + 1])
-				return (ft_substr(envp[index[0]], ++index[1],
+			{
+				// printf("%s\nchar : %c\n", envp[index[0]], envp[index[0]][index[1] + 1]);
+				if (envp[index[0]][index[1]] == '=')
+					return (ft_substr(envp[index[0]], index[1] + 1,
 						ft_strlen(envp[index[0]])));
+				// printf("\n!!!!!!!!!!!!!!!!!!!!!!!\n"); fflush(stdout);
+				return (NULL);
+			}
 			index[2]++;
 		}
 		index[0]++;
@@ -47,7 +53,25 @@ char	*ft_replace_join(char *s1, char *s2, char *s3)
 	  || ** Questa funzione dev'essere chiamata dopo il controllo e la
 	  	 conferma che la variabile dev'essere sostituita col valore ** ||
 */
-char	*ft_replace(char *s, char *envp[])
+
+int	ft_check_var(char *s, int pos)
+{
+	int	i;
+
+	i = 0;
+	if (s[pos] == 63)
+		return (-1);
+	if (ft_isalpha(s[pos]) || s[pos] == 95)
+	{
+		i++;
+		while (ft_isalpha(s[pos + i]) || ft_isdigit(s[pos + i]) || s[pos + i] == 95)
+			i++;
+		return (i);
+	}
+	return (0);
+}
+
+char	*ft_replace(char *s, char *envp[], int pos, int *ret)
 {
 	char	*s1;
 	char	*s2;
@@ -59,20 +83,35 @@ char	*ft_replace(char *s, char *envp[])
 
 	i = 0;
 	j = 0;
-	while (s[j] != '$')
-		j++;
-	if (j == (int)ft_strlen(s))
-		return (s);
-	s1 = ft_substr(s, 0, j);
-	i = j;
-	while (s[i] >= 65 || s[i] <= 90 || s[i] == 95)
-		i++;
-	var = ft_substr(s, j, i - j);
-	s2 = find_it(envp, var);
-	free(var);
-	s3 = ft_substr(s, i, (ft_strlen(s) - i));
-	free(s);
-	return (ft_replace_join(s1, s2, s3));
+	while (s[pos] != '\"')
+	{
+		if (s[pos] == '$' && (s[pos + 1] != '\"'))
+		{
+			j = ft_check_var(s, pos + 1);
+			if (j > 0)
+			{
+				s1 = ft_substr(s, 0, pos);
+				printf("s1: %s\t", s1); fflush(stdout);
+				var = ft_substr(s, pos + 1, j);
+				printf("var: %s\t", var);fflush(stdout);
+				s2 = find_it(envp, var);
+				printf("s2: %s\t", s2);fflush(stdout);
+				free(var);
+				i = pos + 1 + j;
+				s3 = ft_substr(s, i, (ft_strlen(s) - i));
+				printf("s3: %s\t", s3);fflush(stdout);
+				free(s);
+				s = ft_replace_join(s1, s2, s3);
+			}
+			else if (j == -1)
+				return (NULL); // ** DA AGGIUNGERE REGOLA PER '$?' QUANDO SARÀ TESTATO ** //
+		}
+		else if (s[pos + 1] == '\0')
+			return (s);
+		pos++;
+	}
+	*ret = pos - 1;
+	return (s);
 }
 
 char	*ft_delete_char(char *s, int pos)

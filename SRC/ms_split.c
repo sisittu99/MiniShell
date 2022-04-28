@@ -1,5 +1,16 @@
 #include "../INCL/minishell.h"
 
+int	ms_strchr(char *s, int pos, char c)
+{
+	while (s[pos] != '\0')
+	{
+		if (s[pos] == c)
+			return (1);
+		pos++;
+	}
+	return (0);
+}
+
 static int	nb_words(char *s, char c)
 {
 	int		i;
@@ -39,30 +50,32 @@ static char	**wds_assign(char *s, char c, char **dest, size_t len, char *envp[])
 	size_t	i;
 	size_t	x;
 	int		j;
+	int		a;
 	char	typequote;
 
 	i = 0;
 	x = 0;
-	j = -1;
-	while (i <= len)
-	{
+	j = -1;															  /////////////////
+	while (i <= len)												//DA SISTEMARE !!!//
+	{																 /////////////////
 		if ((s[i] == '\'' || s[i] == '\"'))
 		{
 			typequote = s[i];
-			j = i;
+			a = i;
 			i++;
-			if (typequote == '\"')					//CONTROLLO SE SIAMO DENTRO LE VIRGOLETTE
-				s = ft_replace(s, envp);			//CONTROLLO E REPLACE DELLE VARIABILI
 			while (s[i] != typequote && s[i] != '\0')
 			{
 				if (s[i + 1] == typequote)
 				{
-					s = ft_delete_char(s, j);				//RICERCA DEGLI APICI O VIRGOLETTE
+					if (typequote == '\"')					//CONTROLLO SE SIAMO DENTRO LE VIRGOLETTE
+						s = ft_replace(s, envp, a + 1, (int *)&i);		//CONTROLLO E REPLACE DELLE VARIABILI
+					s = ft_delete_char(s, a);				//RICERCA DEGLI APICI O VIRGOLETTE
 					s = ft_delete_char(s, i);
-					i--;				//AGGIUNTA STRINGA/PAROLA ALLA MATRICE
-					len -= 2;
+					i -= 2;									//AGGIUNTA STRINGA/PAROLA ALLA MATRICE
+					len -= 1;
 					break;
 				}
+				j = a;
 				i++;
 			}
 		}

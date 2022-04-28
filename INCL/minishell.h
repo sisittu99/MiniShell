@@ -28,7 +28,7 @@ char	*ft_access(char *cmd, char **path);
 
 // * UTILS * //
 
-char	*ft_replace(char *s, char *envp[]);
+char	*ft_replace(char *s, char *envp[], int pos, int *ret);
 char	**ms_split(char *s, char c, char *envp[]);
 char	*ft_delete_char(char *s, int pos);
 
