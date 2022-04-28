@@ -12,6 +12,7 @@ int	main(int argc, char *argv[], char *envp[])
 		if (line)
 		{
 			add_history(line);
+			printf("%s\n", line);
 		}
 		free(line);
 	}

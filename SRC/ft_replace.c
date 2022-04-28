@@ -1,4 +1,32 @@
 #include "../INCL/minishell.h"
+//#include "../INCL/libft/libft.h"
+
+/* -> Sostituzione della variabile con il suo valore
+*/
+char	*find_it(char **envp, char *to_find)
+{
+	int		index[3];
+	int		i;
+
+	i = 0;
+	while (i < 3)
+		index[i++] = 0;
+	while (envp[index[0]])
+	{
+		while (envp[index[0]][index[1]] == to_find[index[2]])
+		{
+			index[1]++;
+			if (!to_find[index[2] + 1])
+				return (ft_substr(envp[index[0]], ++index[1],
+						ft_strlen(envp[index[0]])));
+			index[2]++;
+		}
+		index[0]++;
+		index[1] = 0;
+		index[2] = 0;
+	}
+	return (NULL);
+}
 
 char	*ft_replace_join(char *s1, char *s2, char *s3)
 {
@@ -14,6 +42,12 @@ char	*ft_replace_join(char *s1, char *s2, char *s3)
 	return (dst);
 }
 
+/* -> Controllo e ricerca della variabile allínternon della srtinga.
+      Se la variabile è presente, suddivisione della stringa in 3 e
+	  sostituzione della variabile con il suo valore.
+	  || ** Questa funzione dev'essere chiamata dopo il controllo e la
+	  	 conferma che la variabile dev'essere sostituita col valore ** ||
+*/
 char	*ft_replace(char *s, char *envp[])
 {
 	char	*s1;

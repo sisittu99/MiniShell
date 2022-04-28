@@ -12,9 +12,10 @@ int	nb_words(char *s, char c)
 	{
 		if (*s == '\'' || *s == '\"')
 		{
-			typequote = *s;
-			s++;
-			while (s++ != typequote);
+			typequote = *s;								//RICERCA DEGLI APICI O VIRGOLETTE E
+			s++;										//CONTEGGIO COME STRINGA SINGOLA/PAROLA
+			while (*s != typequote)
+				s++;
 			if (j == 0)
 			{
 				j = 1;
@@ -47,11 +48,11 @@ static char	**wds_assign(char *s, char c, char **dest, size_t len, char *envp[])
 	{
 		if (s[i] == '\'' || s[i] == '\"')
 		{
-			typequote = s[i];
+			typequote = s[i];						//RICERCA DEGLI APICI O VIRGOLETTE
 			i++;
-			if (typequote == '\"')
-				s = ft_replace(s, envp);
-			while (s[i++] != typequote);
+			if (typequote == '\"')					//CONTROLLO SE SIAMO DENTRO LE VIRGOLETTE
+				s = ft_replace(s, envp);			//CONTROLLO E REPLACE DELLE VARIABILI
+			while (s[i++] != typequote);			//AGGIUNTA STRINGA/PAROLA ALLA MATRICE
 		}
 		if (s[i] != c && j < 0)
 			j = i;
@@ -66,7 +67,7 @@ static char	**wds_assign(char *s, char c, char **dest, size_t len, char *envp[])
 	return (dest);
 }
 
-char	**ms_split(const char *s, char c, char *envp[])
+char	**ms_split(char *s, char c, char *envp[])
 {
 	char	**dest;
 	size_t	len;

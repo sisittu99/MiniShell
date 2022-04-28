@@ -10,7 +10,7 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <stdio.h>
-# include "libft.h"
+# include "../libft/libft.h"
 
 // typedef struct s_list
 // {
@@ -21,12 +21,14 @@
 // }				t_list;
 
 
-char	*ft_replace(char *s, char *envp[]);
-char	**ms_split(const char *s, char c, char *envp[]);
-
 // * PATH * //
 
 char	**ft_path(char **envp);
 char	*ft_access(char *cmd, char **path);
+
+// * UTILS * //
+
+char	*ft_replace(char *s, char *envp[]);
+char	**ms_split(char *s, char c, char *envp[]);
 
 #endif
