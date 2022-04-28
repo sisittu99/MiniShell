@@ -1,20 +1,37 @@
 #include "../INCL/minishell.h"
 
-int	main(void)
+void	ft_free(char **dc)
+{
+	int	i;
+
+	i = -1;
+	while (dc[++i])
+		free(dc[i]);
+	free(dc);
+}
+
+int	main(int argc, char *argv[], char *envp[])
 {
 	char *line;
-	// char *prompt;
+	char **cmd;
+	int	i;
+
+	(void)argc;
+	(void)argv;
 	while (1)
 	{
 		line = readline("bash-biutiful>$ ");
 		if (!line)
 			return(write(2, "error: could not allocate!\n", 28));
-		if (line)
+		if (*line)
 		{
 			add_history(line);
-			printf("%s\n", line);
+			cmd = ms_split(line, ' ', envp);
+			i = 0;
+			while (cmd[i] != NULL)
+				printf("%s\n", cmd[i++]);
+			ft_free(cmd);
 		}
-		free(line);
 	}
 	return (0);
 }

@@ -46,13 +46,25 @@ static char	**wds_assign(char *s, char c, char **dest, size_t len, char *envp[])
 	j = -1;
 	while (i <= len)
 	{
-		if (s[i] == '\'' || s[i] == '\"')
+		if ((s[i] == '\'' || s[i] == '\"'))
 		{
-			typequote = s[i];						//RICERCA DEGLI APICI O VIRGOLETTE
+			typequote = s[i];
+			j = i;
 			i++;
 			if (typequote == '\"')					//CONTROLLO SE SIAMO DENTRO LE VIRGOLETTE
 				s = ft_replace(s, envp);			//CONTROLLO E REPLACE DELLE VARIABILI
-			while (s[i++] != typequote);			//AGGIUNTA STRINGA/PAROLA ALLA MATRICE
+			while (s[i] != typequote && s[i] != '\0')
+			{
+				if (s[i + 1] == typequote)
+				{
+					s = ft_delete_char(s, j);				//RICERCA DEGLI APICI O VIRGOLETTE
+					s = ft_delete_char(s, i);
+					i--;				//AGGIUNTA STRINGA/PAROLA ALLA MATRICE
+					len -= 2;
+					break;
+				}
+				i++;
+			}
 		}
 		if (s[i] != c && j < 0)
 			j = i;

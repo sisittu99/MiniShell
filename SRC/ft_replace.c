@@ -74,3 +74,29 @@ char	*ft_replace(char *s, char *envp[])
 	free(s);
 	return (ft_replace_join(s1, s2, s3));
 }
+
+char	*ft_delete_char(char *s, int pos)
+{
+	char	*s1;
+	char	*s2;
+	char	*dst;
+
+	printf("s : %s$\n", s);
+	s1 = ft_substr(s, 0, pos);
+	printf("s1 : %s$\n", s1);
+	if (s[pos + 1] == '\0')
+	{
+		free (s);
+		s2 = NULL;
+		dst = NULL;
+		return (s1);
+	}
+	s2 = ft_substr(s, pos + 1, ((int) ft_strlen(s) - (pos)));
+	printf("s2 : %s$\n", s2);
+	dst = ft_strjoin(s1, s2);
+	printf("dst : %s$\n\n", dst);
+	free(s);
+	free(s1);
+	free(s2);
+	return (dst);
+}
