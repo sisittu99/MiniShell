@@ -5,37 +5,45 @@ int	ms_strchr(char *s, int pos, char c)
 	while (s[pos] != '\0')
 	{
 		if (s[pos] == c)
-			return (1);
+			return (pos);
 		pos++;
 	}
-	return (0);
+	return (-1);
 }
 
+/* -> Controlla che nel conteggio delle parole, se presenti,
+	  le '\'' e le '\"' siano contate come parola singola <- */
+void	nb_words_help(char *s, int *i, int *j)
+{
+	char	typequote;
+
+	typequote = *s;		
+	s++;
+	if (ms_strchr(s, *i, typequote) > -1)
+	{
+		while (*s != typequote)
+			s++;
+		if (*j == 0)
+		{
+			*j = 1;
+			*i += 1;
+		}
+	}
+}
+
+/* -> Conta il numero delle parole all'interno
+	  della stringa passata <- */
 static int	nb_words(char *s, char c)
 {
 	int		i;
 	int		j;
-	char	typequote;
 
 	i = 0;
 	j = 0;
 	while (*s != '\0')
 	{
 		if (*s == '\'' || *s == '\"')
-		{
-			typequote = *s;								//RICERCA DEGLI APICI O VIRGOLETTE E
-			s++;
-			if (ms_strchr(s, i, typequote) == 1)		//CONTEGGIO COME STRINGA SINGOLA/PAROLA
-			{
-				while (*s != typequote)
-					s++;
-				if (j == 0)
-				{
-					j = 1;
-					i++;
-				}
-			}
-		}
+			nb_words_help(s, &i, &j);
 		if ((*s != c) && (j == 0))
 		{
 			j = 1;
@@ -49,38 +57,44 @@ static int	nb_words(char *s, char c)
 	return (i);
 }
 
-static char	**wds_assign(char *s, char c, char **dest, size_t len, char *envp[])
+/* -> Controlla che nell'assegnazione delle parole, se presenti,
+	  le '\'' e le '\"' siano contate come parola singola <- */
+char	*wds_assign_help(char *s, int *i, int *j, int len)
+{
+	int		a;
+	char	typequote;
+
+	typequote = s[*i];
+	a = *i;
+	*i += 1;
+	if (ms_strchr(s, *i, typequote) > -1)
+	{
+		while (s[*i + 1] != typequote)
+			*i += 1;
+		s = ft_delete_char(s, a);
+		s = ft_delete_char(s, *i);
+		len -= 1;
+	}
+	if (*j < 0)
+		*j = a;
+	return (s);
+}
+
+/* -> Divide ed assegna le parole calcolate
+	  in precedenza all'interno della matrice <- */
+static char	**wds_assign(char *s, char c, char **dest, size_t len)
 {
 	size_t	i;
 	size_t	x;
 	int		j;
-	int		a;
-	char	typequote;
 
 	i = 0;
 	x = 0;
-	j = -1;															  /////////////////
-	while (i <= len)												//DA SISTEMARE !!!//
-	{																 /////////////////
+	j = -1;
+	while (i <= len)
+	{
 		if ((s[i] == '\'' || s[i] == '\"'))
-		{
-			typequote = s[i];
-			a = i;
-			i++;
-			if (ms_strchr(s, i, typequote) == 1)
-			{
-				while (s[i + 1] != typequote)								//RICERCA DEGLI APICI O VIRGOLETTE
-					i++;
-				if (typequote == '\"')								//CONTROLLO SE SIAMO DENTRO LE VIRGOLETTE
-					s = ft_replace(s, envp, a + 1, (int *)&i);		//CONTROLLO E REPLACE DELLE VARIABILI
-				s = ft_delete_char(s, a);
-				s = ft_delete_char(s, i);							//AGGIUNTA STRINGA/PAROLA ALLA MATRICE
-				len -= 1;
-			}
-			if (j < 0)
-				j = a;
-			printf("CHAR : %c\tJ : %d\tI : %d\n", s[i], j, (int)i);
-		}
+			s = wds_assign_help(s, (int *)&i, &j, len);
 		if (s[i] != c && j < 0)
 			j = i;
 		else if ((s[i] == c || i == len) && j >= 0)
@@ -94,7 +108,7 @@ static char	**wds_assign(char *s, char c, char **dest, size_t len, char *envp[])
 	return (dest);
 }
 
-char	**ms_split(char *s, char c, char *envp[])
+char	**ms_split(char *s, char c)
 {
 	char	**dest;
 	size_t	len;
@@ -105,6 +119,6 @@ char	**ms_split(char *s, char c, char *envp[])
 	dest = (char **) malloc ((nb_words(s, c) + 1) * sizeof(char *));
 	if (!dest)
 		return (NULL);
-	wds_assign(s, c, dest, len, envp);
+	wds_assign(s, c, dest, len);
 	return (dest);
 }

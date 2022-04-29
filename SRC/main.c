@@ -12,12 +12,14 @@ void	ft_free(char **dc)
 
 int	main(int argc, char *argv[], char *envp[])
 {
-	char *line;
-	char **cmd;
-	int	i;
+	char	*line;
+	// char	**cmd;
+	t_bash	*bash;
+	int		i;
 
 	(void)argc;
 	(void)argv;
+	bash = NULL;
 	while (1)
 	{
 		line = readline("bash-biutiful>$ ");
@@ -26,10 +28,11 @@ int	main(int argc, char *argv[], char *envp[])
 		if (*line)
 		{
 			add_history(line);
-			cmd = ms_split(line, ' ', envp);
+			ft_parse(&bash, line, envp);
+			// cmd = ms_split(line, ' ', envp);
 			i = 0;
-			while (cmd[i] != NULL)
-				printf("%s$\n", cmd[i++]);
+			// while (cmd[i] != NULL)
+			// 	printf("%s$\n", cmd[i++]);
 			// ft_free(cmd);
 		}
 	}

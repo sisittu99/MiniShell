@@ -1,7 +1,6 @@
 #include "../INCL/minishell.h"
 
-/* -> Sostituzione della variabile con il suo valore
-*/
+/* -> Sostituzione della variabile con il suo valore <- */
 char	*find_it(char **envp, char *to_find)
 {
 	int		index[3];
@@ -45,13 +44,8 @@ char	*ft_replace_join(char *s1, char *s2, char *s3)
 	return (dst);
 }
 
-/* -> Controllo e ricerca della variabile all'interno della srtinga.
-      Se la variabile è presente, suddivisione della stringa in 3 e
-	  sostituzione della variabile con il suo valore.
-	  || ** Questa funzione dev'essere chiamata dopo il controllo e la
-	  	 conferma che la variabile dev'essere sostituita col valore ** ||
-*/
-
+/* -> Controlla che la presunta variabile sia scritta
+	  secondo le regole grammaticali corrette <- */
 int	ft_check_var(char *s, int pos)
 {
 	int	i;
@@ -69,7 +63,12 @@ int	ft_check_var(char *s, int pos)
 	return (0);
 }
 
-char	*ft_replace(char *s, char *envp[], int pos, int *ret)
+/* -> Controllo e ricerca della variabile all'interno della srtinga.
+      Se la variabile è presente, suddivisione della stringa in 3 e
+	  sostituzione della variabile con il suo valore.
+	  || ** Questa funzione dev'essere chiamata dopo il controllo e la
+	  conferma che la variabile dev'essere sostituita col valore ** || <- */
+char	*ft_replace(char *s, char *envp[], int pos, int *ret_i)
 {
 	char	*s1;
 	char	*s2;
@@ -89,15 +88,15 @@ char	*ft_replace(char *s, char *envp[], int pos, int *ret)
 			if (j > 0)
 			{
 				s1 = ft_substr(s, 0, pos);
-				printf("Replace s1: %s\t", s1); fflush(stdout);
-				var = ft_substr(s, pos + 1, j);
-				printf("Replace var: %s\t", var);fflush(stdout);
+				// printf("Replace s1: %s\t", s1); fflush(stdout);
+				var = ft_substr(s, (pos + 1), j);
+				// printf("Replace var: %s\t", var);fflush(stdout);
 				s2 = find_it(envp, var);
-				printf("Replace s2: %s\t", s2);fflush(stdout);
+				// printf("Replace s2: %s\t", s2);fflush(stdout);
 				free(var);
 				i = pos + 1 + j;
 				s3 = ft_substr(s, i, (ft_strlen(s) - i));
-				printf("Replace s3: %s\t", s3);fflush(stdout);
+				// printf("Replace s3: %s\t", s3);fflush(stdout);
 				free(s);
 				s = ft_replace_join(s1, s2, s3);
 			}
@@ -108,19 +107,21 @@ char	*ft_replace(char *s, char *envp[], int pos, int *ret)
 			return (s);
 		pos++;
 	}
-	*ret = pos - 1;
+	*ret_i = pos - 1;
 	return (s);
 }
 
+/* -> Elimina un carattere in posizione 'pos' e
+	  ritorna la stringa modificata e riallocata <- */
 char	*ft_delete_char(char *s, int pos)
 {
 	char	*s1;
 	char	*s2;
 	char	*dst;
 
-	printf("Delete s : %s$\n", s);
+	// printf("Delete s : %s$\n", s);
 	s1 = ft_substr(s, 0, pos);
-	printf("Delete s1 : %s$\n", s1);
+	// printf("Delete s1 : %s$\n", s1);
 	if (s[pos + 1] == '\0')
 	{
 		free (s);
@@ -129,9 +130,9 @@ char	*ft_delete_char(char *s, int pos)
 		return (s1);
 	}
 	s2 = ft_substr(s, pos + 1, ((int) ft_strlen(s) - (pos)));
-	printf("Delete s2 : %s$\n", s2);
+	// printf("Delete s2 : %s$\n", s2);
 	dst = ft_strjoin(s1, s2);
-	printf("Delete dst : %s$\n\n", dst);
+	// printf("Delete dst : %s$\n\n", dst);
 	free(s);
 	free(s1);
 	free(s2);

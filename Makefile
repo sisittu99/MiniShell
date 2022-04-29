@@ -6,13 +6,14 @@
 #    By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/22 15:36:33 by fdrudi            #+#    #+#              #
-#    Updated: 2022/04/29 13:51:41 by fdrudi           ###   ########.fr        #
+#    Updated: 2022/04/29 17:57:30 by fdrudi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	minishell
 
 SRC			=	./SRC/main.c ./SRC/path.c ./SRC/ms_split.c ./SRC/ft_replace.c\
+				./SRC/parse.c ./SRC/list_utils.c\
 
 OBJ			=	$(SRC:.c=.o)
 
