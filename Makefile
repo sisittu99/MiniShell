@@ -6,7 +6,7 @@
 #    By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/22 15:36:33 by fdrudi            #+#    #+#              #
-#    Updated: 2022/04/28 14:01:18 by fdrudi           ###   ########.fr        #
+#    Updated: 2022/04/29 13:51:41 by fdrudi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ OBJ			=	$(SRC:.c=.o)
 
 LIBFT		=	libft/libft.a
 
-CC			=	gcc
+CC			=	gcc #-fsanitize=address
 
 RM			=	rm -f
 

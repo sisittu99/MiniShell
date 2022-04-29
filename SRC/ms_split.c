@@ -24,13 +24,16 @@ static int	nb_words(char *s, char c)
 		if (*s == '\'' || *s == '\"')
 		{
 			typequote = *s;								//RICERCA DEGLI APICI O VIRGOLETTE E
-			s++;										//CONTEGGIO COME STRINGA SINGOLA/PAROLA
-			while (*s != typequote)
-				s++;
-			if (j == 0)
+			s++;
+			if (ms_strchr(s, i, typequote) == 1)		//CONTEGGIO COME STRINGA SINGOLA/PAROLA
 			{
-				j = 1;
-				i++;
+				while (*s != typequote)
+					s++;
+				if (j == 0)
+				{
+					j = 1;
+					i++;
+				}
 			}
 		}
 		if ((*s != c) && (j == 0))
@@ -42,6 +45,7 @@ static int	nb_words(char *s, char c)
 			j = 0;
 		s++;
 	}
+	printf("NB Words : %d\n", i);
 	return (i);
 }
 
@@ -63,21 +67,19 @@ static char	**wds_assign(char *s, char c, char **dest, size_t len, char *envp[])
 			typequote = s[i];
 			a = i;
 			i++;
-			while (s[i] != typequote && s[i] != '\0')
+			if (ms_strchr(s, i, typequote) == 1)
 			{
-				if (s[i + 1] == typequote)
-				{
-					if (typequote == '\"')					//CONTROLLO SE SIAMO DENTRO LE VIRGOLETTE
-						s = ft_replace(s, envp, a + 1, (int *)&i);		//CONTROLLO E REPLACE DELLE VARIABILI
-					s = ft_delete_char(s, a);				//RICERCA DEGLI APICI O VIRGOLETTE
-					s = ft_delete_char(s, i);
-					i -= 2;									//AGGIUNTA STRINGA/PAROLA ALLA MATRICE
-					len -= 1;
-					break;
-				}
-				j = a;
-				i++;
+				while (s[i + 1] != typequote)								//RICERCA DEGLI APICI O VIRGOLETTE
+					i++;
+				if (typequote == '\"')								//CONTROLLO SE SIAMO DENTRO LE VIRGOLETTE
+					s = ft_replace(s, envp, a + 1, (int *)&i);		//CONTROLLO E REPLACE DELLE VARIABILI
+				s = ft_delete_char(s, a);
+				s = ft_delete_char(s, i);							//AGGIUNTA STRINGA/PAROLA ALLA MATRICE
+				len -= 1;
 			}
+			if (j < 0)
+				j = a;
+			printf("CHAR : %c\tJ : %d\tI : %d\n", s[i], j, (int)i);
 		}
 		if (s[i] != c && j < 0)
 			j = i;

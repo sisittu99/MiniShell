@@ -12,13 +12,14 @@
 # include <stdio.h>
 # include "../libft/libft.h"
 
-// typedef struct s_list
-// {
-// 	char			**cmd;
-// 	int				pipe;
-// 	char			sep;
-// 	struct s_list	*next;
-// }				t_list;
+typedef struct s_bash
+{
+	struct s_bash	*prev;
+	char			**cmd;
+	int				pipe;
+	char			sep;
+	struct s_bash	*next;
+}				t_bash;
 
 
 // * PATH * //

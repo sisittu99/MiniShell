@@ -30,7 +30,7 @@ int	main(int argc, char *argv[], char *envp[])
 			i = 0;
 			while (cmd[i] != NULL)
 				printf("%s$\n", cmd[i++]);
-			ft_free(cmd);
+			// ft_free(cmd);
 		}
 	}
 	return (0);
