@@ -76,6 +76,19 @@ int	ft_syntax_err(char *line, int i)
 	return (0);
 }
 
+void	ft_print_cmd(char **cmd, int nbr)
+{
+	int	i;
+
+	i = 0;
+	printf("Node: %d\n", nbr);
+	while (cmd[i] != NULL)
+	{
+		printf("%s\n", cmd[i]);
+		i++;
+	}
+}
+
 /* -> Fa il Parsing della stringa, dividendo i comandi grazie ai separatori
 	  e creando un nodo per comando, pronto per essere passato all'exec <- */
 void	ft_parse(t_bash **bash, char *line, char **envp)
@@ -121,7 +134,9 @@ void	ft_parse(t_bash **bash, char *line, char **envp)
 	i = 1;
 	while (*bash != NULL)
 	{
-		printf("Node: %d\t[%s]\tsep: %c   pipe: %d\n", i, (*bash)->line, (*bash)->sep, (*bash)->pipe);
+		(*bash)->cmd = ms_split((*bash)->line);
+		ft_print_cmd((*bash)->cmd, i);
+		// printf("Node: %d\t[%s]\tsep: %c   pipe: %d\n", i, (*bash)->line, (*bash)->sep, (*bash)->pipe);
 		*bash = (*bash)->next;
 		i++;
 	}

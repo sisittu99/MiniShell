@@ -17,7 +17,7 @@ void	nb_words_help(char *s, int *i, int *j)
 {
 	char	typequote;
 
-	typequote = *s;		
+	typequote = *s;
 	s++;
 	if (ms_strchr(s, *i, typequote) > -1)
 	{
@@ -53,7 +53,6 @@ static int	nb_words(char *s, char c)
 			j = 0;
 		s++;
 	}
-	printf("NB Words : %d\n", i);
 	return (i);
 }
 
@@ -108,9 +107,10 @@ static char	**wds_assign(char *s, char c, char **dest, size_t len)
 	return (dest);
 }
 
-char	**ms_split(char *s, char c)
+char	**ms_split(char *s)
 {
 	char	**dest;
+	char	c = ' ';
 	size_t	len;
 
 	if (!s)
