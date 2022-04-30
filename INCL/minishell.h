@@ -19,6 +19,7 @@ typedef struct s_bash
 	char			**cmd;
 	int				pipe;
 	char			sep;
+	char			re_dir[2];
 	struct s_bash	*next;
 }				t_bash;
 
