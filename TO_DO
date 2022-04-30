@@ -11,7 +11,7 @@ COSE DA FARE IN ORDINE :
 
 	- gestire le '<', ecc.
 	- gestire la variabile $?
-	
+		
 	- prendere la prima parola e capire se esiste (?) *//
 		*//	-> (oppure gestire l'errore "command not found" usando execve(vedi esempio video shell) semplificando cosí il parsing iniziale)
 	- capire se si hanno le autorizzazioni per avviarlo

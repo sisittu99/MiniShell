@@ -13,9 +13,7 @@ void	ft_free(char **dc)
 int	main(int argc, char *argv[], char *envp[])
 {
 	char	*line;
-	// char	**cmd;
 	t_bash	*bash;
-	int		i;
 
 	(void)argc;
 	(void)argv;
@@ -29,10 +27,6 @@ int	main(int argc, char *argv[], char *envp[])
 		{
 			add_history(line);
 			ft_parse(&bash, line, envp);
-			// cmd = ms_split(line, ' ', envp);
-			i = 0;
-			// while (cmd[i] != NULL)
-			// 	printf("%s$\n", cmd[i++]);
 			// ft_free(cmd);
 		}
 	}
