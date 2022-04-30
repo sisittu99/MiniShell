@@ -1,5 +1,7 @@
 #include "../INCL/minishell.h"
 
+/* -> Analizza la stringa e cambia le Variabili col rispettivo valore.
+	  Controlla inoltre che la Variabile non sia dentro agli '\'' <- */
 char *find_var_to_replace(char *line, char **envp)
 {
 	int	pos_dollar;
@@ -31,12 +33,14 @@ char *find_var_to_replace(char *line, char **envp)
 	return (line);
 }
 
+/* -> Inizializza il nuovo nodo assieme alle variabili standard, inserendo
+	  la linea di comando, la pipe (se presente), i separatori (se presenti), ecc. <- */
 void	ft_init_node(t_bash **bash, char *line, int pos, int len)
 {
 	t_bash	*tmp;
 	char	sep[2];
 
-	if (line[pos + len] == '|')
+	if (line[pos + len] == '|' && line[pos + len + 1] != '|')
 	{
 		sep[0] = '|';
 		sep[1] = '0';
@@ -58,6 +62,22 @@ void	ft_init_node(t_bash **bash, char *line, int pos, int len)
 	tmp = NULL;
 }
 
+/* -> Controlla gli errori di Sintassi sui separatori <- */
+int	ft_syntax_err(char *line, int i)
+{
+	if (line[i] == '|' && line[i + 1] != '|')
+		return (write(2, "bash: syntax error near unexpected token `|'\n", 57));
+	else if (line[i] == '&' && line[i + 1] != '&')
+		return (write(2, "bash: syntax error near unexpected token `&'\n", 57));
+	else if (line[i] == '|' && line[i + 1] == '|')
+		return (write(2, "bash: syntax error near unexpected token `||'\n", 57));
+	else if (line[i] == '&' && line[i + 1] == '&')
+		return (write(2, "bash: syntax error near unexpected token `&&'\n", 57));
+	return (0);
+}
+
+/* -> Fa il Parsing della stringa, dividendo i comandi grazie ai separatori
+	  e creando un nodo per comando, pronto per essere passato all'exec <- */
 void	ft_parse(t_bash **bash, char *line, char **envp)
 {
 	int		i;
@@ -76,7 +96,15 @@ void	ft_parse(t_bash **bash, char *line, char **envp)
 				while (line[i + 1] != typequote)
 					i++;
 		}
-		if (line[i] == '|' || (line[i] == '&' && line[i + 1] == '&'))
+		if ((line[i] == '|' && line[i + 1] == '|') || (line[i] == '&' && line[i + 1] == '&'))
+		{
+			if (ft_syntax_err(line, (i + 2)) != 0)
+				return ;
+			ft_init_node(bash, line, j, (i - j));
+			j = i + 2;
+			i++;
+		}
+		else if (line[i] == '|')
 		{
 			ft_init_node(bash, line, j, (i - j));
 			j = i + 1;

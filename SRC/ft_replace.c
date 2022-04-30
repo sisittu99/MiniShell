@@ -19,7 +19,7 @@ char	*find_it(char **envp, char *to_find)
 				if (envp[index[0]][index[1]] == '=')
 					return (ft_substr(envp[index[0]], index[1] + 1,
 						ft_strlen(envp[index[0]])));
-				return (NULL);
+				return ("\0");
 			}
 			index[2]++;
 		}
@@ -37,7 +37,8 @@ char	*ft_replace_join(char *s1, char *s2, char *s3)
 
 	tmp = ft_strjoin(s1, s2);
 	free(s1);
-	free(s2);
+	if (*s2 != '\0')
+		free(s2);
 	dst = ft_strjoin(tmp, s3);
 	free(tmp);
 	free(s3);
