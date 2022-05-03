@@ -1,7 +1,7 @@
 #include "../INCL/minishell.h"
 /*
 	esegue un comando in una sola riga.
-	Questa funzione dovrá essere implementata. La base cosí di fatto puó funzionare solo 
+	Questa funzione dovrá essere implementata. La base cosí di fatto puó funzionare solo con &&
 */
 void	ft_execute(t_bash **bash, char **envp)
 {
