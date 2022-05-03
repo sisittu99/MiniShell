@@ -7,11 +7,14 @@ void	ft_delete_lst(t_bash **bash)
 	if (*bash== NULL)
 		return ;
 	tmp = *bash;
-	while (*bash!= NULL)
+	while (*bash != NULL)
 	{
 		tmp = (*bash)->next;
+		if ((*bash)->line)
+			free((*bash)->line);
+		ft_free((*bash)->cmd);
 		free (*bash);
-		*bash= tmp;
+		*bash = tmp;
 	}
 }
 

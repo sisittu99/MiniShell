@@ -6,10 +6,12 @@
 # include <term.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <sys/types.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
 # include <stdio.h>
+# include <errno.h>
 # include "../libft/libft.h"
 
 typedef struct s_bash
@@ -17,6 +19,7 @@ typedef struct s_bash
 	// struct s_bash	*prev;
 	char			*line;
 	char			**cmd;
+	pid_t			proc;
 	int				pipe;
 	char			sep;
 	char			re_dir[2];
@@ -31,6 +34,10 @@ char	*ft_replace(char *s, char *envp[], int pos, int *ret_i);
 char	*ft_delete_char(char *s, int pos);
 int		ms_strchr(char *s, int pos, char c);
 
+// * EXECUTE * //
+
+void	ft_execute(t_bash **bash, char **envp);
+
 // * PATH * //
 
 char	**ft_path(char **envp);
@@ -41,5 +48,6 @@ char	*ft_access(char *cmd, char **path);
 t_bash	*ft_new_node(char *line, int pos, int len, char *sep);
 void	ft_node_add_back(t_bash **lst, t_bash *new);
 void	ft_delete_lst(t_bash **bash);
+void	ft_free(char **dc);
 
 #endif

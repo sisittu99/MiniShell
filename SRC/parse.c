@@ -140,6 +140,7 @@ void	ft_print_cmd(char **cmd, int nbr)
 	  e creando un nodo per comando, pronto per essere passato all'exec <- */
 void	ft_parse(t_bash **bash, char *line, char **envp)
 {
+	t_bash	*tmp;
 	int		i;
 	int		j;
 	// char	typequote;
@@ -183,12 +184,13 @@ void	ft_parse(t_bash **bash, char *line, char **envp)
 	if (j < i)
 		ft_init_node(bash, line, j, (i - j));
 	i = 1;
-	while (*bash != NULL)
+	tmp = *bash;
+	while (tmp != NULL)
 	{
-		(*bash)->cmd = ms_split((*bash)->line);
-		ft_print_cmd((*bash)->cmd, i);
-		printf("Node: %d\t[%s]\tsep: %c   pipe: %d   re_dir: %s\n", i, (*bash)->line, (*bash)->sep, (*bash)->pipe, (*bash)->re_dir);
-		*bash = (*bash)->next;
+		(tmp)->cmd = ms_split((tmp)->line);
+		ft_print_cmd((tmp)->cmd, i);
+		printf("Node: %d\t[%s]\tsep: %c   pipe: %d   re_dir: %s\n", i, (tmp)->line, (tmp)->sep, (tmp)->pipe, (tmp)->re_dir);
+		tmp = (tmp)->next;
 		i++;
 	}
 }

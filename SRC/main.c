@@ -27,7 +27,8 @@ int	main(int argc, char *argv[], char *envp[])
 		{
 			add_history(line);
 			ft_parse(&bash, line, envp);
-			// ft_free(cmd);
+			ft_execute(&bash, envp);
+			ft_delete_lst(&bash);
 		}
 	}
 	return (0);

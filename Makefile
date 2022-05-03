@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+         #
+#    By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/22 15:36:33 by fdrudi            #+#    #+#              #
-#    Updated: 2022/04/30 17:27:12 by fdrudi           ###   ########.fr        #
+#    Updated: 2022/05/03 18:16:42 by mcerchi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	minishell
 
 SRC			=	./SRC/main.c ./SRC/path.c ./SRC/ms_split.c ./SRC/ft_replace.c\
-				./SRC/parse.c ./SRC/list_utils.c\
+				./SRC/parse.c ./SRC/list_utils.c ./SRC/execute.c\
 
 OBJ			=	$(SRC:.c=.o)
 
@@ -26,7 +26,7 @@ RM			=	rm -f
 CFLAGS		=	-Wall -Wextra -Werror
 
 %.o:%.c
-			$(CC) $(CFLAGS) -c $< -o $@
+			$(CC) -g $(CFLAGS) -c $< -o $@
 
 $(NAME):	$(LIBFT) $(OBJ)
 			$(CC) $(CFLAGS) -lreadline -ltermcap $(OBJ) $(LIBFT) -o $(NAME)
