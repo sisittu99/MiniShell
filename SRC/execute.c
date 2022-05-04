@@ -1,15 +1,52 @@
 #include "../INCL/minishell.h"
 /*
 	esegue un comando in una sola riga.
-	Questa funzione dovrá essere implementata. La base cosí di fatto puó funzionare solo con &&
 */
+
+void ft_lonely_cmd(t_bash **bash, char **envp)
+{
+	(*bash)->proc = fork();
+	if ((*bash)->proc < 0)
+		exit(errno);
+	else if ((*bash)->proc == 0)
+	{
+		if (execve(ft_access((*bash)->cmd[0], ft_path(envp)), (*bash)->cmd, envp) == -1)
+			write(2, "does not work man\n", 19);
+		exit(errno);
+	}
+	waitpid((*bash)->proc, NULL, 0);
+	return ;
+}
+
+/*
+	SECONDA FASE DEL PARSING
+	Qui praticamente dovranno partire tutti i controlli dei separatori e di conseguenza delle varie casistiche.
+	Casistiche:
+		1)	Caso singolo:	Apriamo il processo, eseguiamo e chiudiamo.
+		2)	Caso '|':		Pipe(int[2]); apriamo il processo; gestiamo la pipe[0] del precedente e la pipe[1] dell'attuale processo; chiudiamo tutti gli altri fd; eseguiamo.
+		3)	Caso '||':		Apriamo il processo, eseguiamo, se fallisce passiamo al nodo successivo altrimenti chiudiamo.
+		4)	Caso '&&':		Apriamo il processo, eseguiamo, passiamo al nodo successivo finché abbiamo nodi, chiudiamo.
+		5)	Caso '<':		Apriamo il processo, gestiamo l'input che sarà il file (bash->next), eseguiamo e chiudiamo.
+		6)	Caso '>':		Apriamo il processo, gestiamo l'output che sarà il file (bash->next), eseguiamo e chiudiamo.
+		7)	Caso '<<':		APPEND: Apriamo un readline costante che raccoglie il nuovo input finché non verrà scritta la parola chiave (bash->next). Inseriamo in un file tmp, al ché gestiamo come al caso (5).
+		8)	Caso '>>':		Come il caso (6), ma non si sovrascrive il file bensì lo si incolla a fine file.
+*/
+
 void	ft_execute(t_bash **bash, char **envp)
 {
 	t_bash	*tmp;
 
 	tmp = *bash;
+	//caso singolo
+	if ((*bash)->next == NULL)
+	{
+		ft_lonely_cmd(bash, envp);
+		return ;
+	}
+	//altri casi
 	while (tmp)
 	{
+		ft_open_pipe(bash);
 		(tmp)->proc = fork();
 		if ((tmp)->proc < 0)
 			exit(errno);

@@ -29,6 +29,8 @@ char	*ft_access(char *cmd, char **path)
 	char	*address;
 	char	*tmp;
 
+	if (access(cmd, F_OK) == 0)
+			return (cmd);
 	while (*path)
 	{
 		tmp = ft_strjoin(*path, "/");
