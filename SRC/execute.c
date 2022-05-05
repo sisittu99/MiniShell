@@ -29,6 +29,8 @@ void	ft_close_pipe(t_bash **bash)
 	}
 }
 
+//ciao coglione//
+
 void	ft_pipe(t_bash **bash, char **envp)
 {
 	t_bash	*tmp;
