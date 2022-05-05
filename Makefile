@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+         #
+#    By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/22 15:36:33 by fdrudi            #+#    #+#              #
-#    Updated: 2022/05/03 18:16:42 by mcerchi          ###   ########.fr        #
+#    Updated: 2022/05/05 19:17:02 by fdrudi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,8 +28,8 @@ CFLAGS		=	-Wall -Wextra -Werror
 %.o:%.c
 			$(CC) -g $(CFLAGS) -c $< -o $@
 
-$(NAME):	$(LIBFT) $(OBJ)
-			$(CC) $(CFLAGS) -lreadline -ltermcap $(OBJ) $(LIBFT) -o $(NAME)
+$(NAME):	$(LIBFT) $(OBJ) #modifica su "-lreadline e -ltermcap" se non funziona su mac mettili dopo $(CFLAGS)
+			$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME) -lreadline -ltermcap
 
 $(LIBFT):
 			make -C ./libft
