@@ -57,7 +57,19 @@ t_bash	*ft_new_node(char *line, int pos, int len, char *sep)
 	new->line[i] = '\0';
 	new->cmd = NULL;
 	new->sep = sep[1];
-	new->pipe = sep[0] - 48;
+	if ((sep[0] - 48) == 1)
+	{
+		if (pipe(new->pipe) == -1)
+		{
+			write(2, "error: could not create pipe\n", 32);
+			exit(errno);
+		}
+	}
+	else
+	{
+		new->pipe[0] = 0;
+		new->pipe[1] = 0;
+	}
 	new->re_dir[0] = sep[2];
 	new->re_dir[1] = sep[3];
 	new->next = NULL;

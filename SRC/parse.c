@@ -89,10 +89,10 @@ int	ft_check_sep(t_bash **bash, char *line, int *i, int *j)
 		if (ms_strchr(line, *i, typequote) > -1)
 			while (line[*i + 1] != typequote)
 				*i += 1;
-	}																						//////////////////////
-	if (line[*i] == '|' || (line[*i] == '&' && line[*i + 1] == '&'))					///**\\\PROBLEMA TEST\\\**///
-	{																				//**/}ciao >> ciao |  '$USER ..>>""{/**//
-		if ((line[*i] == '|' && line[*i + 1] == '|') ||									///////////////////////////
+	}																				//////////////////////
+	if (line[*i] == '|' || (line[*i] == '&' && line[*i + 1] == '&'))			///**\\\PROBLEMA TEST\\\**///
+	{																		//**/}ciao >> ciao |  '$USER ..>>""{/**//
+		if ((line[*i] == '|' && line[*i + 1] == '|') ||							///////////////////////////
 			(line[*i] == '&' && line[*i + 1] == '&'))
 		{
 			if (ft_syntax_err(line, (*i + 2)) != 0)
@@ -188,8 +188,8 @@ void	ft_parse(t_bash **bash, char *line, char **envp)
 	while (tmp != NULL)
 	{
 		(tmp)->cmd = ms_split((tmp)->line);
-		ft_print_cmd((tmp)->cmd, i);
-		printf("Node: %d\t[%s]\tsep: %c   pipe: %d   re_dir: %s\n", i, (tmp)->line, (tmp)->sep, (tmp)->pipe, (tmp)->re_dir);
+		// ft_print_cmd((tmp)->cmd, i);
+		// printf("Node: %d\t[%s]\tsep: %c   pipe: %d   re_dir: %s\n", i, (tmp)->line, (tmp)->sep, (tmp)->pipe[0], (tmp)->re_dir);
 		tmp = (tmp)->next;
 		i++;
 	}

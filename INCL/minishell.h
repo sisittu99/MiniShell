@@ -20,9 +20,10 @@ typedef struct s_bash
 	char			*line;
 	char			**cmd;
 	pid_t			proc;
-	int				pipe;
+	int				pipe[2];
 	char			sep;
 	char			re_dir[2];
+	// char			**envp;
 	struct s_bash	*next;
 }				t_bash;
 
