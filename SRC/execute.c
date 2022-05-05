@@ -43,13 +43,19 @@ void	ft_pipe(t_bash **bash, char **envp)
 		exit(errno);
 	else if ((*bash)->proc == 0)
 	{
+		printf("First Process !\n");
 		dup2((*bash)->pipe[1], STDOUT_FILENO);
 		ft_close_pipe(&start);
 		if (execve(ft_access((*bash)->cmd[0], ft_path(envp)), (*bash)->cmd, envp) == -1)
+		{
+			perror("fail first child\n");
 			exit(errno);
+		}
 	}
 	while ((tmp->next->pipe[0] != 0 && tmp->next->pipe[1] != 0) && tmp->next != NULL)
 	{
+		printf("Mid Process !\n");
+		printf("entered in cycle\n");fflush(stdout);
 		(*bash) = (*bash)->next;
 		(*bash)->proc = fork();
 		if ((*bash)->proc < 0)
@@ -64,17 +70,20 @@ void	ft_pipe(t_bash **bash, char **envp)
 		}
 		tmp = tmp->next;
 	}
-
 	(*bash)->next->proc = fork();
 	if ((*bash)->next->proc < 0)
 		exit(errno);
 	else if ((*bash)->next->proc == 0)
 	{
+		printf("Last Process !\n");
 		dup2((*bash)->pipe[0], STDIN_FILENO);
 		ft_close_pipe(&start);
 		if (execve(ft_access((*bash)->next->cmd[0], ft_path(envp)), (*bash)->next->cmd, envp) == -1)
 			exit(errno);
+		printf("second child successful!\n");fflush(stdout);
 	}
+	ft_close_pipe(&start);
+	while(wait(NULL) > 0);
 }
 
 /*
