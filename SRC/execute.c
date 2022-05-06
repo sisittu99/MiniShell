@@ -20,88 +20,74 @@ void ft_lonely_cmd(t_bash **bash, char **envp)
 
 void	ft_close_pipe(t_bash **bash)
 {
-	close((*bash)->pipe[0]);
-	close((*bash)->pipe[1]);
-	while (((*bash)->next->pipe[0] != 0 && (*bash)->next->pipe[1] != 0)
-		&& (*bash)->next != NULL)
+	t_bash	*tmp;
+
+	tmp = *bash;
+	close(tmp->pipe[0]);
+	close(tmp->pipe[1]);
+	while ((tmp->next->pipe[0] != 0 && tmp->next->pipe[1] != 0)
+		&& tmp->next != NULL)
 	{
-		*bash = (*bash)->next;
-		close((*bash)->pipe[0]);
-		close((*bash)->pipe[1]);
+		tmp = tmp->next;
+		close(tmp->pipe[0]);
+		close(tmp->pipe[1]);
 	}
 }
 
-//ciao coglione//
-
 void	ft_pipe(t_bash **bash, char **envp)
 {
-	t_bash	**tmp;
-	t_bash	**start;
+	t_bash	*tmp;
+	t_bash	*start;
 
-	start = bash;
-	tmp = bash;
+	start = *bash;
+	tmp = *bash;
 	(*bash)->proc = fork();
 	if ((*bash)->proc < 0)
 		exit(errno);
 	else if ((*bash)->proc == 0)
 	{
-		printf("First Process !\n");
 		dup2((*bash)->pipe[1], STDOUT_FILENO);
-		ft_close_pipe(start);
-		// close((*bash)->pipe[0]);
-		// close((*bash)->pipe[1]);
+		ft_close_pipe(&start);
 		if (execve(ft_access((*bash)->cmd[0], ft_path(envp)), (*bash)->cmd, envp) == -1)
-		{
-			perror("fail first child\n");
 			exit(errno);
-		}
 	}
-	while (((*tmp)->next->pipe[0] != 0 && (*tmp)->next->pipe[1] != 0) && (*tmp)->next != NULL)
+	while ((tmp->next->pipe[0] != 0 && tmp->next->pipe[1] != 0) && tmp->next != NULL)
 	{
-		printf("Mid Process !\n");
-		printf("entered in cycle\n");fflush(stdout);
 		(*bash) = (*bash)->next;
 		(*bash)->proc = fork();
 		if ((*bash)->proc < 0)
 			exit(errno);
 		else if ((*bash)->proc == 0)
 		{
-			dup2((*tmp)->pipe[0], STDIN_FILENO);
+			dup2(tmp->pipe[0], STDIN_FILENO);
 			dup2((*bash)->pipe[1], STDOUT_FILENO);
-			ft_close_pipe(start);
+			ft_close_pipe(&start);
 			if (execve(ft_access((*bash)->cmd[0], ft_path(envp)), (*bash)->cmd, envp) == -1)
 				exit(errno);
 		}
-		(*tmp) = (*tmp)->next;
+		tmp = tmp->next;
 	}
-	// *bash = (*bash)->next;
-	(*bash)->next->proc = fork();
-	if ((*bash)->next->proc < 0)
+	*bash = (*bash)->next;
+	(*bash)->proc = fork();
+	if ((*bash)->proc < 0)
 		exit(errno);
-	else if ((*bash)->next->proc == 0)
+	else if ((*bash)->proc == 0)
 	{
-		printf("Last Process !\n");
-		dup2((*bash)->pipe[0], STDIN_FILENO);
-		ft_close_pipe(start);
-		// close((*bash)->pipe[0]);
-		// close((*bash)->pipe[1]);
-		if (execve(ft_access((*bash)->next->cmd[0], ft_path(envp)), (*bash)->next->cmd, envp) == -1)
+		dup2(tmp->pipe[0], STDIN_FILENO);
+		ft_close_pipe(&start);
+		if (execve(ft_access((*bash)->cmd[0], ft_path(envp)), (*bash)->cmd, envp) == -1)
 			exit(errno);
-		printf("second child successful!\n");fflush(stdout);
 	}
-	// close((*bash)->pipe[0]);
-	// close((*bash)->pipe[1]);
-	ft_close_pipe(start);
+	ft_close_pipe(&start);
 	while(wait(NULL) > 0);
-	printf("Finished !\n");
 }
 
 /*
 	SECONDA FASE DEL PARSING
 	Qui praticamente dovranno partire tutti i controlli dei separatori e di conseguenza delle varie casistiche.
 	Casistiche:
-		1)	Caso singolo:	Apriamo il processo, eseguiamo e chiudiamo.
-		2)	Caso '|':		Pipe(int[2]); apriamo il processo; gestiamo la pipe[0] del precedente e la pipe[1] dell'attuale processo; chiudiamo tutti gli altri fd; eseguiamo.
+	///	1)	Caso singolo:	Apriamo il processo, eseguiamo e chiudiamo.
+	///	2)	Caso '|':		Pipe(int[2]); apriamo il processo; gestiamo la pipe[0] del precedente e la pipe[1] dell'attuale processo; chiudiamo tutti gli altri fd; eseguiamo.
 		3)	Caso '||':		Apriamo il processo, eseguiamo, se fallisce passiamo al nodo successivo altrimenti chiudiamo.
 		4)	Caso '&&':		Apriamo il processo, eseguiamo, passiamo al nodo successivo finché abbiamo nodi, chiudiamo.
 		5)	Caso '<':		Apriamo il processo, gestiamo l'input che sarà il file (bash->next), eseguiamo e chiudiamo.
