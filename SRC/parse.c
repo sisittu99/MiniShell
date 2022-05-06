@@ -91,10 +91,10 @@ int	ft_check_sep(t_bash **bash, char *line, int *i, int *j)
 		else if (ms_strchr(line, *i, typequote) > -1)
 			while (line[*i] != typequote)
 				*i += 1;
-	}																				//////////////////////
-	if (line[*i] == '|' || (line[*i] == '&' && line[*i + 1] == '&'))			///**\\\PROBLEMA TEST\\\**///
-	{																		//**/}ciao >> ciao |  '$USER ..>>""{/**//
-		if ((line[*i] == '|' && line[*i + 1] == '|') ||							///////////////////////////
+	}
+	if (line[*i] == '|' || (line[*i] == '&' && line[*i + 1] == '&'))
+	{
+		if ((line[*i] == '|' && line[*i + 1] == '|') ||
 			(line[*i] == '&' && line[*i + 1] == '&'))
 		{
 			if (ft_syntax_err(line, (*i + 2)) != 0)
