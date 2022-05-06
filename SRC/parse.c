@@ -86,8 +86,10 @@ int	ft_check_sep(t_bash **bash, char *line, int *i, int *j)
 	{
 		typequote = line[*i];
 		*i += 1;
-		if (ms_strchr(line, *i, typequote) > -1)
-			while (line[*i + 1] != typequote)
+		if (line[*i] == typequote)
+			*i += 1;
+		else if (ms_strchr(line, *i, typequote) > -1)
+			while (line[*i] != typequote)
 				*i += 1;
 	}																				//////////////////////
 	if (line[*i] == '|' || (line[*i] == '&' && line[*i + 1] == '&'))			///**\\\PROBLEMA TEST\\\**///
@@ -145,41 +147,13 @@ void	ft_parse(t_bash **bash, char *line, char **envp)
 	int		j;
 	// char	typequote;
 
-	i = 0;
+	i = -1;
 	j = 0;
 	line = find_var_to_replace(line, envp);				// Controllare per eventuali leaks //
-	while (line[i] != '\0')
+	while (line[++i] != '\0')
 	{
-		// if ((line[i] == '\'' || line[i] == '\"'))
-		// {
-		// 	typequote = line[i++];
-		// 	if (ms_strchr(line, i, typequote) > -1)
-		// 		while (line[i + 1] != typequote)
-		// 			i++;
-		// }
 		if (ft_check_sep(bash, line, &i, &j) == 0)
 			return ;
-		// if ((line[i] == '|' && line[i + 1] == '|') || (line[i] == '&' && line[i + 1] == '&'))
-		// {
-		// 	if (ft_syntax_err(line, (i + 2)) != 0)
-		// 		return ;
-		// 	ft_init_node(bash, line, j, (i - j));
-		// 	j = i + 2;
-		// 	i++;
-		// }
-		// else if (line[i] == '|')
-		// {
-		// 	ft_init_node(bash, line, j, (i - j));
-		// 	j = i + 1;
-		// }
-		// else if (line[i] == '<' || line[i] == '>')
-		// {
-		// 	ft_init_node(bash, line, j, (i - j));
-		// 	if (line[i + 1] == '<' || line[i + 1] == '>')
-		// 		j = i + 1;
-		// 	j = i + 1;
-		// }
-		i++;
 	}
 	if (j < i)
 		ft_init_node(bash, line, j, (i - j));

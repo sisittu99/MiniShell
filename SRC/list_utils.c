@@ -10,7 +10,7 @@ void	ft_delete_lst(t_bash **bash)
 	while (*bash != NULL)
 	{
 		tmp = (*bash)->next;
-		if ((*bash)->line)
+		if ((*bash)->line[0])
 			free((*bash)->line);
 		ft_free((*bash)->cmd);
 		free (*bash);

@@ -68,10 +68,10 @@ char	*wds_assign_help(char *s, int *i, int *j, int len)
 	*i += 1;
 	if (ms_strchr(s, *i, typequote) > -1)
 	{
-		while (s[*i + 1] != typequote)
+		while (s[*i] != typequote)
 			*i += 1;
 		s = ft_delete_char(s, a);
-		s = ft_delete_char(s, *i);
+		s = ft_delete_char(s, *i - 1);
 		len -= 1;
 	}
 	if (*j < 0)
@@ -81,7 +81,7 @@ char	*wds_assign_help(char *s, int *i, int *j, int len)
 
 /* -> Divide ed assegna le parole calcolate
 	  in precedenza all'interno della matrice <- */
-static char	**wds_assign(char *s, char c, char **dest, size_t len)
+void	wds_assign(char *s, char c, char **dest, size_t len)
 {
 	size_t	i;
 	size_t	x;
@@ -104,21 +104,22 @@ static char	**wds_assign(char *s, char c, char **dest, size_t len)
 		i++;
 	}
 	dest[x] = 0;
-	return (dest);
 }
 
 char	**ms_split(char *s)
 {
 	char	**dest;
+	char	*tmp;
 	char	c = ' ';
 	size_t	len;
 
 	if (!s)
 		return (NULL);
-	len = (ft_strlen(s));
-	dest = (char **) malloc ((nb_words(s, c) + 1) * sizeof(char *));
+	tmp = ft_strdup(s);
+	len = (ft_strlen(tmp));
+	dest = (char **) malloc ((nb_words(tmp, c) + 1) * sizeof(char *));
 	if (!dest)
 		return (NULL);
-	wds_assign(s, c, dest, len);
+	wds_assign(tmp, c, dest, len);
 	return (dest);
 }
