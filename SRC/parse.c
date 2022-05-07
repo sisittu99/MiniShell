@@ -37,13 +37,11 @@ char *find_var_to_replace(char *line, char **envp)
 	  la linea di comando, la pipe (se presente), i separatori (se presenti), ecc. <- */
 void	ft_init_node(t_bash **bash, char *line, int pos, int len)
 {
-	t_bash	*tmp;
-	char	sep[4];
+	t_bash		*tmp;
+	static char	sep[3];
 	int		i;
 
-	i = 0;
-	while (i < 4)
-		sep[i++] = '0';
+	sep[0] = '0';
 	if (line[pos + len] == '|' && line[pos + len + 1] != '|')
 		sep[0] = '1';
 	else if ((line[pos + len] == '|' && line[pos + len + 1] == '|')
@@ -51,15 +49,16 @@ void	ft_init_node(t_bash **bash, char *line, int pos, int len)
 		sep[1] = line[pos + len];
 	else if (line[pos + len] == '>' || line[pos + len] == '<')
 	{
-		sep[2] = line[pos + len];
-		if ((line[pos + len] == '>' && line[pos + len + 1] == '>')
-			|| (line[pos + len] == '<' && line[pos + len + 1] == '<'))
-			sep[3] = line[pos + len];
+		sep[2] = '1';
+		return ;
 	}
 	tmp = NULL;
 	tmp = ft_new_node(line, pos, len, sep);
 	ft_node_add_back(bash, tmp);
 	tmp = NULL;
+	i = 0;
+	while (i < 3)
+		sep[i++] = 0;
 }
 
 /* -> Controlla gli errori di Sintassi sui separatori <- */
@@ -116,11 +115,9 @@ int	ft_check_sep(t_bash **bash, char *line, int *i, int *j)
 				return (0);
 			ft_init_node(bash, line, *j, (*i - *j));
 			*j = *i + 1;
-			*i += 1;
 		}
 		else
 			ft_init_node(bash, line, *j, (*i - *j));
-		*j = *i + 1;
 	}
 	return (1);
 }
@@ -162,8 +159,8 @@ void	ft_parse(t_bash **bash, char *line, char **envp)
 	while (tmp != NULL)
 	{
 		(tmp)->cmd = ms_split((tmp)->line);
-		// ft_print_cmd((tmp)->cmd, i);
-		// printf("Node: %d\t[%s]\tsep: %c   pipe: %d   re_dir: %s\n", i, (tmp)->line, (tmp)->sep, (tmp)->pipe[0], (tmp)->re_dir);
+		ft_print_cmd((tmp)->cmd, i);
+		printf("Node: %d\t[%s]\tsep: %c   pipe: %d   re_dir: %s\n", i, (tmp)->line, (tmp)->sep, (tmp)->pipe[0], (tmp)->re_dir);
 		tmp = (tmp)->next;
 		i++;
 	}

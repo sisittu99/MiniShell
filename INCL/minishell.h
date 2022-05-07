@@ -25,7 +25,7 @@ typedef struct s_bash
 	pid_t			proc;
 	int				pipe[2];
 	char			sep;
-	char			re_dir[2];
+	char			re_dir;
 	// char			**envp;
 	struct s_bash	*next;
 }				t_bash;

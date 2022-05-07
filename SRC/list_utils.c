@@ -70,8 +70,7 @@ t_bash	*ft_new_node(char *line, int pos, int len, char *sep)
 		new->pipe[0] = 0;
 		new->pipe[1] = 0;
 	}
-	new->re_dir[0] = sep[2];
-	new->re_dir[1] = sep[3];
+	new->re_dir = sep[2];
 	new->next = NULL;
 	return (new);
 }

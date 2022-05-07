@@ -3,16 +3,90 @@
 	esegue un comando in una sola riga.
 */
 
-void ft_lonely_cmd(t_bash **bash, char **envp)
+char	**ft_delete_cmd(char **cmd, int pos)
+{
+	char **tmp;
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (cmd[i])
+		i++;
+	tmp = (char **) malloc (sizeof(char *) * i - 1);
+	i = 0;
+	while(cmd[pos])
+	{
+		if (pos == i)
+			j += 2;
+		tmp[i++] = ft_strdup(cmd[j++]);
+	}
+	tmp[i] = 0;
+	ft_free(cmd);
+	return (tmp);
+}
+
+void	ft_check_re_dir(t_bash **bash, int i)
+{
+	int	fd;
+
+	if ((*bash)->cmd[i] == ">")
+	{
+		fd = open((*bash)->cmd[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+		if (fd == -1)
+		{
+			strerror(errno);
+			exit(errno);
+		}
+		dup2(fd, STDOUT_FILENO);
+		close(fd);
+		(*bash)->cmd = ft_delete_cmd((*bash)->cmd, i);
+	}
+	else if ((*bash)->cmd[i] == "<")
+	{
+		fd = open((*bash)->cmd[i + 1], O_RDONLY);
+		if (fd == -1)
+			exit(errno);
+		dup2(fd, STDIN_FILENO);
+		close(fd);
+		(*bash)->cmd = ft_delete_cmd((*bash)->cmd, i);
+	}
+	// else if ((*bash)->cmd[i] == ">>")
+	// {
+		// (*bash)->cmd = ft_delete_cmd((*bash)->cmd, i);
+	// }
+	// else if ((*bash)->cmd[i] == "<<")
+	// {
+		// (*bash)->cmd = ft_delete_cmd((*bash)->cmd, i);
+	// }
+}
+
+void	ft_execve(t_bash **bash, char **envp)
+{
+	int	i;
+
+	i = 0;
+	if ((*bash)->re_dir)
+	{
+		while ((*bash)->cmd[i])
+		{
+			ft_check_re_dir(bash, i);
+			i++;
+		}
+	}
+	if (execve(ft_access((*bash)->cmd[0], ft_path(envp)), (*bash)->cmd, envp) == -1)
+			write(2, "does not work man\n", 19);
+		exit(errno);
+}
+
+void	ft_lonely_cmd(t_bash **bash, char **envp)
 {
 	(*bash)->proc = fork();
 	if ((*bash)->proc < 0)
 		exit(errno);
 	else if ((*bash)->proc == 0)
 	{
-		if (execve(ft_access((*bash)->cmd[0], ft_path(envp)), (*bash)->cmd, envp) == -1)
-			write(2, "does not work man\n", 19);
-		exit(errno);
+
 	}
 	waitpid((*bash)->proc, NULL, 0);
 	return ;
