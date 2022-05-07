@@ -3,36 +3,47 @@
 	esegue un comando in una sola riga.
 */
 
+/* -> Funzione Helper che elimina due stringhe all'interno di una matrice <- */
 char	**ft_delete_cmd(char **cmd, int pos)
 {
+	// printf("string in pos: %s\n", cmd[pos]);fflush(stdout);
 	char **tmp;
 	int	i;
 	int	j;
+	int	len;
 
 	i = 0;
 	j = 0;
-	while (cmd[i])
-		i++;
-	tmp = (char **) malloc (sizeof(char *) * i - 1);
-	i = 0;
-	while(cmd[pos])
+	len = 0;
+	while (cmd[len])
+		len++;
+	tmp = (char **) malloc (sizeof(char *) * (len - 1));
+	while(cmd[j] != NULL)
 	{
-		if (pos == i)
+		if (pos == j)
 			j += 2;
-		tmp[i++] = ft_strdup(cmd[j++]);
+		if (cmd[j] != NULL)
+		{
+			tmp[i] = ft_strdup(cmd[j]);
+			i++;
+			j++;
+		}
 	}
-	tmp[i] = 0;
+	tmp[len - 1] = 0;
 	ft_free(cmd);
 	return (tmp);
 }
 
-void	ft_check_re_dir(t_bash **bash, int i)
+/* -> Quando presente, controlla che tipologia di redirect eseguire
+	  e modifica la matrice, rimuovendolo <- */
+int	ft_check_re_dir(t_bash **bash, int i)
 {
 	int	fd;
 
-	if ((*bash)->cmd[i] == ">")
+	if ((*bash)->cmd[i][0] == '>' && (*bash)->cmd[i][1] == '\0')
 	{
-		fd = open((*bash)->cmd[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+		// printf("file name: %s", (*bash)->cmd[i + 1]); fflush(stdout);
+		fd = open((*bash)->cmd[i + 1], O_WRONLY | O_CREAT, 0777);
 		if (fd == -1)
 		{
 			strerror(errno);
@@ -41,8 +52,11 @@ void	ft_check_re_dir(t_bash **bash, int i)
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 		(*bash)->cmd = ft_delete_cmd((*bash)->cmd, i);
+		for (int index = 0; (*bash)->cmd[index]; index++)
+			{printf("cmd after delete: [%d] %s\n", index, (*bash)->cmd[index]); fflush(stdout);}
+		return (1);
 	}
-	else if ((*bash)->cmd[i] == "<")
+	else if ((*bash)->cmd[i][0] == '<' && (*bash)->cmd[i][1] == '\0')
 	{
 		fd = open((*bash)->cmd[i + 1], O_RDONLY);
 		if (fd == -1)
@@ -50,17 +64,22 @@ void	ft_check_re_dir(t_bash **bash, int i)
 		dup2(fd, STDIN_FILENO);
 		close(fd);
 		(*bash)->cmd = ft_delete_cmd((*bash)->cmd, i);
+		for (int index = 0; (*bash)->cmd[index]; index++)
+			{printf("cmd after delete: [%d] %s\n", index, (*bash)->cmd[index]); fflush(stdout);}
+		return (1);
 	}
-	// else if ((*bash)->cmd[i] == ">>")
+	// else if ((*bash)->cmd[i][0] == '>' && (*bash)->cmd[i][1] == '>')
 	// {
 		// (*bash)->cmd = ft_delete_cmd((*bash)->cmd, i);
 	// }
-	// else if ((*bash)->cmd[i] == "<<")
+	// else if ((*bash)->cmd[i][0] == '<' && (*bash)->cmd[i][1] == '<')
 	// {
 		// (*bash)->cmd = ft_delete_cmd((*bash)->cmd, i);
 	// }
+	return (0);
 }
 
+/* -> Controlla i redirect presenti ed esegue il comando <- */
 void	ft_execve(t_bash **bash, char **envp)
 {
 	int	i;
@@ -68,30 +87,34 @@ void	ft_execve(t_bash **bash, char **envp)
 	i = 0;
 	if ((*bash)->re_dir)
 	{
-		while ((*bash)->cmd[i])
+		while ((*bash)->cmd[i] != NULL)
 		{
-			ft_check_re_dir(bash, i);
-			i++;
+			if (ft_check_re_dir(bash, i) == 0)
+				i++;
+			else
+				i++;
 		}
 	}
+	i = 0;
+	printf("cmd : %s\n", (*bash)->cmd[0]);
 	if (execve(ft_access((*bash)->cmd[0], ft_path(envp)), (*bash)->cmd, envp) == -1)
 			write(2, "does not work man\n", 19);
 		exit(errno);
 }
 
+/* -> Esegue un comando singolo <- */
 void	ft_lonely_cmd(t_bash **bash, char **envp)
 {
 	(*bash)->proc = fork();
 	if ((*bash)->proc < 0)
 		exit(errno);
 	else if ((*bash)->proc == 0)
-	{
-
-	}
+		ft_execve(bash, envp);
 	waitpid((*bash)->proc, NULL, 0);
 	return ;
 }
 
+/* -> Funzione Helper che chiude tutti gli fd creati dalle pipe <- */
 void	ft_close_pipe(t_bash **bash)
 {
 	t_bash	*tmp;
@@ -108,6 +131,8 @@ void	ft_close_pipe(t_bash **bash)
 	}
 }
 
+/* -> Quando chiamata esegue i comandi che sono separati dalla Pipe,
+	   anche consecutivamente <- */
 void	ft_pipe(t_bash **bash, char **envp)
 {
 	t_bash	*tmp;
@@ -122,8 +147,7 @@ void	ft_pipe(t_bash **bash, char **envp)
 	{
 		dup2((*bash)->pipe[1], STDOUT_FILENO);
 		ft_close_pipe(&start);
-		if (execve(ft_access((*bash)->cmd[0], ft_path(envp)), (*bash)->cmd, envp) == -1)
-			exit(errno);
+		ft_execve(bash, envp);
 	}
 	while ((tmp->next->pipe[0] != 0 && tmp->next->pipe[1] != 0) && tmp->next != NULL)
 	{
@@ -136,8 +160,7 @@ void	ft_pipe(t_bash **bash, char **envp)
 			dup2(tmp->pipe[0], STDIN_FILENO);
 			dup2((*bash)->pipe[1], STDOUT_FILENO);
 			ft_close_pipe(&start);
-			if (execve(ft_access((*bash)->cmd[0], ft_path(envp)), (*bash)->cmd, envp) == -1)
-				exit(errno);
+			ft_execve(bash, envp);
 		}
 		tmp = tmp->next;
 	}
@@ -149,8 +172,7 @@ void	ft_pipe(t_bash **bash, char **envp)
 	{
 		dup2(tmp->pipe[0], STDIN_FILENO);
 		ft_close_pipe(&start);
-		if (execve(ft_access((*bash)->cmd[0], ft_path(envp)), (*bash)->cmd, envp) == -1)
-			exit(errno);
+		ft_execve(bash, envp);
 	}
 	ft_close_pipe(&start);
 	while(wait(NULL) > 0);
@@ -172,6 +194,8 @@ void	ft_pipe(t_bash **bash, char **envp)
 	NB:	Controllare il caso dei file o delle directory!
 */
 
+/* -> Gestisce l'esecuzione dei comandi, facendo controlli sia sui separatori,
+	  che sui redirect, che sulle funzioni Builtin, ecc... <- */
 void	ft_execute(t_bash **bash, char **envp)
 {
 	t_bash	*tmp;
@@ -189,16 +213,7 @@ void	ft_execute(t_bash **bash, char **envp)
 		if ((tmp->pipe[0] != 0 && tmp->pipe[1] != 0)
 		&& tmp->next != NULL)
 			ft_pipe(&tmp, envp);
-		// (tmp)->proc = fork();
-		// if ((tmp)->proc < 0)
-		// 	exit(errno);
-		// else if ((tmp)->proc == 0)
-		// {
-		// 	if (execve(ft_access((tmp)->cmd[0], ft_path(envp)), (tmp)->cmd, envp) == -1)
-		// 		write(2, "does not work man\n", 19);
-		// 	exit(errno);
-		// }
-		waitpid((tmp)->proc, NULL, 0);
+		// waitpid((tmp)->proc, NULL, 0);
 		tmp = (tmp)->next;
 	}
 	return ;
