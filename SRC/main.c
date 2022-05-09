@@ -25,9 +25,9 @@ int	main(int argc, char *argv[], char *envp[])
 			return(write(2, "error: could not allocate!\n", 28));
 		if (*line)
 		{
-			add_history(line);
 			ft_parse(&bash, line, envp);
-			ft_execute(&bash, envp);
+			ft_execute(&bash, envp, &line);
+			add_history(line);
 			ft_delete_lst(&bash);
 		}
 	}

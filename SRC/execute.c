@@ -36,9 +36,11 @@ char	**ft_delete_cmd(char **cmd, int pos)
 
 /* -> Quando presente, controlla che tipologia di redirect eseguire
 	  e modifica la matrice, rimuovendolo <- */
-int	ft_check_re_dir(t_bash **bash, int i)
+int	ft_check_re_dir(t_bash **bash, int i, char *line)
 {
-	int	fd;
+	int		fd;
+	char	*tmp;
+	char	*buf;
 
 	if ((*bash)->cmd[i][0] == '>')
 	{
@@ -52,7 +54,7 @@ int	ft_check_re_dir(t_bash **bash, int i)
 			strerror(errno);
 			exit(errno);
 		}
-		dup2(fd, STDOUT_FILENO);
+		// dup2(fd, STDOUT_FILENO);
 		close(fd);
 		(*bash)->cmd = ft_delete_cmd((*bash)->cmd, i);
 		// for (int index = 0; (*bash)->cmd[index]; index++)
@@ -71,48 +73,61 @@ int	ft_check_re_dir(t_bash **bash, int i)
 		// 	{printf("cmd after delete: [%d] %s\n", index, (*bash)->cmd[index]); fflush(stdout);}
 		return (1);
 	}
-	// else if ((*bash)->cmd[i][0] == '>' && (*bash)->cmd[i][1] == '>')
-	// {
-		// (*bash)->cmd = ft_delete_cmd((*bash)->cmd, i);
-	// }
-	// else if ((*bash)->cmd[i][0] == '<' && (*bash)->cmd[i][1] == '<')
-	// {
-		// (*bash)->cmd = ft_delete_cmd((*bash)->cmd, i);
-	// }
+	else if ((*bash)->cmd[i][0] == '<' && (*bash)->cmd[i][1] == '<')
+	{
+		while (1)
+		{
+			tmp = readline("> ");
+			if (ft_strcmp(tmp, (*bash)->cmd[i + 1]) == 0)
+				break ;
+			buf = ft_strjoin(line, "\n");
+			free (line);
+			line = ft_strjoin(buf, tmp);
+			free(buf);
+			add_history(line);
+			// write(STDIN_FILENO, &tmp, (ft_strlen(tmp) + 1));
+
+		}
+		(*bash)->cmd = ft_delete_cmd((*bash)->cmd, i);
+		printf("i'm done!\n");
+		int i = 0;
+		while ((*bash)->cmd)
+			printf("%s\n", (*bash)->cmd[i++]);
+		return (1);
+	}
 	return (0);
 }
 
 /* -> Controlla i redirect presenti ed esegue il comando <- */
-void	ft_execve(t_bash **bash, char **envp)
+void	ft_execve(t_bash **bash, char **envp, char *line)
 {
 	int	i;
 
 	i = 0;
 	if ((*bash)->re_dir)
 	{
-		while ((*bash)->cmd[i] != NULL)
+		while ((*bash)->cmd[i])
 		{
-			if (ft_check_re_dir(bash, i) == 0)
+			if (ft_check_re_dir(bash, i, line) == 0)
 				i++;
-			// else
-			// 	i++;
 		}
 	}
 	i = 0;
-	// printf("cmd : %s\n", (*bash)->cmd[0]);
+	while ((*bash)->cmd[i])
+		printf("cmd: %s\n", (*bash)->cmd[i++]);
 	if (execve(ft_access((*bash)->cmd[0], ft_path(envp)), (*bash)->cmd, envp) == -1)
 			write(2, "does not work man\n", 19);
 		exit(errno);
 }
 
 /* -> Esegue un comando singolo <- */
-void	ft_lonely_cmd(t_bash **bash, char **envp)
+void	ft_lonely_cmd(t_bash **bash, char **envp, char *line)
 {
 	(*bash)->proc = fork();
 	if ((*bash)->proc < 0)
 		exit(errno);
 	else if ((*bash)->proc == 0)
-		ft_execve(bash, envp);
+		ft_execve(bash, envp, line);
 	waitpid((*bash)->proc, NULL, 0);
 	return ;
 }
@@ -136,7 +151,7 @@ void	ft_close_pipe(t_bash **bash)
 
 /* -> Quando chiamata esegue i comandi che sono separati dalla Pipe,
 	   anche consecutivamente <- */
-void	ft_pipe(t_bash **bash, char **envp)
+void	ft_pipe(t_bash **bash, char **envp, char *line)
 {
 	t_bash	*tmp;
 	t_bash	*start;
@@ -150,7 +165,7 @@ void	ft_pipe(t_bash **bash, char **envp)
 	{
 		dup2((*bash)->pipe[1], STDOUT_FILENO);
 		ft_close_pipe(&start);
-		ft_execve(bash, envp);
+		ft_execve(bash, envp, line);
 	}
 	while ((tmp->next->pipe[0] != 0 && tmp->next->pipe[1] != 0) && tmp->next != NULL)
 	{
@@ -163,7 +178,7 @@ void	ft_pipe(t_bash **bash, char **envp)
 			dup2(tmp->pipe[0], STDIN_FILENO);
 			dup2((*bash)->pipe[1], STDOUT_FILENO);
 			ft_close_pipe(&start);
-			ft_execve(bash, envp);
+			ft_execve(bash, envp, line);
 		}
 		tmp = tmp->next;
 	}
@@ -175,7 +190,7 @@ void	ft_pipe(t_bash **bash, char **envp)
 	{
 		dup2(tmp->pipe[0], STDIN_FILENO);
 		ft_close_pipe(&start);
-		ft_execve(bash, envp);
+		ft_execve(bash, envp, line);
 	}
 	ft_close_pipe(&start);
 	while(wait(NULL) > 0);
@@ -199,15 +214,16 @@ void	ft_pipe(t_bash **bash, char **envp)
 
 /* -> Gestisce l'esecuzione dei comandi, facendo controlli sia sui separatori,
 	  che sui redirect, che sulle funzioni Builtin, ecc... <- */
-void	ft_execute(t_bash **bash, char **envp)
+void	ft_execute(t_bash **bash, char **envp, char **line)
 {
 	t_bash	*tmp;
+	// char	*dst;
 
 	tmp = *bash;
 	//caso singolo
 	if ((*bash)->next == NULL)
 	{
-		ft_lonely_cmd(bash, envp);
+		ft_lonely_cmd(bash, envp, *line);
 		return ;
 	}
 	//altri casi
@@ -215,9 +231,10 @@ void	ft_execute(t_bash **bash, char **envp)
 	{
 		if ((tmp->pipe[0] != 0 && tmp->pipe[1] != 0)
 		&& tmp->next != NULL)
-			ft_pipe(&tmp, envp);
+			ft_pipe(&tmp, envp, *line);
 		// waitpid((tmp)->proc, NULL, 0);
 		tmp = (tmp)->next;
 	}
+	// ft_free(line);
 	return ;
 }

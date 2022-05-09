@@ -40,7 +40,7 @@ int		ms_strchr(char *s, int pos, char c);
 
 // * EXECUTE * //
 
-void	ft_execute(t_bash **bash, char **envp);
+void	ft_execute(t_bash **bash, char **envp, char **line);
 
 // * PATH * //
 

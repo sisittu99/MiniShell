@@ -147,7 +147,7 @@ void	ft_parse(t_bash **bash, char *line, char **envp)
 	i = -1;
 	j = 0;
 	line = find_var_to_replace(line, envp);				// Controllare per eventuali leaks //
-	printf("line: %s\n", line);
+	// printf("line: %s\n", line);
 	while (line[++i] != '\0')
 	{
 		if (ft_check_sep(bash, line, &i, &j) == 0)
@@ -160,8 +160,8 @@ void	ft_parse(t_bash **bash, char *line, char **envp)
 	while (tmp != NULL)
 	{
 		(tmp)->cmd = ms_split((tmp)->line);
-		ft_print_cmd((tmp)->cmd, i);
-		printf("Node: %d\t[%s]\tsep: %c   pipe: %d   re_dir: %c\n", i, (tmp)->line, (tmp)->sep, (tmp)->pipe[0], (tmp)->re_dir);
+		// ft_print_cmd((tmp)->cmd, i);
+		// printf("Node: %d\t[%s]\tsep: %c   pipe: %d   re_dir: %c\n", i, (tmp)->line, (tmp)->sep, (tmp)->pipe[0], (tmp)->re_dir);
 		tmp = (tmp)->next;
 		i++;
 	}
