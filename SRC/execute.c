@@ -40,10 +40,13 @@ int	ft_check_re_dir(t_bash **bash, int i)
 {
 	int	fd;
 
-	if ((*bash)->cmd[i][0] == '>' && (*bash)->cmd[i][1] == '\0')
+	if ((*bash)->cmd[i][0] == '>')
 	{
-		// printf("file name: %s", (*bash)->cmd[i + 1]); fflush(stdout);
-		fd = open((*bash)->cmd[i + 1], O_WRONLY | O_CREAT, 0777);
+		// printf("file name: %s\n", (*bash)->cmd[i + 1]); fflush(stdout);
+		if ((*bash)->cmd[i][1] == '\0')
+			fd = open((*bash)->cmd[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+		else if ((*bash)->cmd[i][1] == '>' && (*bash)->cmd[i][2] == '\0')
+			fd = open((*bash)->cmd[i + 1], O_WRONLY | O_CREAT | O_APPEND, 0777);
 		if (fd == -1)
 		{
 			strerror(errno);
@@ -52,8 +55,8 @@ int	ft_check_re_dir(t_bash **bash, int i)
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 		(*bash)->cmd = ft_delete_cmd((*bash)->cmd, i);
-		for (int index = 0; (*bash)->cmd[index]; index++)
-			{printf("cmd after delete: [%d] %s\n", index, (*bash)->cmd[index]); fflush(stdout);}
+		// for (int index = 0; (*bash)->cmd[index]; index++)
+		// 	{printf("cmd after delete: [%d] %s\n", index, (*bash)->cmd[index]); fflush(stdout);}
 		return (1);
 	}
 	else if ((*bash)->cmd[i][0] == '<' && (*bash)->cmd[i][1] == '\0')
@@ -64,8 +67,8 @@ int	ft_check_re_dir(t_bash **bash, int i)
 		dup2(fd, STDIN_FILENO);
 		close(fd);
 		(*bash)->cmd = ft_delete_cmd((*bash)->cmd, i);
-		for (int index = 0; (*bash)->cmd[index]; index++)
-			{printf("cmd after delete: [%d] %s\n", index, (*bash)->cmd[index]); fflush(stdout);}
+		// for (int index = 0; (*bash)->cmd[index]; index++)
+		// 	{printf("cmd after delete: [%d] %s\n", index, (*bash)->cmd[index]); fflush(stdout);}
 		return (1);
 	}
 	// else if ((*bash)->cmd[i][0] == '>' && (*bash)->cmd[i][1] == '>')
@@ -91,12 +94,12 @@ void	ft_execve(t_bash **bash, char **envp)
 		{
 			if (ft_check_re_dir(bash, i) == 0)
 				i++;
-			else
-				i++;
+			// else
+			// 	i++;
 		}
 	}
 	i = 0;
-	printf("cmd : %s\n", (*bash)->cmd[0]);
+	// printf("cmd : %s\n", (*bash)->cmd[0]);
 	if (execve(ft_access((*bash)->cmd[0], ft_path(envp)), (*bash)->cmd, envp) == -1)
 			write(2, "does not work man\n", 19);
 		exit(errno);
