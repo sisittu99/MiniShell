@@ -29,7 +29,7 @@ char	**ft_delete_cmd(char **cmd, int pos)
 			j++;
 		}
 	}
-	tmp[len - 1] = 0;
+	tmp[len - 2] = 0;
 	ft_free(cmd);
 	return (tmp);
 }
@@ -41,6 +41,7 @@ int	ft_check_re_dir(t_bash **bash, int i, char *line)
 	int		fd;
 	char	*tmp;
 	char	*buf;
+	int		pip[2];
 
 	if ((*bash)->cmd[i][0] == '>')
 	{
@@ -54,7 +55,7 @@ int	ft_check_re_dir(t_bash **bash, int i, char *line)
 			strerror(errno);
 			exit(errno);
 		}
-		// dup2(fd, STDOUT_FILENO);
+		dup2(fd, STDOUT_FILENO);
 		close(fd);
 		(*bash)->cmd = ft_delete_cmd((*bash)->cmd, i);
 		// for (int index = 0; (*bash)->cmd[index]; index++)
@@ -75,24 +76,31 @@ int	ft_check_re_dir(t_bash **bash, int i, char *line)
 	}
 	else if ((*bash)->cmd[i][0] == '<' && (*bash)->cmd[i][1] == '<')
 	{
+		if (pipe(pip) == -1)
+		{
+			write(2, "error: could not create pipe\n", 32);
+			exit(errno);
+		}
 		while (1)
 		{
-			tmp = readline("> ");
-			if (ft_strcmp(tmp, (*bash)->cmd[i + 1]) == 0)
+			buf = readline("> ");
+			if (ft_strcmp(buf, (*bash)->cmd[i + 1]) == 0)
 				break ;
-			buf = ft_strjoin(line, "\n");
+			rl_clear_history();					//SISTEMARE//
+			tmp = ft_strjoin(buf, "\n");
+			free(buf);
+			buf = ft_strdup(line);
 			free (line);
 			line = ft_strjoin(buf, tmp);
-			free(buf);
+			// free(buf);
 			add_history(line);
-			// write(STDIN_FILENO, &tmp, (ft_strlen(tmp) + 1));
+			ft_putstr_fd(tmp, pip[1]);
 
 		}
 		(*bash)->cmd = ft_delete_cmd((*bash)->cmd, i);
-		printf("i'm done!\n");
-		int i = 0;
-		while ((*bash)->cmd)
-			printf("%s\n", (*bash)->cmd[i++]);
+		dup2(pip[0], STDIN_FILENO);
+		close(pip[0]);
+		close(pip[1]);
 		return (1);
 	}
 	return (0);
@@ -106,15 +114,15 @@ void	ft_execve(t_bash **bash, char **envp, char *line)
 	i = 0;
 	if ((*bash)->re_dir)
 	{
-		while ((*bash)->cmd[i])
+		while ((*bash)->cmd[i] != 0)
 		{
 			if (ft_check_re_dir(bash, i, line) == 0)
 				i++;
 		}
 	}
-	i = 0;
-	while ((*bash)->cmd[i])
-		printf("cmd: %s\n", (*bash)->cmd[i++]);
+	// i = 0;
+	// while ((*bash)->cmd[i])
+		// printf("cmd: %s\n", (*bash)->cmd[0]);
 	if (execve(ft_access((*bash)->cmd[0], ft_path(envp)), (*bash)->cmd, envp) == -1)
 			write(2, "does not work man\n", 19);
 		exit(errno);
@@ -223,7 +231,7 @@ void	ft_execute(t_bash **bash, char **envp, char **line)
 	//caso singolo
 	if ((*bash)->next == NULL)
 	{
-		ft_lonely_cmd(bash, envp, *line);
+		ft_lonely_cmd(bash, envp, ft_strjoin(*line, "\n"));
 		return ;
 	}
 	//altri casi
@@ -231,7 +239,7 @@ void	ft_execute(t_bash **bash, char **envp, char **line)
 	{
 		if ((tmp->pipe[0] != 0 && tmp->pipe[1] != 0)
 		&& tmp->next != NULL)
-			ft_pipe(&tmp, envp, *line);
+			ft_pipe(&tmp, envp, ft_strjoin(*line, "\n"));
 		// waitpid((tmp)->proc, NULL, 0);
 		tmp = (tmp)->next;
 	}
