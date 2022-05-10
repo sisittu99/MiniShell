@@ -86,16 +86,17 @@ int	ft_check_re_dir(t_bash **bash, int i, char *line)
 			buf = readline("> ");
 			if (ft_strcmp(buf, (*bash)->cmd[i + 1]) == 0)
 				break ;
-			rl_clear_history();					//SISTEMARE//
 			tmp = ft_strjoin(buf, "\n");
 			free(buf);
 			buf = ft_strdup(line);
 			free (line);
 			line = ft_strjoin(buf, tmp);
+			rl_replace_line(line, 0);			////////////////////////////////////////
+			rl_redisplay();					//SISTEMARE!!!!!!!!!!            !!!!!!!!!!//
 			// free(buf);
-			add_history(line);
+			if (line && *line)
+				add_history(line);
 			ft_putstr_fd(tmp, pip[1]);
-
 		}
 		(*bash)->cmd = ft_delete_cmd((*bash)->cmd, i);
 		dup2(pip[0], STDIN_FILENO);

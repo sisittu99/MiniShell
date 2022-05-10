@@ -13,16 +13,16 @@ int	ms_strchr(char *s, int pos, char c)
 
 /* -> Controlla che nel conteggio delle parole, se presenti,
 	  le '\'' e le '\"' siano contate come parola singola <- */
-void	nb_words_help(char *s, int *i, int *j)
+void	nb_words_help(char *s, int a, int *i, int *j)
 {
 	char	typequote;
 
-	typequote = *s;
-	s++;
+	typequote = s[a];
+	a++;
 	if (ms_strchr(s, *i, typequote) > -1)
 	{
-		while (*s != typequote)
-			s++;
+		while (s[a] != typequote)
+			a++;
 		if (*j == 0)
 		{
 			*j = 1;
@@ -31,28 +31,46 @@ void	nb_words_help(char *s, int *i, int *j)
 	}
 }
 
+/* -> Controlla se sono presenti redirect nella stringa
+	  e in caso non siano separati da spazi dalle altre parole,
+	  li separa e li conta <- */
+void	nb_words_redir(char *s, int a, int *j)
+{
+	if ((s[a] == '>' || s[a] == '<') && (s[a - 1] != ' '
+		&& s[a - 1] != '>' && s[a - 1] != '<'))
+		*j = 0;
+	else if ((s[a - 1] == '>' || s[a - 1] == '<')
+		&& (s[a] != ' ' && s[a] != '>' && s[a] != '<'))
+		*j = 0;
+	return ;
+}
+
 /* -> Conta il numero delle parole all'interno
 	  della stringa passata <- */
 static int	nb_words(char *s, char c)
 {
 	int		i;
 	int		j;
+	int		a;
 
 	i = 0;
 	j = 0;
-	while (*s != '\0')
+	a = 0;
+	while (s[a] != '\0')
 	{
-		if (*s == '\'' || *s == '\"')
-			nb_words_help(s, &i, &j);
-		if ((*s != c) && (j == 0))
+		if (s[a] == '\'' || s[a] == '\"')
+			nb_words_help(s, a, &i, &j);
+		nb_words_redir(s, a, &j);
+		if ((s[a] != c) && (j == 0))
 		{
 			j = 1;
 			i++;
 		}
-		if (*s == c)
+		if (s[a] == c)
 			j = 0;
-		s++;
+		a++;
 	}
+	printf("i: %d\n", i);
 	return (i);
 }
 
@@ -75,7 +93,9 @@ char	*wds_assign_help(char *s, int *i, int *j, int len)
 		len -= 1;
 	}
 	if (*j < 0)
+
 		*j = a;
+	*i -= 1;
 	return (s);
 }
 
@@ -100,6 +120,20 @@ void	wds_assign(char *s, char c, char **dest, size_t len)
 		{
 			dest[x++] = ft_substr(s, j, (i - j));
 			j = -1;
+		}
+		if ((s[i] == '>' || s[i] == '<') && s[i - 1] != ' '
+			&& s[i - 1] != '>' && s[i - 1] != '<')
+		{
+			if (j < (int) i)
+				dest[x++] = ft_substr(s, j, (i - j));
+			j = i;
+		}
+		else if ((s[i - 1] == '>' || s[i - 1] == '<')
+			&& (s[i] != ' ' && s[i] != '>' && s[i] != '<'))
+		{
+			if (j < (int) i)
+				dest[x++] = ft_substr(s, j, (i - j));
+			j = i;
 		}
 		i++;
 	}
