@@ -12,6 +12,7 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <errno.h>
+# include <signal.h>
 # include "../libft/libft.h"
 
 # include <sys/types.h>

@@ -43,6 +43,7 @@ int	ft_check_re_dir(t_bash **bash, int i, char *line)
 	char	*buf;
 	int		pip[2];
 
+	fd = 0;
 	if ((*bash)->cmd[i][0] == '>')
 	{
 		// printf("file name: %s\n", (*bash)->cmd[i + 1]); fflush(stdout);
@@ -52,7 +53,7 @@ int	ft_check_re_dir(t_bash **bash, int i, char *line)
 			fd = open((*bash)->cmd[i + 1], O_WRONLY | O_CREAT | O_APPEND, 0777);
 		if (fd == -1)
 		{
-			strerror(errno);
+			// strerror(errno);
 			exit(errno);
 		}
 		dup2(fd, STDOUT_FILENO);
@@ -90,10 +91,7 @@ int	ft_check_re_dir(t_bash **bash, int i, char *line)
 			free(buf);
 			buf = ft_strdup(line);
 			free (line);
-			line = ft_strjoin(buf, tmp);
-			rl_replace_line(line, 0);			////////////////////////////////////////
-			rl_redisplay();					//SISTEMARE!!!!!!!!!!            !!!!!!!!!!//
-			// free(buf);
+			line = ft_strjoin(buf, tmp);		
 			if (line && *line)
 				add_history(line);
 			ft_putstr_fd(tmp, pip[1]);

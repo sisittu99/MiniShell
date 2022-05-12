@@ -10,13 +10,33 @@ void	ft_free(char **dc)
 	free(dc);
 }
 
+void	ft_sig_handler(int sig)
+{
+	struct sigaction	sa;
+
+	sa.sa_handler = SIG_IGN;
+	sa.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &sa, NULL);
+	printf("\nbash-biutiful>$ ");
+	(void) sig;
+	// free(line);
+	// line = NULL;
+	// rl_replace_line("", 0);
+	return ;
+}
+
 int	main(int argc, char *argv[], char *envp[])
 {
 	char	*line;
 	t_bash	*bash;
+	struct sigaction	sa;
 
+	sa.sa_handler = ft_sig_handler;
+	sa.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &sa, NULL);
 	(void)argc;
 	(void)argv;
+	(void)envp;
 	bash = NULL;
 	while (1)
 	{
