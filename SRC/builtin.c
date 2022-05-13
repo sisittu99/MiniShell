@@ -54,68 +54,11 @@ void	ft_env(char **envp)
 	i = 0;
 	while (envp[i])
 	{
-		if (ft_strchr(envp[i], '=') == 0)
+		if (ft_strchr(envp[i], '=') != 0)
 			printf("%s\n", envp[i]);
 		i++;
 	}
 }
-
-char **ft_handle_env(char *cmd, char **envp)
-{
-	int		index[3];
-	int		i;
-	char	*to_find;
-
-	i = 0;
-	while (i < 3)
-		index[i++] = 0;
-	to_find = cmd;
-	if (ft_strchr(cmd, '=') != NULL)
-	{
-		i = 0;
-		while (cmd[i++] != '=');
-		to_find = ft_substr(cmd, 0, i);
-	}
-	while (envp[index[0]])
-	{
-		while (envp[index[0]][index[1]] == to_find[index[2]])
-		{
-			if (!to_find[index[2] + 1])
-				;													/* controllare se ha un valore assegnato. se si, modificarlo, altrimenti assegnarlo (sempre che ci sia qualcosa da assegnare)*/
-			index[1]++;
-			index[2]++;
-		}
-		index[0]++;
-	}
-}
-
-char	**ft_export(char **cmd, char **envp)
-{
-	int	i;
-	int	j;
-
-	i = 1;
-	j = 0;
-	if (cmd[1][0] == '\0')
-	{
-		while (envp[i])
-			printf("declare -x %s\n", envp[i++]);
-		return (NULL);
-	}
-	while (cmd[i])
-	{
-		while (cmd[i][j])
-		{
-			if (!ft_isalpha(cmd[i][j] && cmd[i][j] != '_'))
-				printf("export: `%s\': not a valid identifier\n", cmd[i]);
-			else
-				envp = ft_handle_env(cmd[i], envp);
-		}
-		j = 0;
-		i++;
-	}
-}
-
 
 void	ft_exit(void)
 {
