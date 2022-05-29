@@ -70,6 +70,7 @@ static int	nb_words(char *s, char c)
 			j = 0;
 		a++;
 	}
+	// printf("%d\n", 1);
 	return (i);
 }
 

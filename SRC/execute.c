@@ -91,7 +91,7 @@ int	ft_check_re_dir(t_bash **bash, int i, char *line)
 			free(buf);
 			buf = ft_strdup(line);
 			free (line);
-			line = ft_strjoin(buf, tmp);		
+			line = ft_strjoin(buf, tmp);
 			if (line && *line)
 				add_history(line);
 			ft_putstr_fd(tmp, pip[1]);
@@ -111,14 +111,15 @@ void	ft_execve(t_bash **bash, char **envp, char *line)
 	int	i;
 
 	i = 0;
-	if ((*bash)->re_dir)
-	{
-		while ((*bash)->cmd[i] != 0)
-		{
-			if (ft_check_re_dir(bash, i, line) == 0)
-				i++;
-		}
-	}
+	(void)line;
+	// if ((*bash)->re_dir)
+	// {
+	// 	while ((*bash)->cmd[i] != 0)
+	// 	{
+	// 		if (ft_check_re_dir(bash, i, line) == 0)
+	// 			i++;
+	// 	}
+	// }
 	// i = 0;
 	// while ((*bash)->cmd[i])
 		// printf("cmd: %s\n", (*bash)->cmd[0]);
@@ -202,22 +203,6 @@ void	ft_pipe(t_bash **bash, char **envp, char *line)
 	ft_close_pipe(&start);
 	while(wait(NULL) > 0);
 }
-
-/*
-	SECONDA FASE DEL PARSING
-	Qui praticamente dovranno partire tutti i controlli dei separatori e di conseguenza delle varie casistiche.
-	Casistiche:
-	///	1)	Caso singolo:	Apriamo il processo, eseguiamo e chiudiamo.
-	///	2)	Caso '|':		Pipe(int[2]); apriamo il processo; gestiamo la pipe[0] del precedente e la pipe[1] dell'attuale processo; chiudiamo tutti gli altri fd; eseguiamo.
-		3)	Caso '||':		Apriamo il processo, eseguiamo, se fallisce passiamo al nodo successivo altrimenti chiudiamo.
-		4)	Caso '&&':		Apriamo il processo, eseguiamo, passiamo al nodo successivo finché abbiamo nodi, chiudiamo.
-		5)	Caso '<':		Apriamo il processo, gestiamo l'input che sarà il file (bash->next), eseguiamo e chiudiamo.
-		6)	Caso '>':		Apriamo il processo, gestiamo l'output che sarà il file (bash->next), eseguiamo e chiudiamo.
-		7)	Caso '<<':		APPEND: Apriamo un readline costante che raccoglie il nuovo input finché non verrà scritta la parola chiave (bash->next). Inseriamo in un file tmp, al ché gestiamo come al caso (5).
-		8)	Caso '>>':		Come il caso (6), ma non si sovrascrive il file bensì lo si incolla a fine file.
-
-	NB:	Controllare il caso dei file o delle directory!
-*/
 
 /* -> Gestisce l'esecuzione dei comandi, facendo controlli sia sui separatori,
 	  che sui redirect, che sulle funzioni Builtin, ecc... <- */

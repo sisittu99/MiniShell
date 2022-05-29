@@ -6,7 +6,7 @@
 #    By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/22 15:36:33 by fdrudi            #+#    #+#              #
-#    Updated: 2022/05/05 19:17:02 by fdrudi           ###   ########.fr        #
+#    Updated: 2022/05/29 16:42:06 by fdrudi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,8 @@ OBJ			=	$(SRC:.c=.o)
 
 LIBFT		=	libft/libft.a
 
+READLINE	=	-L/usr/include -lreadline -L$(HOME)/.brew/opt/readline/lib -I$(HOME)/.brew/opt/readline/include
+
 CC			=	gcc #-fsanitize=address
 
 RM			=	rm -f
@@ -28,9 +30,8 @@ CFLAGS		=	-Wall -Wextra -Werror
 %.o:%.c
 			$(CC) -g $(CFLAGS) -c $< -o $@
 
-$(NAME):	$(LIBFT) $(OBJ) #modifica su "-lreadline e -ltermcap" se non funziona su mac mettili dopo $(CFLAGS)
-			$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME) -lreadline -ltermcap
-
+$(NAME):	$(LIBFT) $(OBJ)
+			$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME) $(READLINE)
 $(LIBFT):
 			make -C ./libft
 
@@ -48,5 +49,8 @@ fclean.all:	fclean
 re:			fclean all
 
 re.all:		fclean.all all
+
+norm:
+			@norminette
 
 .PHONY:		all clean fclean re

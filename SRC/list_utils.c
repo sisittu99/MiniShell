@@ -4,17 +4,32 @@ void	ft_delete_lst(t_bash **bash)
 {
 	t_bash	*tmp;
 
-	if (*bash== NULL)
+	if (*bash == NULL)
 		return ;
 	tmp = *bash;
 	while (*bash != NULL)
 	{
 		tmp = (*bash)->next;
-		if ((*bash)->line[0])
+		if ((*bash)->line[0] != '\0')
 			free((*bash)->line);
 		ft_free((*bash)->cmd);
 		free (*bash);
 		*bash = tmp;
+	}
+}
+
+void	ft_lst_delete(t_list **stack)
+{
+	t_list	*tmp;
+
+	if (*stack == NULL)
+		return ;
+	tmp = *stack;
+	while (*stack != NULL)
+	{
+		tmp = (*stack)->next;
+		free (*stack);
+		*stack = tmp;
 	}
 }
 

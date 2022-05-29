@@ -10,19 +10,34 @@ void	ft_free(char **dc)
 	free(dc);
 }
 
+// void	ft_free_matrix(t_env *e)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (i < e->w.y)
+// 	{
+// 		free(e->w.m[i]);
+// 		i++;
+// 	}
+// 	free(e->w.m);
+// }
+
 void	ft_sig_handler(int sig)
 {
-	struct sigaction	sa;
-
-	sa.sa_handler = SIG_IGN;
-	sa.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &sa, NULL);
-	printf("\nbash-biutiful>$ ");
-	(void) sig;
-	// free(line);
-	// line = NULL;
-	// rl_replace_line("", 0);
+	(void)sig;
+	printf("\n");
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
 	return ;
+}
+
+void	ft_control_d(char *line)
+{
+	free(line);
+	printf("Exit\n");
+	exit (0);
 }
 
 int	main(int argc, char *argv[], char *envp[])
@@ -31,49 +46,34 @@ int	main(int argc, char *argv[], char *envp[])
 	t_bash	*bash;
 	struct sigaction	sa;
 
+	(void)argv;
+	if (argc != 1)
+	{
+		write(2, "error: no argument allowed\n", 28);
+		return (1);
+	}
+	bash = NULL;
 	sa.sa_handler = ft_sig_handler;
 	sa.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &sa, NULL);
-	(void)argc;
-	(void)argv;
-	(void)envp;
-	bash = NULL;
+	sigaction(SIGQUIT, &sa, NULL);
 	while (1)
 	{
 		line = readline("bash-biutiful>$ ");
 		if (!line)
-			return(write(2, "error: could not allocate!\n", 28));
+			ft_control_d(line);
 		if (*line)
 		{
+			printf("%s\n", line);
 			ft_parse(&bash, line, envp);
+			printf("%s\n", line);
 			ft_execute(&bash, envp, &line);
+			printf("%s\n", line);
 			add_history(line);
 			ft_delete_lst(&bash);
 		}
+		exit(0);
+		free(line);
 	}
 	return (0);
 }
-
-// ** SIGINT HANDLER ** //
-
-// static void	int_handler(int status) {
-// 	printf("\n"); // Move to a new line
-// 	rl_on_new_line(); // Regenerate the prompt on a newline
-// 	rl_replace_line("", 0); // Clear the previous text
-// 	rl_redisplay();
-// }
-
-// ** EXEC EXAMPLE ** //
-
-// int pid = fork();
-// 	if (pid == 0)
-// 	{
-// 		char *path = ft_access("ls", ft_path(envp));
-// 		char *tmp[] = {"ls", "la", NULL};
-// 		int i = execve(path, tmp, envp);
-// 		printf ("Exec Failed with: %d\n", i);
-// 		return (0);
-// 	}
-
-// 	wait(NULL);
-// 	printf("Exec Finished !\n");

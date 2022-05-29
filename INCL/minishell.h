@@ -31,6 +31,10 @@ typedef struct s_bash
 	struct s_bash	*next;
 }				t_bash;
 
+// * READLINE * //
+
+void rl_replace_line(const char *text, int clear_undo);
+
 // * PARSE * //
 
 void	ft_parse(t_bash **bash, char *line, char **envp);
@@ -54,5 +58,7 @@ t_bash	*ft_new_node(char *line, int pos, int len, char *sep);
 void	ft_node_add_back(t_bash **lst, t_bash *new);
 void	ft_delete_lst(t_bash **bash);
 void	ft_free(char **dc);
+
+// void	rl_replace_line (const char *text, int clear_undo);
 
 #endif
