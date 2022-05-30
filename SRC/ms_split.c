@@ -37,7 +37,7 @@ void	nb_words_help(char *s, int a, int *i, int *j)
 void	nb_words_redir(char *s, int a, int *j)
 {
 	if ((s[a] == '>' || s[a] == '<') && (s[a - 1] != ' '
-		&& s[a - 1] != '>' && s[a - 1] != '<'))
+			&& s[a - 1] != '>' && s[a - 1] != '<'))
 		*j = 0;
 	else if ((s[a - 1] == '>' || s[a - 1] == '<')
 		&& (s[a] != ' ' && s[a] != '>' && s[a] != '<'))
@@ -70,7 +70,6 @@ static int	nb_words(char *s, char c)
 			j = 0;
 		a++;
 	}
-	// printf("%d\n", 1);
 	return (i);
 }
 
@@ -93,7 +92,6 @@ char	*wds_assign_help(char *s, int *i, int *j, int len)
 		len -= 1;
 	}
 	if (*j < 0)
-
 		*j = a;
 	*i -= 1;
 	return (s);

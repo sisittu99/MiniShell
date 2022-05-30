@@ -13,7 +13,7 @@
 
 char	**ft_delete_env_var( char **envp, int index[3])
 {
-	while(envp[index[0] + 1])
+	while (envp[index[0] + 1])
 	{
 		envp[index[0]] = envp[index[0] + 1];
 		index[0] += 1;
@@ -24,12 +24,12 @@ char	**ft_delete_env_var( char **envp, int index[3])
 
 char	**ft_unset(char *cmd, char **envp)
 {
-	if (cmd[5] == '\0')
-		return (envp);
 	int		index[3];
 	int		i;
 	char	*to_find;
 
+	if (cmd[5] == '\0')
+		return (envp);
 	i = 0;
 	while (i < 3)
 		index[i++] = 0;
@@ -38,7 +38,7 @@ char	**ft_unset(char *cmd, char **envp)
 		while (envp[index[0]][index[1]] == to_find[index[2]])
 		{
 			if (!to_find[index[2] + 1])
-				return(ft_delete_env_var(envp, index));
+				return (ft_delete_env_var(envp, index));
 			index[1]++;
 			index[2]++;
 		}
@@ -50,7 +50,7 @@ char	**ft_unset(char *cmd, char **envp)
 char	**ft_env_var_found(char *cmd, char **envp, int index[3])
 {
 	if (!ft_strchr(cmd, '='))
-		return(envp);
+		return (envp);
 	if (cmd[index[2]] == '+' && envp[index[0]][index[1] + 1] == '=')
 		envp[index[0]] = ft_strjoin(envp[index[0]], ft_substr(cmd, index[2] + 2, ft_strlen(cmd) - index[2] - 1));
 	else
@@ -58,7 +58,7 @@ char	**ft_env_var_found(char *cmd, char **envp, int index[3])
 	return (envp);
 }
 
-char **ft_handle_env(char *cmd, char **envp)
+char	**ft_handle_env(char *cmd, char **envp)
 {
 	int		index[3];
 	int		i;
@@ -79,7 +79,7 @@ char **ft_handle_env(char *cmd, char **envp)
 		while (envp[index[0]][index[1]] == to_find[index[2]])
 		{
 			if (!to_find[index[2] + 1])
-				return(ft_env_var_found(cmd, envp, index));
+				return (ft_env_var_found(cmd, envp, index));
 			index[1]++;
 			index[2]++;
 		}
@@ -91,7 +91,7 @@ char **ft_handle_env(char *cmd, char **envp)
 	return (envp);
 }
 
-char **ft_sort_env(char **envp)
+char	**ft_sort_env(char **envp)
 {
 	char	**sort;
 	char	*tmp;

@@ -33,19 +33,20 @@ char *find_var_to_replace(char *line, char **envp)
 	return (line);
 }
 
-/* -> Inizializza il nuovo nodo assieme alle variabili standard, inserendo
-	  la linea di comando, la pipe (se presente), i separatori (se presenti), ecc. <- */
+/* -> Inizializza il nuovo nodo assieme alle variabili standard,
+	  inserendo la linea di comando, la pipe (se presente),
+	 i separatori (se presenti), ecc. <- */
 void	ft_init_node(t_bash **bash, char *line, int pos, int len)
 {
 	t_bash		*tmp;
 	static char	sep[3];
-	int		i;
+	int			i;
 
 	sep[0] = '0';
 	if (line[pos + len] == '|' && line[pos + len + 1] != '|')
 		sep[0] = '1';
 	else if ((line[pos + len] == '|' && line[pos + len + 1] == '|')
-			|| (line[pos + len] == '&' && line[pos + len + 1] == '&'))
+		|| (line[pos + len] == '&' && line[pos + len + 1] == '&'))
 		sep[1] = line[pos + len];
 	else if (line[pos + len] == '>' || line[pos + len] == '<')
 	{
@@ -93,8 +94,8 @@ int	ft_check_sep(t_bash **bash, char *line, int *i, int *j)
 	}
 	if (line[*i] == '|' || (line[*i] == '&' && line[*i + 1] == '&'))
 	{
-		if ((line[*i] == '|' && line[*i + 1] == '|') ||
-			(line[*i] == '&' && line[*i + 1] == '&'))
+		if ((line[*i] == '|' && line[*i + 1] == '|')
+			|| (line[*i] == '&' && line[*i + 1] == '&'))
 		{
 			if (ft_syntax_err(line, (*i + 2)) != 0)
 				return (0);
@@ -108,8 +109,8 @@ int	ft_check_sep(t_bash **bash, char *line, int *i, int *j)
 	}
 	else if (line[*i] == '<' || line[*i] == '>')
 	{
-		if ((line[*i] == '<' && line[*i + 1] == '<') ||
-			(line[*i + 1] == '>' && line[*i + 1] == '>'))
+		if ((line[*i] == '<' && line[*i + 1] == '<')
+			|| (line[*i + 1] == '>' && line[*i + 1] == '>'))
 		{
 			if (ft_syntax_err(line, (*i + 2)) != 0)
 				return (0);
@@ -146,7 +147,7 @@ void	ft_parse(t_bash **bash, char *line, char **envp)
 
 	i = -1;
 	j = 0;
-	line2 = find_var_to_replace(ft_strdup(line), envp);				// Controllare per eventuali leaks //
+	line2 = find_var_to_replace(ft_strdup(line), envp);
 	while (line2[++i] != '\0')
 	{
 		if (ft_check_sep(bash, line2, &i, &j) == 0)
@@ -159,8 +160,8 @@ void	ft_parse(t_bash **bash, char *line, char **envp)
 	while (tmp != NULL)
 	{
 		(tmp)->cmd = ms_split((tmp)->line);
-		// ft_print_cmd((tmp)->cmd, i);
-		// printf("Node: %d\t[%s]\tsep: %c   pipe: %d   re_dir: %c\n", i, (tmp)->line, (tmp)->sep, (tmp)->pipe[0], (tmp)->re_dir);
+		/*ft_print_cmd((tmp)->cmd, i);
+		printf("Node: %d\t[%s]\tsep: %c   pipe: %d   re_dir: %c\n", i, (tmp)->line, (tmp)->sep, (tmp)->pipe[0], (tmp)->re_dir);*/
 		tmp = (tmp)->next;
 		i++;
 	}

@@ -6,11 +6,10 @@
 /* -> Funzione Helper che elimina due stringhe all'interno di una matrice <- */
 char	**ft_delete_cmd(char **cmd, int pos)
 {
-	// printf("string in pos: %s\n", cmd[pos]);fflush(stdout);
-	char **tmp;
-	int	i;
-	int	j;
-	int	len;
+	char	**tmp;
+	int		i;
+	int		j;
+	int		len;
 
 	i = 0;
 	j = 0;
@@ -18,7 +17,7 @@ char	**ft_delete_cmd(char **cmd, int pos)
 	while (cmd[len])
 		len++;
 	tmp = (char **) malloc (sizeof(char *) * (len - 1));
-	while(cmd[j] != NULL)
+	while (cmd[j] != NULL)
 	{
 		if (pos == j)
 			j += 2;
@@ -46,21 +45,15 @@ int	ft_check_re_dir(t_bash **bash, int i, char *line)
 	fd = 0;
 	if ((*bash)->cmd[i][0] == '>')
 	{
-		// printf("file name: %s\n", (*bash)->cmd[i + 1]); fflush(stdout);
 		if ((*bash)->cmd[i][1] == '\0')
 			fd = open((*bash)->cmd[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 		else if ((*bash)->cmd[i][1] == '>' && (*bash)->cmd[i][2] == '\0')
 			fd = open((*bash)->cmd[i + 1], O_WRONLY | O_CREAT | O_APPEND, 0777);
 		if (fd == -1)
-		{
-			// strerror(errno);
 			exit(errno);
-		}
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 		(*bash)->cmd = ft_delete_cmd((*bash)->cmd, i);
-		// for (int index = 0; (*bash)->cmd[index]; index++)
-		// 	{printf("cmd after delete: [%d] %s\n", index, (*bash)->cmd[index]); fflush(stdout);}
 		return (1);
 	}
 	else if ((*bash)->cmd[i][0] == '<' && (*bash)->cmd[i][1] == '\0')
@@ -71,8 +64,6 @@ int	ft_check_re_dir(t_bash **bash, int i, char *line)
 		dup2(fd, STDIN_FILENO);
 		close(fd);
 		(*bash)->cmd = ft_delete_cmd((*bash)->cmd, i);
-		// for (int index = 0; (*bash)->cmd[index]; index++)
-		// 	{printf("cmd after delete: [%d] %s\n", index, (*bash)->cmd[index]); fflush(stdout);}
 		return (1);
 	}
 	else if ((*bash)->cmd[i][0] == '<' && (*bash)->cmd[i][1] == '<')
@@ -112,17 +103,14 @@ void	ft_execve(t_bash **bash, char **envp, char *line)
 
 	i = 0;
 	(void)line;
-	// if ((*bash)->re_dir)
-	// {
-	// 	while ((*bash)->cmd[i] != 0)
-	// 	{
-	// 		if (ft_check_re_dir(bash, i, line) == 0)
-	// 			i++;
-	// 	}
-	// }
-	// i = 0;
-	// while ((*bash)->cmd[i])
-		// printf("cmd: %s\n", (*bash)->cmd[0]);
+	if ((*bash)->re_dir)
+	{
+		while ((*bash)->cmd[i] != 0)
+		{
+			if (ft_check_re_dir(bash, i, line) == 0)
+				i++;
+		}
+	}
 	if (execve(ft_access((*bash)->cmd[0], ft_path(envp)), (*bash)->cmd, envp) == -1)
 			write(2, "does not work man\n", 19);
 		exit(errno);
@@ -175,7 +163,8 @@ void	ft_pipe(t_bash **bash, char **envp, char *line)
 		ft_close_pipe(&start);
 		ft_execve(bash, envp, line);
 	}
-	while ((tmp->next->pipe[0] != 0 && tmp->next->pipe[1] != 0) && tmp->next != NULL)
+	while ((tmp->next->pipe[0] != 0 && tmp->next->pipe[1] != 0)
+		&& tmp->next != NULL)
 	{
 		(*bash) = (*bash)->next;
 		(*bash)->proc = fork();
@@ -201,7 +190,7 @@ void	ft_pipe(t_bash **bash, char **envp, char *line)
 		ft_execve(bash, envp, line);
 	}
 	ft_close_pipe(&start);
-	while(wait(NULL) > 0);
+	while (wait(NULL) > 0);
 }
 
 /* -> Gestisce l'esecuzione dei comandi, facendo controlli sia sui separatori,
@@ -209,7 +198,6 @@ void	ft_pipe(t_bash **bash, char **envp, char *line)
 void	ft_execute(t_bash **bash, char **envp, char **line)
 {
 	t_bash	*tmp;
-	// char	*dst;
 
 	tmp = *bash;
 	//caso singolo
@@ -222,11 +210,9 @@ void	ft_execute(t_bash **bash, char **envp, char **line)
 	while (tmp)
 	{
 		if ((tmp->pipe[0] != 0 && tmp->pipe[1] != 0)
-		&& tmp->next != NULL)
+			&& tmp->next != NULL)
 			ft_pipe(&tmp, envp, ft_strjoin(*line, "\n"));
-		// waitpid((tmp)->proc, NULL, 0);
 		tmp = (tmp)->next;
 	}
-	// ft_free(line);
 	return ;
 }

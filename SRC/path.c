@@ -30,7 +30,7 @@ char	*ft_access(char *cmd, char **path)
 	char	*tmp;
 
 	if (access(cmd, F_OK) == 0)
-			return (cmd);
+		return (cmd);
 	while (*path)
 	{
 		tmp = ft_strjoin(*path, "/");
@@ -41,7 +41,5 @@ char	*ft_access(char *cmd, char **path)
 		free (address);
 		path++;
 	}
-	// perror("No access to command\n");
-	// exit(127);
 	return (NULL);
 }

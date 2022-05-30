@@ -18,7 +18,7 @@ char	*find_it(char **envp, char *to_find)
 			{
 				if (envp[index[0]][index[1]] == '=')
 					return (ft_substr(envp[index[0]], index[1] + 1,
-						ft_strlen(envp[index[0]])));
+							ft_strlen(envp[index[0]])));
 				return ("\0");
 			}
 			index[2]++;
@@ -57,7 +57,8 @@ int	ft_check_var(char *s, int pos)
 	if (ft_isalpha(s[pos]) || s[pos] == 95)
 	{
 		i++;
-		while (ft_isalpha(s[pos + i]) || ft_isdigit(s[pos + i]) || s[pos + i] == 95)
+		while (ft_isalpha(s[pos + i]) || ft_isdigit(s[pos + i])
+			|| s[pos + i] == 95)
 			i++;
 		return (i);
 	}
@@ -89,15 +90,11 @@ char	*ft_replace(char *s, char *envp[], int pos, int *ret_i)
 			if (j > 0)
 			{
 				s1 = ft_substr(s, 0, pos);
-				// printf("Replace s1: %s\t", s1); fflush(stdout);
 				var = ft_substr(s, (pos + 1), j);
-				// printf("Replace var: %s\t", var);fflush(stdout);
 				s2 = find_it(envp, var);
-				// printf("Replace s2: %s\t", s2);fflush(stdout);
 				free(var);
 				i = pos + 1 + j;
 				s3 = ft_substr(s, i, (ft_strlen(s) - i));
-				// printf("Replace s3: %s\t", s3);fflush(stdout);
 				free(s);
 				s = ft_replace_join(s1, s2, s3);
 			}
@@ -120,9 +117,7 @@ char	*ft_delete_char(char *s, int pos)
 	char	*s2;
 	char	*dst;
 
-	// printf("Delete s : %s$\n", s);
 	s1 = ft_substr(s, 0, pos);
-	// printf("Delete s1 : %s$\n", s1);
 	if (s[pos + 1] == '\0')
 	{
 		free (s);
@@ -131,9 +126,7 @@ char	*ft_delete_char(char *s, int pos)
 		return (s1);
 	}
 	s2 = ft_substr(s, pos + 1, ((int) ft_strlen(s) - (pos)));
-	// printf("Delete s2 : %s$\n", s2);
 	dst = ft_strjoin(s1, s2);
-	// printf("Delete dst : %s$\n\n", dst);
 	free(s);
 	free(s1);
 	free(s2);

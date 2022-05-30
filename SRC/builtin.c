@@ -16,13 +16,13 @@ int	ft_pwd(char **envp)
 		{
 			if (!to_find[index[2] + 1])
 				return (printf("%s\n", ft_substr(envp[index[0]],
-								index[1] + 1, ft_strlen(envp[index[0]]) - index[1])));
+							index[1] + 1, ft_strlen(envp[index[0]]) - index[1])));
 			index[1]++;
 			index[2]++;
 		}
 		index[0]++;
 	}
-	return (NULL);
+	return (0);
 }
 
 void	ft_echo(char **cmd)
@@ -67,5 +67,3 @@ void	ft_exit(void)
 	printf("exit\n");
 	exit(0);
 }
-
-
