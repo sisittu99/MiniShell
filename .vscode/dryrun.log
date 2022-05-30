@@ -1,0 +1,15 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory `/Users/fdrudi/42_Cursus/42_minishell'
+make -C ./libft
+ 
+gcc  -g -Wall -Wextra -Werror -c SRC/main.c -o SRC/main.o
+gcc  -g -Wall -Wextra -Werror -c SRC/path.c -o SRC/path.o
+gcc  -g -Wall -Wextra -Werror -c SRC/ms_split.c -o SRC/ms_split.o
+gcc  -g -Wall -Wextra -Werror -c SRC/ft_replace.c -o SRC/ft_replace.o
+ 
+gcc  -g -Wall -Wextra -Werror -c SRC/parse.c -o SRC/parse.o
+gcc  -g -Wall -Wextra -Werror -c SRC/list_utils.c -o SRC/list_utils.o
+gcc  -g -Wall -Wextra -Werror -c SRC/execute.c -o SRC/execute.o
+gcc  -Wall -Wextra -Werror ./SRC/main.o ./SRC/path.o ./SRC/ms_split.o ./SRC/ft_replace.o ./SRC/parse.o ./SRC/list_utils.o ./SRC/execute.o libft/libft.a -o minishell -L/usr/include -lreadline -L/Users/fdrudi/.brew/opt/readline/lib -I/Users/fdrudi/.brew/opt/readline/include
+make: Leaving directory `/Users/fdrudi/42_Cursus/42_minishell'
+ 

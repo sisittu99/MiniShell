@@ -19,7 +19,7 @@ void	nb_words_help(char *s, int a, int *i, int *j)
 
 	typequote = s[a];
 	a++;
-	if (ms_strchr(s, *i, typequote) > -1)
+	if (ms_strchr(s, a, typequote) > -1)
 	{
 		while (s[a] != typequote)
 			a++;

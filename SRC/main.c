@@ -64,15 +64,14 @@ int	main(int argc, char *argv[], char *envp[])
 			ft_control_d(line);
 		if (*line)
 		{
-			printf("%s\n", line);
+			// printf("%s\n", line);
 			ft_parse(&bash, line, envp);
-			printf("%s\n", line);
+			// printf("%s\n", line);
 			ft_execute(&bash, envp, &line);
-			printf("%s\n", line);
+			// printf("%s\n", line);
 			add_history(line);
 			ft_delete_lst(&bash);
 		}
-		exit(0);
 		free(line);
 	}
 	return (0);

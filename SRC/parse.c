@@ -25,7 +25,7 @@ char *find_var_to_replace(char *line, char **envp)
 			i++;
 		}
 		else if (pos_apex[0] < pos_dollar && pos_dollar < pos_apex[1])
-			i = pos_apex[1];
+			i = pos_apex[1] + 1;
 		else
 			i++;
 		pos_dollar = ms_strchr(line, i, '$');
@@ -142,19 +142,18 @@ void	ft_parse(t_bash **bash, char *line, char **envp)
 	t_bash	*tmp;
 	int		i;
 	int		j;
-	// char	typequote;
+	char	*line2;
 
 	i = -1;
 	j = 0;
-	line = find_var_to_replace(line, envp);				// Controllare per eventuali leaks //
-	// printf("line: %s\n", line);
-	while (line[++i] != '\0')
+	line2 = find_var_to_replace(ft_strdup(line), envp);				// Controllare per eventuali leaks //
+	while (line2[++i] != '\0')
 	{
-		if (ft_check_sep(bash, line, &i, &j) == 0)
+		if (ft_check_sep(bash, line2, &i, &j) == 0)
 			return ;
 	}
 	if (j < i)
-		ft_init_node(bash, line, j, (i - j));
+		ft_init_node(bash, line2, j, (i - j));
 	i = 1;
 	tmp = *bash;
 	while (tmp != NULL)
