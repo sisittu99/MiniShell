@@ -29,7 +29,7 @@ void	ft_control_d(char *line)
 	exit (0);
 }
 
-int	main(int argc, char *argv[], char *envp[])
+int	main(int argc, char **argv, char **envp)
 {
 	char				*line;
 	t_bash				*bash;

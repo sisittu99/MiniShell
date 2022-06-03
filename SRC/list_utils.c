@@ -86,6 +86,7 @@ t_bash	*ft_new_node(char *line, int pos, int len, char *sep)
 		new->pipe[1] = 0;
 	}
 	new->re_dir = sep[2];
+	new->built = -2;
 	new->next = NULL;
 	return (new);
 }

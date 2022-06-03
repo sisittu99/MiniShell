@@ -27,13 +27,13 @@ typedef struct s_bash
 	int				pipe[2];
 	char			sep;
 	char			re_dir;
-	// char			**envp;
+	int				built;
 	struct s_bash	*next;
 }				t_bash;
 
 // * READLINE * //
 
-void rl_replace_line(const char *text, int clear_undo);
+void	rl_replace_line(const char *text, int clear_undo);
 
 // * PARSE * //
 
@@ -46,6 +46,12 @@ int		ms_strchr(char *s, int pos, char c);
 // * EXECUTE * //
 
 void	ft_execute(t_bash **bash, char **envp, char **line);
+
+// * BUILTIN * //
+
+char	**ft_builtin_assgn(void);
+int		ft_check_builtin(char *cmd);
+void	ft_exec_builtin(t_bash **bash, char **envp);
 
 // * PATH * //
 

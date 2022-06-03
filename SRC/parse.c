@@ -148,6 +148,8 @@ void	ft_parse(t_bash **bash, char *line, char **envp)
 	i = -1;
 	j = 0;
 	line2 = find_var_to_replace(ft_strdup(line), envp);
+//DA FARE FUNZIONE PER LA TILDE!!!!
+//	line2 = ft_find_tilde(line2, envp);
 	while (line2[++i] != '\0')
 	{
 		if (ft_check_sep(bash, line2, &i, &j) == 0)

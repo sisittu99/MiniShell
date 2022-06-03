@@ -1,7 +1,4 @@
 #include "../INCL/minishell.h"
-/*
-	esegue un comando in una sola riga.
-*/
 
 /* -> Funzione Helper che elimina due stringhe all'interno di una matrice <- */
 char	**ft_delete_cmd(char **cmd, int pos)
@@ -111,20 +108,35 @@ void	ft_execve(t_bash **bash, char **envp, char *line)
 				i++;
 		}
 	}
-	if (execve(ft_access((*bash)->cmd[0], ft_path(envp)), (*bash)->cmd, envp) == -1)
+	if ((*bash)->built == -2)
+		(*bash)->built = ft_check_builtin((*bash)->cmd[0]);
+	if ((*bash)->built == -1)
+	{
+		if (execve(ft_access((*bash)->cmd[0], ft_path(envp)), (*bash)->cmd, envp) == -1)
+		{
 			write(2, "does not work man\n", 19);
-		exit(errno);
+			exit(errno);
+		}
+	}
+	else
+		ft_exec_builtin(bash, envp);
 }
 
 /* -> Esegue un comando singolo <- */
 void	ft_lonely_cmd(t_bash **bash, char **envp, char *line)
 {
-	(*bash)->proc = fork();
-	if ((*bash)->proc < 0)
-		exit(errno);
-	else if ((*bash)->proc == 0)
-		ft_execve(bash, envp, line);
-	waitpid((*bash)->proc, NULL, 0);
+	(*bash)->built = ft_check_builtin((*bash)->cmd[0]);
+	if ((*bash)->built == -1)
+	{
+		(*bash)->proc = fork();
+		if ((*bash)->proc < 0)
+			exit(errno);
+		else if ((*bash)->proc == 0)
+			ft_execve(bash, envp, line);
+		waitpid((*bash)->proc, NULL, 0);
+		return ;
+	}
+	ft_execve(bash, envp, line);
 	return ;
 }
 
