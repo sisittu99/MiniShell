@@ -34,6 +34,7 @@ int	main(int argc, char **argv, char **envp)
 	char				*line;
 	t_bash				*bash;
 	struct sigaction	sa;
+	char				*tmp;
 
 	(void)argv;
 	if (argc != 1)
@@ -55,10 +56,20 @@ int	main(int argc, char **argv, char **envp)
 		{
 			ft_parse(&bash, line, envp);
 			ft_execute(&bash, envp, &line);
-			add_history(line);
+			if (tmp == NULL || ft_strcmp(tmp, line) == 0)
+			{
+				add_history(line);
+				if (tmp)
+					free(tmp);
+				tmp = ft_strdup(line);
+			}
+			//CHECK ENPV IN STRUCT SE ESISTE -> IN CASO MODIFICA ENVP REALE
+			if (bash->envp)
+				envp = ft_new_envp(bash->envp, envp);
 			ft_delete_lst(&bash);
 		}
 		free(line);
 	}
+	free(tmp);
 	return (0);
 }

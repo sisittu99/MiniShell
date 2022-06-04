@@ -1,4 +1,4 @@
-#include "../INCL/minishell.h"
+#include "../../INCL/minishell.h"
 
 int	ft_pwd(char **envp)
 {
@@ -25,29 +25,7 @@ int	ft_pwd(char **envp)
 	return (0);
 }
 
-void	ft_echo(char **cmd)
-{
-	int		i;
-	int		flag;
 
-	i = 1;
-	flag = 0;
-	if (ft_strcmp(cmd[0], "echo") == 0)
-	{
-		if (ft_strcmp(cmd[1], "-n") == 0)
-			flag = 1;
-		if (ft_strcmp(cmd[1 + flag], "$?") == 0)
-			printf("Still to implement!");
-		else
-		{
-			while (cmd[i + flag + 1])
-				printf("%s ", cmd[i++]);
-			printf("%s", cmd[i + flag]);
-		}
-		if (flag == 0)
-			printf("\n");
-	}
-}
 
 void	ft_env(char **envp)
 {

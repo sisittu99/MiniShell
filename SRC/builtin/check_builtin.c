@@ -1,21 +1,22 @@
-#include "../INCL/minishell.h"
+#include "../../INCL/minishell.h"
 
 void	ft_exec_builtin(t_bash **bash, char **envp)
 {
+	(void)envp;
 	if ((*bash)->built == 0)
-		ft_echo();
+		ft_echo((*bash)->cmd);
 	else if ((*bash)->built == 1)
-		ft_cd();
+		printf("cd\n"); // ft_cd();
 	else if ((*bash)->built == 2)
-		ft_pwd();
+		printf("pwd\n"); // ft_pwd();
 	else if ((*bash)->built == 3)
-		ft_export();
+		printf("export\n"); // ft_export();
 	else if ((*bash)->built == 4)
-		ft_unset();
+		printf("unset\n"); // ft_unset();
 	else if ((*bash)->built == 5)
-		ft_env();
+		printf("env\n"); // ft_env();
 	else if ((*bash)->built == 6)
-		ft_exit();
+		printf("exit\n"); // ft_exit();
 }
 
 /* Crea la matrice con la quale controllare che il comando sia una built-in,
@@ -38,8 +39,9 @@ char	**ft_builtin_assgn(void)
 	return (built);
 }
 
-/* Controlla che il comando sia una built-in. In caso positivo,
-	ritorna 1 per poter proseguire ed eseguire la funzione corretta. */
+/* Controlla che il comando sia una built-in.
+	In caso positivo, ritorna la pos nella matrice built
+	per poter proseguire ed eseguire la funzione corretta. */
 int	ft_check_builtin(char *cmd)
 {
 	int		i;

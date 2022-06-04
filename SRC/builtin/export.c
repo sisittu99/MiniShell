@@ -1,4 +1,4 @@
-#include "../INCL/minishell.h"
+#include "../../INCL/minishell.h"
 
 /*
 	Casistica:
@@ -128,7 +128,7 @@ char	**ft_sort_env(char **envp)
 	return (sort);
 }
 
-char	**ft_export(char **cmd, char **envp)
+void	ft_export(t_bash **bash, char **cmd, char **envp)
 {
 	char	**tmp;
 	int		i;
@@ -147,13 +147,14 @@ char	**ft_export(char **cmd, char **envp)
 	{
 		while (cmd[i][j])
 		{
-			if (!ft_isalpha(cmd[i][j] && !ft_isdigit(cmd[i][j]) && cmd[i][j] != '_'))
+			if (!ft_isalpha(cmd[i][j]) && !ft_isdigit(cmd[i][j]) && cmd[i][j] != '_')
 			{
 				printf("export: `%s\': not a valid identifier\n", cmd[i]);
 				break ;
 			}
-			else if (cmd[i][j + 1] == '\0')
-				envp = ft_handle_env(cmd[i], envp);
+			else if (cmd[i][j + 1] == '\0' && ((*bash)->pipe[0] != 0 && (*bash)->pipe[1] != 0)
+					&& (*bash)->next != NULL)
+				(*bash)->envp = ft_handle_env(cmd[i], envp);
 			j++;
 		}
 		j = 0;

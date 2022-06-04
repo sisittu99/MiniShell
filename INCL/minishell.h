@@ -28,6 +28,7 @@ typedef struct s_bash
 	char			sep;
 	char			re_dir;
 	int				built;
+	char			**envp;
 	struct s_bash	*next;
 }				t_bash;
 
@@ -52,6 +53,7 @@ void	ft_execute(t_bash **bash, char **envp, char **line);
 char	**ft_builtin_assgn(void);
 int		ft_check_builtin(char *cmd);
 void	ft_exec_builtin(t_bash **bash, char **envp);
+void	ft_echo(char **cmd);
 
 // * PATH * //
 
