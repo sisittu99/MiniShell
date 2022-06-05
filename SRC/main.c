@@ -5,9 +5,13 @@ void	ft_free(char **dc)
 	int	i;
 
 	i = -1;
-	while (dc[++i])
-		free(dc[i]);
-	free(dc);
+	if (dc[0])
+	{
+		while (dc[++i])
+			free(dc[i]);
+	}
+	if (dc)
+		free(dc);
 }
 
 void	ft_sig_handler(int sig)
@@ -29,12 +33,35 @@ void	ft_control_d(char *line)
 	exit (0);
 }
 
+char	**ft_new_env(char **mat)
+{
+	char	**new;
+	int		i;
+
+	if (!mat)
+		return (NULL);
+	i = 0;
+	while (mat[i++]) ;
+	new = (char **) malloc (sizeof(char *) * i);
+	if (!new)
+		return (NULL);
+	i = 0;
+	while (mat[i])
+	{
+		new[i] = ft_strdup(mat[i]);
+		i++;
+	}
+	new[i] = NULL;
+	return (new);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
-	char				*line;
 	t_bash				*bash;
-	struct sigaction	sa;
+	char				*line;
 	char				*tmp;
+	char				**env;
+	struct sigaction	sa;
 
 	(void)argv;
 	if (argc != 1)
@@ -47,6 +74,7 @@ int	main(int argc, char **argv, char **envp)
 	sa.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &sa, NULL);
 	sigaction(SIGQUIT, &sa, NULL);
+	env = ft_new_env(envp);
 	while (1)
 	{
 		line = readline("bash-biutiful>$ ");
@@ -54,8 +82,8 @@ int	main(int argc, char **argv, char **envp)
 			ft_control_d(line);
 		if (*line)
 		{
-			ft_parse(&bash, line, envp);
-			ft_execute(&bash, envp, &line);
+			ft_parse(&bash, line, env);
+			ft_execute(&bash, env, &line);
 			if (tmp == NULL || ft_strcmp(tmp, line) == 0)
 			{
 				add_history(line);
@@ -65,7 +93,10 @@ int	main(int argc, char **argv, char **envp)
 			}
 			//CHECK ENPV IN STRUCT SE ESISTE -> IN CASO MODIFICA ENVP REALE
 			if (bash->envp)
-				envp = ft_new_envp(bash->envp, envp);
+			{
+				ft_free(env);
+				env = ft_new_env(bash->envp);
+			}
 			ft_delete_lst(&bash);
 		}
 		free(line);

@@ -32,6 +32,9 @@ typedef struct s_bash
 	struct s_bash	*next;
 }				t_bash;
 
+
+char	**ft_new_env(char **mat);
+
 // * READLINE * //
 
 void	rl_replace_line(const char *text, int clear_undo);
@@ -54,6 +57,11 @@ char	**ft_builtin_assgn(void);
 int		ft_check_builtin(char *cmd);
 void	ft_exec_builtin(t_bash **bash, char **envp);
 void	ft_echo(char **cmd);
+
+// * EXPORT * //
+
+void	ft_export(t_bash **bash, char **cmd, char **envp);
+void	ft_env_var_found(char *cmd, t_bash **bash, int index[3]);
 
 // * PATH * //
 

@@ -11,58 +11,28 @@
 	cmd con += : strjoin(env[i], substr(cmd...))|	env[i] = cmd;	|	env[last] = cmd; [OK]
 */
 
-char	**ft_delete_env_var( char **envp, int index[3])
+void	ft_env_var_found(char *cmd, t_bash **bash, int index[3])
 {
-	while (envp[index[0] + 1])
-	{
-		envp[index[0]] = envp[index[0] + 1];
-		index[0] += 1;
-	}
-	envp[index[0]] = NULL;
-	return (envp);
-}
+	char	*tmp;
 
-char	**ft_unset(char *cmd, char **envp)
-{
-	int		index[3];
-	int		i;
-	char	*to_find;
-
-	if (cmd[5] == '\0')
-		return (envp);
-	i = 0;
-	while (i < 3)
-		index[i++] = 0;
-	while (envp[index[0]])
-	{
-		while (envp[index[0]][index[1]] == to_find[index[2]])
-		{
-			if (!to_find[index[2] + 1])
-				return (ft_delete_env_var(envp, index));
-			index[1]++;
-			index[2]++;
-		}
-		index[0]++;
-	}
-	return (envp);
-}
-
-char	**ft_env_var_found(char *cmd, char **envp, int index[3])
-{
 	if (!ft_strchr(cmd, '='))
-		return (envp);
-	if (cmd[index[2]] == '+' && envp[index[0]][index[1] + 1] == '=')
-		envp[index[0]] = ft_strjoin(envp[index[0]], ft_substr(cmd, index[2] + 2, ft_strlen(cmd) - index[2] - 1));
+		return ;
+	tmp = ft_strdup((*bash)->envp[index[0]]);
+	free((*bash)->envp[index[0]]);						//FUNZIONA ??
+	if (cmd[index[2]] == '+' && (*bash)->envp[index[0]][index[1] + 1] == '=')
+		(*bash)->envp[index[0]] = ft_strjoin(tmp, ft_substr(cmd, index[2] + 2, ft_strlen(cmd) - index[2] - 1));
 	else
-		envp[index[0]] = cmd;
-	return (envp);
+		(*bash)->envp[index[0]] = ft_strdup(cmd);
+	free(tmp);
+	return ;
 }
 
-char	**ft_handle_env(char *cmd, char **envp)
+void	ft_handle_env(char *cmd, t_bash **bash)
 {
 	int		index[3];
 	int		i;
 	char	*to_find;
+	// char	**tmp;
 
 	i = 0;
 	while (i < 3)
@@ -71,24 +41,28 @@ char	**ft_handle_env(char *cmd, char **envp)
 	if (ft_strchr(cmd, '=') != NULL)
 	{
 		i = 0;
-		while (cmd[i++] != '=');
+		while (cmd[i++] != '=') ;
 		to_find = ft_substr(cmd, 0, i);
 	}
-	while (envp[index[0]])
+	while ((*bash)->envp[index[0]])
 	{
-		while (envp[index[0]][index[1]] == to_find[index[2]])
+		while ((*bash)->envp[index[0]][index[1]] == to_find[index[2]])
 		{
 			if (!to_find[index[2] + 1])
-				return (ft_env_var_found(cmd, envp, index));
+			{
+				ft_env_var_found(cmd, bash, index);
+				return ;
+			}
 			index[1]++;
 			index[2]++;
 		}
 		index[0]++;
 	}
 	// caso in cui la variabile non viene trovata
-	envp[i] = ft_strdup(cmd);
-	envp[i + 1] = NULL;
-	return (envp);
+
+	(*bash)->envp[i] = ft_strdup(cmd);
+	(*bash)->envp[i + 1] = NULL;
+	return ;
 }
 
 char	**ft_sort_env(char **envp)
@@ -136,13 +110,16 @@ void	ft_export(t_bash **bash, char **cmd, char **envp)
 
 	i = 1;
 	j = 0;
-	if (cmd[1][0] == '\0')
+	if (cmd[1] == NULL)
 	{
 		tmp = ft_sort_env(envp);
 		while (tmp[i])
 			printf("declare -x %s\n", tmp[i++]);
-		return (envp);
+		return ;
 	}
+	if (((*bash)->pipe[0] == 0 && (*bash)->pipe[1] == 0)
+		&& (*bash)->next == NULL)
+		(*bash)->envp =ft_new_env(envp);
 	while (cmd[i])
 	{
 		while (cmd[i][j])
@@ -152,9 +129,9 @@ void	ft_export(t_bash **bash, char **cmd, char **envp)
 				printf("export: `%s\': not a valid identifier\n", cmd[i]);
 				break ;
 			}
-			else if (cmd[i][j + 1] == '\0' && ((*bash)->pipe[0] != 0 && (*bash)->pipe[1] != 0)
-					&& (*bash)->next != NULL)
-				(*bash)->envp = ft_handle_env(cmd[i], envp);
+			else if (cmd[i][j + 1] == '\0' && ((*bash)->pipe[0] == 0 && (*bash)->pipe[1] == 0)
+					&& (*bash)->next == NULL)
+				ft_handle_env(cmd[i], bash);
 			j++;
 		}
 		j = 0;
