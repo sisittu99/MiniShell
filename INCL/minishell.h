@@ -33,7 +33,7 @@ typedef struct s_bash
 }				t_bash;
 
 
-char	**ft_new_env(char **mat);
+char	**ft_new_env(char **mat, int def);
 
 // * READLINE * //
 

@@ -33,7 +33,7 @@ void	ft_control_d(char *line)
 	exit (0);
 }
 
-char	**ft_new_env(char **mat)
+char	**ft_new_env(char **mat, int def)
 {
 	char	**new;
 	int		i;
@@ -42,7 +42,7 @@ char	**ft_new_env(char **mat)
 		return (NULL);
 	i = 0;
 	while (mat[i++]) ;
-	new = (char **) malloc (sizeof(char *) * i);
+	new = (char **) malloc (sizeof(char *) * i + def);
 	if (!new)
 		return (NULL);
 	i = 0;
@@ -74,7 +74,7 @@ int	main(int argc, char **argv, char **envp)
 	sa.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &sa, NULL);
 	sigaction(SIGQUIT, &sa, NULL);
-	env = ft_new_env(envp);
+	env = ft_new_env(envp, 0);
 	while (1)
 	{
 		line = readline("bash-biutiful>$ ");
@@ -95,7 +95,7 @@ int	main(int argc, char **argv, char **envp)
 			if (bash->envp)
 			{
 				ft_free(env);
-				env = ft_new_env(bash->envp);
+				env = ft_new_env(bash->envp, 0);
 			}
 			ft_delete_lst(&bash);
 		}

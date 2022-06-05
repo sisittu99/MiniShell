@@ -10,7 +10,7 @@ void	ft_exec_builtin(t_bash **bash, char **envp)
 	else if ((*bash)->built == 2)
 		printf("pwd\n"); // ft_pwd();
 	else if ((*bash)->built == 3)
-		printf("export\n"); // ft_export();
+		ft_export(bash, (*bash)->cmd, envp);
 	else if ((*bash)->built == 4)
 		printf("unset\n"); // ft_unset();
 	else if ((*bash)->built == 5)
