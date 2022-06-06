@@ -1,5 +1,17 @@
 #include "../INCL/minishell.h"
 
+void	ft_sig_default(int sig)
+{
+	if (sig == SIGINT)
+	{
+		rl_replace_line("", 0);
+	}
+	rl_on_new_line();
+	rl_redisplay();
+	printf("\n");
+	exit(0);
+}
+
 /* -> Funzione Helper che elimina due stringhe all'interno di una matrice <- */
 char	**ft_delete_cmd(char **cmd, int pos)
 {
@@ -38,7 +50,16 @@ int	ft_check_re_dir(t_bash **bash, int i, char *line)
 	char	*tmp;
 	char	*buf;
 	int		pip[2];
+	struct sigaction	sa;
 
+	sa.sa_handler = ft_sig_default;
+	sa.sa_flags = SA_RESTART;
+
+	if ((*bash)->proc == 0)
+	{
+		sigaction(SIGINT, &sa, NULL);
+		sigaction(SIGQUIT, &sa, NULL);
+	}
 	fd = 0;
 	if ((*bash)->cmd[i][0] == '>')
 	{
@@ -73,7 +94,7 @@ int	ft_check_re_dir(t_bash **bash, int i, char *line)
 		while (1)
 		{
 			buf = readline("> ");
-			if (ft_strcmp(buf, (*bash)->cmd[i + 1]) == 0)
+			if (ft_strcmp(buf, (*bash)->cmd[i + 1]) != 0)
 				break ;
 			tmp = ft_strjoin(buf, "\n");
 			free(buf);

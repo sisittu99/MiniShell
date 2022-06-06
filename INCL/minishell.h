@@ -21,7 +21,7 @@
 typedef struct s_bash
 {
 	// struct s_bash	*prev;
-	char			*line;
+	// char			*line;
 	char			**cmd;
 	pid_t			proc;
 	int				pipe[2];
@@ -57,6 +57,9 @@ char	**ft_builtin_assgn(void);
 int		ft_check_builtin(char *cmd);
 void	ft_exec_builtin(t_bash **bash, char **envp);
 void	ft_echo(char **cmd);
+int		ft_pwd(char **envp);
+void	ft_env(char **envp);
+void	ft_unset(t_bash **bash, char **cmd, char **envp);
 
 // * EXPORT * //
 

@@ -119,7 +119,8 @@ void	ft_export(t_bash **bash, char **cmd, char **envp)
 	j = 0;
 	if (cmd[1] == NULL)
 	{
-		tmp = ft_sort_env(envp);
+		tmp = ft_new_env(envp, 0);
+		// tmp = ft_sort_env(envp);   ///SISTEMARE///
 		while (tmp[i])
 			printf("declare -x %s\n", tmp[i++]);
 		return ;

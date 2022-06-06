@@ -1,27 +1,31 @@
 
 #include "../../INCL/minishell.h"
 
-
-
 char	**ft_delete_env_var( char **envp, int index[3])
 {
-	while (envp[index[0] + 1])
+	char	**cpy;
+	int		i;
+
+	i = 0;
+	while (envp[i++]) ;
+	cpy = (char **) malloc (sizeof(char *) * i);
+	if (!cpy)
+		return (envp);
+	i = 0;
+	while (envp[i])
 	{
-		envp[index[0]] = envp[index[0] + 1];
-		index[0] += 1;
+		if (i != index[0])
+			cpy[i] = ft_strdup(envp[i]);
+		i++;
 	}
-	envp[index[0]] = NULL;
-	return (envp);
+	return (cpy);
 }
 
-char	**ft_unset(char *cmd, char **envp)
+char **ft_unset_find_var(char **envp, char *to_find)
 {
-	int		index[3];
-	int		i;
-	char	*to_find;
+	int	index[3];
+	int	i;
 
-	if (cmd[5] == '\0')
-		return (envp);
 	i = 0;
 	while (i < 3)
 		index[i++] = 0;
@@ -37,4 +41,25 @@ char	**ft_unset(char *cmd, char **envp)
 		index[0]++;
 	}
 	return (envp);
+}
+
+void	ft_unset(t_bash **bash, char **cmd, char **envp)
+{
+	char	**new;
+	char	*to_find;
+	int		i;
+
+	if (cmd[1] == NULL)
+		return ;
+	new = ft_new_env(envp, 0);
+	i = 1;
+	while (cmd[i])
+	{
+		to_find = ft_strdup(cmd[i]);
+		new = ft_unset_find_var(new, to_find);
+		i++;
+	}
+	(*bash)->envp = ft_new_env(new, 0);
+	ft_free(new);
+	return ;
 }

@@ -8,15 +8,18 @@ void	ft_exec_builtin(t_bash **bash, char **envp)
 	else if ((*bash)->built == 1)
 		printf("cd\n"); // ft_cd();
 	else if ((*bash)->built == 2)
-		printf("pwd\n"); // ft_pwd();
+		ft_pwd(envp);
 	else if ((*bash)->built == 3)
 		ft_export(bash, (*bash)->cmd, envp);
 	else if ((*bash)->built == 4)
-		printf("unset\n"); // ft_unset();
+		ft_unset(bash, (*bash)->cmd, envp);
 	else if ((*bash)->built == 5)
-		printf("env\n"); // ft_env();
+		ft_env(envp);
 	else if ((*bash)->built == 6)
 		printf("exit\n"); // ft_exit();
+	if ((*bash)->next != NULL)
+		exit(0);
+	return ;
 }
 
 /* Crea la matrice con la quale controllare che il comando sia una built-in,

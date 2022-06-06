@@ -83,6 +83,11 @@ int	main(int argc, char **argv, char **envp)
 		if (*line)
 		{
 			ft_parse(&bash, line, env);
+			if (bash->next != NULL)
+			{									//////////////
+				signal(SIGINT, SIG_DFL);  //////DA SISTEMARE !!!////////
+				signal(SIGQUIT, SIG_DFL);		/////////////
+			}
 			ft_execute(&bash, env, &line);
 			if (tmp == NULL || ft_strcmp(tmp, line) == 0)
 			{

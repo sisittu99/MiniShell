@@ -16,7 +16,7 @@ int	ft_pwd(char **envp)
 		{
 			if (!to_find[index[2] + 1])
 				return (printf("%s\n", ft_substr(envp[index[0]],
-							index[1] + 1, ft_strlen(envp[index[0]]) - index[1])));
+							index[1] + 2, ft_strlen(envp[index[0]]) - index[1])));
 			index[1]++;
 			index[2]++;
 		}
@@ -24,8 +24,6 @@ int	ft_pwd(char **envp)
 	}
 	return (0);
 }
-
-
 
 void	ft_env(char **envp)
 {
@@ -38,10 +36,11 @@ void	ft_env(char **envp)
 			printf("%s\n", envp[i]);
 		i++;
 	}
+	return ;
 }
 
 void	ft_exit(void)
 {
-	printf("exit\n");
+	printf("Exit\n");
 	exit(0);
 }

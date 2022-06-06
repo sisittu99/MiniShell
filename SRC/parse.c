@@ -2,7 +2,7 @@
 
 /* -> Analizza la stringa e cambia le Variabili col rispettivo valore.
 	  Controlla inoltre che la Variabile non sia dentro agli '\'' <- */
-char *find_var_to_replace(char *line, char **envp)
+char *find_var_to_replace(char *line, char **envp, char re_dir)
 {
 	int	pos_dollar;
 	int	pos_apex[2];
@@ -19,7 +19,7 @@ char *find_var_to_replace(char *line, char **envp)
 			pos_apex[0] = ms_strchr(line, i, '\'');
 			pos_apex[1] = ms_strchr(line, (pos_apex[0] + 1), '\'');
 		}
-		if (!(pos_apex[0] < pos_dollar && pos_dollar < pos_apex[1]))
+		if (!(pos_apex[0] < pos_dollar && pos_dollar < pos_apex[1]) && re_dir != '1')
 		{
 			line = ft_replace(line, envp, pos_dollar, &i);
 			i++;
@@ -144,12 +144,11 @@ void	ft_parse(t_bash **bash, char *line, char **envp)
 	int		i;
 	int		j;
 	char	*line2;
+	char	*line3;
 
 	i = -1;
 	j = 0;
-	line2 = find_var_to_replace(ft_strdup(line), envp);
-//DA FARE FUNZIONE PER LA TILDE!!!!
-//	line2 = ft_find_tilde(line2, envp);
+	line2 = ft_strdup(line);
 	while (line2[++i] != '\0')
 	{
 		if (ft_check_sep(bash, line2, &i, &j) == 0)
@@ -161,9 +160,12 @@ void	ft_parse(t_bash **bash, char *line, char **envp)
 	tmp = *bash;
 	while (tmp != NULL)
 	{
-		(tmp)->cmd = ms_split((tmp)->line);
+		line3 = find_var_to_replace(ft_strdup(line2), envp, tmp->re_dir);
+//DA FARE FUNZIONE PER LA TILDE!!!!
+//	line2 = ft_find_tilde(line2, envp);
+		(tmp)->cmd = ms_split(line3);
 		// ft_print_cmd((tmp)->cmd, i);
-		// printf("Node: %d\t[%s]\tsep: %c   pipe: %d   re_dir: %c\n", i, (tmp)->line, (tmp)->sep, (tmp)->pipe[0], (tmp)->re_dir);
+		// printf("Node: %d\t[%s]\tsep: %c   pipe: %d   re_dir: %c\n", i, line3, (tmp)->sep, (tmp)->pipe[0], (tmp)->re_dir);
 		tmp = (tmp)->next;
 		i++;
 	}
