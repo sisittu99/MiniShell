@@ -77,27 +77,24 @@ char	**ft_sort_env(char **envp)
 
 	i = 0;
 	j = 0;
-	x = 0;
+	x = 1;
 	while (envp[i++]);
 	sort = (char **) malloc(sizeof(char *) * (i + 1));
 	i = -1;
 	while (envp[++i])
 		sort[i] = ft_strdup(envp[i]);
+	sort[i] = NULL;
 	while (sort[j])
 	{
 		while (x < i - j - 1)
 		{
-			if (ft_strncmp(sort[j], sort[x]) < 0)
+			if (ft_strncmp(sort[x + 1], sort[x]) < 0)
 			{
-				tmp = ft_strdup(sort[j]);
-				sort[j] = sort[x];
-				sort[x] = tmp;
-				// break ;
+				tmp = ft_strdup(sort[x + 1]);
+				sort[x + 1] = ft_strdup(sort[x]);
+				sort[x] = ft_strdup(tmp);
 			}
-			// else if (sort[i][j] == sort[i + 1][j])
 			x++;
-			// else
-			// 	break ;
 		}
 		x = 0;
 		j++;
@@ -120,9 +117,27 @@ void	ft_export(t_bash **bash, char **cmd, char **envp)
 	if (cmd[1] == NULL)
 	{
 		tmp = ft_new_env(envp, 0);
-		// tmp = ft_sort_env(envp);   ///SISTEMARE///
+		tmp = ft_sort_env(envp);   ///SISTEMARE///
 		while (tmp[i])
-			printf("declare -x %s\n", tmp[i++]);
+		{
+			ft_putstr_fd("declare -x ", 1);
+			while (tmp[i][j])
+			{
+				if (tmp[i][j] == '=')
+				{
+					ft_putchar_fd(tmp[i][j++], 1);
+					write(1, "\"", 1);
+					while (tmp[i][j])
+						ft_putchar_fd(tmp[i][j++], 1);
+					write(1, "\"", 1);
+				}
+				else
+					ft_putchar_fd(tmp[i][j++], 1);
+			}
+			ft_putchar_fd('\n', 1);
+			j = 0;
+			i++;
+		}
 		return ;
 	}
 	if (((*bash)->pipe[0] == 0 && (*bash)->pipe[1] == 0)
