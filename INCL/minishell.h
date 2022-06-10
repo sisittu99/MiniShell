@@ -32,8 +32,14 @@ typedef struct s_bash
 	struct s_bash	*next;
 }				t_bash;
 
-
 char	**ft_new_env(char **mat, int def);
+
+// * SIGNALS * //
+
+void	ft_sig_define(struct sigaction *sa, int def);
+void	ft_sig_handler(int sig);
+void	ft_control_d(char *line);
+void	ft_sig_default(int sig);
 
 // * READLINE * //
 

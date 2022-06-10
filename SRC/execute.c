@@ -1,17 +1,5 @@
 #include "../INCL/minishell.h"
 
-void	ft_sig_default(int sig)
-{
-	if (sig == SIGINT)
-	{
-		rl_replace_line("", 0);
-	}
-	rl_on_new_line();
-	rl_redisplay();
-	printf("\n");
-	exit(0);
-}
-
 /* -> Funzione Helper che elimina due stringhe all'interno di una matrice <- */
 char	**ft_delete_cmd(char **cmd, int pos)
 {

@@ -14,25 +14,6 @@ void	ft_free(char **dc)
 		free(dc);
 }
 
-void	ft_sig_handler(int sig)
-{
-	if (sig == SIGINT)
-	{
-		printf("\n");
-		rl_replace_line("", 0);
-	}
-	rl_on_new_line();
-	rl_redisplay();
-	return ;
-}
-
-void	ft_control_d(char *line)
-{
-	free(line);
-	printf("Exit\n");
-	exit (0);
-}
-
 char	**ft_new_env(char **mat, int def)
 {
 	char	**new;
@@ -41,7 +22,8 @@ char	**ft_new_env(char **mat, int def)
 	if (!mat)
 		return (NULL);
 	i = 0;
-	while (mat[i++]) ;
+	while (mat[i])
+		i++;
 	new = (char **) malloc (sizeof(char *) * i + def);
 	if (!new)
 		return (NULL);
@@ -55,11 +37,40 @@ char	**ft_new_env(char **mat, int def)
 	return (new);
 }
 
+void	ft_command(t_bash **bash, struct sigaction *sa, char **env)
+{
+	char	*line;
+
+	line = readline("bash-biutiful>$ ");
+	if (!line)
+		ft_control_d(line);
+	if (*line)
+	{
+		ft_parse(bash, line, env);
+		if ((*bash)->next != NULL || (*bash)->re_dir == '1')
+			ft_sig_define(sa, 1);
+		ft_execute(bash, env, &line);
+		if (tmp == NULL || ft_strcmp(tmp, line) == 0)
+		{
+			add_history(line);
+			if (tmp)
+				free(tmp);
+			tmp = ft_strdup(line);
+		}
+		if ((*bash)->envp)
+		{
+			ft_free(env);
+			env = ft_new_env((*bash)->envp, 0);
+		}
+		ft_delete_lst(bash);
+		free(line);
+	}
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_bash				*bash;
-	char				*line;
-	char				*tmp;
+	char				*tmp;		//DA METTERE IN STRUCT PERCHÉ RESTA ALLOCATA QUANDO SI ESCE DAL PROGRAMMA *** //
 	char				**env;
 	struct sigaction	sa;
 
@@ -70,42 +81,11 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	}
 	bash = NULL;
-	sa.sa_handler = ft_sig_handler;
-	sa.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &sa, NULL);
-	sigaction(SIGQUIT, &sa, NULL);
 	env = ft_new_env(envp, 0);
 	while (1)
 	{
-		line = readline("bash-biutiful>$ ");
-		if (!line)
-			ft_control_d(line);
-		if (*line)
-		{
-			ft_parse(&bash, line, env);
-			if (bash->next != NULL)
-			{									//////////////
-				signal(SIGINT, SIG_DFL);  //////DA SISTEMARE !!!////////
-				signal(SIGQUIT, SIG_DFL);		/////////////
-			}
-			ft_execute(&bash, env, &line);
-			if (tmp == NULL || ft_strcmp(tmp, line) == 0)
-			{
-				add_history(line);
-				if (tmp)
-					free(tmp);
-				tmp = ft_strdup(line);
-			}
-			//CHECK ENPV IN STRUCT SE ESISTE -> IN CASO MODIFICA ENVP REALE
-			if (bash->envp)
-			{
-				ft_free(env);
-				env = ft_new_env(bash->envp, 0);
-			}
-			ft_delete_lst(&bash);
-		}
-		free(line);
+		ft_sig_define(&sa, 0);
 	}
-	free(tmp);
+	free(tmp); //*** LEAKS ! (NON CI ARRIVERÀ MAI)//
 	return (0);
 }
