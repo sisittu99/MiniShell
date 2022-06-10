@@ -37,7 +37,7 @@ char	**ft_new_env(char **mat, int def)
 	return (new);
 }
 
-void	ft_command(t_bash **bash, struct sigaction *sa, char **env)
+void	ft_command(t_bash **bash, struct sigaction *sa, char **env, char **tmp)
 {
 	char	*line;
 
@@ -50,12 +50,12 @@ void	ft_command(t_bash **bash, struct sigaction *sa, char **env)
 		if ((*bash)->next != NULL || (*bash)->re_dir == '1')
 			ft_sig_define(sa, 1);
 		ft_execute(bash, env, &line);
-		if (tmp == NULL || ft_strcmp(tmp, line) == 0)
+		if (*tmp == NULL || ft_strcmp(*tmp, line) == 0)
 		{
 			add_history(line);
-			if (tmp)
-				free(tmp);
-			tmp = ft_strdup(line);
+			if (*tmp)
+				free(*tmp);
+			*tmp = ft_strdup(line);
 		}
 		if ((*bash)->envp)
 		{
@@ -81,10 +81,12 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	}
 	bash = NULL;
+	tmp = NULL;
 	env = ft_new_env(envp, 0);
 	while (1)
 	{
 		ft_sig_define(&sa, 0);
+		ft_command(bash, &sa, env, &tmp);
 	}
 	free(tmp); //*** LEAKS ! (NON CI ARRIVERÀ MAI)//
 	return (0);
