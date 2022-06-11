@@ -60,18 +60,15 @@ void	ft_node_add_back(t_bash **lst, t_bash *new)
 t_bash	*ft_new_node(char *line, int pos, int len, char *sep)
 {
 	t_bash	*new;
-	// int		i;
+	int		i;
 	new = (t_bash *) malloc (sizeof(t_bash));
-	(void)line;
-	(void)pos;
-	(void)len;
-	// new->line = (char *) malloc (sizeof(char) * len + 1);
-	// if (!new || !new->line)
-	// 	return (NULL);
-	// i = 0;
-	// while (i < len)
-	// 	new->line[i++] = line[pos++];
-	// new->line[i] = '\0';
+	new->line = (char *) malloc (sizeof(char) * len + 1);
+	if (!new || !new->line)
+		return (NULL);
+	i = 0;
+	while (i < len)
+		new->line[i++] = line[pos++];
+	new->line[i] = '\0';
 	new->cmd = NULL;
 	new->sep = sep[1];
 	if ((sep[0] - 48) == 1)

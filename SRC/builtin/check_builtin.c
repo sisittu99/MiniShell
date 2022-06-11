@@ -6,7 +6,7 @@ void	ft_exec_builtin(t_bash **bash, char **envp)
 	if ((*bash)->built == 0)
 		ft_echo((*bash)->cmd);
 	else if ((*bash)->built == 1)
-		printf("cd\n"); // ft_cd();
+		ft_cd(bash, (*bash)->cmd, envp);
 	else if ((*bash)->built == 2)
 		ft_pwd(envp);
 	else if ((*bash)->built == 3)

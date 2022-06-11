@@ -86,7 +86,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		ft_sig_define(&sa, 0);
-		ft_command(bash, &sa, env, &tmp);
+		ft_command(&bash, &sa, env, &tmp);
 	}
 	free(tmp); //*** LEAKS ! (NON CI ARRIVERÀ MAI)//
 	return (0);

@@ -21,7 +21,7 @@
 typedef struct s_bash
 {
 	// struct s_bash	*prev;
-	// char			*line;
+	char			*line;
 	char			**cmd;
 	pid_t			proc;
 	int				pipe[2];
@@ -64,6 +64,7 @@ int		ft_check_builtin(char *cmd);
 void	ft_exec_builtin(t_bash **bash, char **envp);
 void	ft_echo(char **cmd);
 int		ft_pwd(char **envp);
+int		ft_cd(t_bash **bash, char **cmd, char **envp);
 void	ft_env(char **envp);
 void	ft_unset(t_bash **bash, char **cmd, char **envp);
 
@@ -76,6 +77,7 @@ void	ft_env_var_found(char *cmd, t_bash **bash, int index[3]);
 
 char	**ft_path(char **envp);
 char	*ft_access(char *cmd, char **path);
+char	*find_it(char **envp, char *to_find);
 
 // * LIST UTILS * //
 

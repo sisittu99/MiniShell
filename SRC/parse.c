@@ -160,13 +160,15 @@ void	ft_parse(t_bash **bash, char *line, char **envp)
 	tmp = *bash;
 	while (tmp != NULL)
 	{
-		line3 = find_var_to_replace(ft_strdup(line2), envp, tmp->re_dir);
+		line3 = find_var_to_replace(ft_strdup(tmp->line), envp, tmp->re_dir);
 //DA FARE FUNZIONE PER LA TILDE!!!!
 //	line2 = ft_find_tilde(line2, envp);
 		(tmp)->cmd = ms_split(line3);
 		// ft_print_cmd((tmp)->cmd, i);
 		// printf("Node: %d\t[%s]\tsep: %c   pipe: %d   re_dir: %c\n", i, line3, (tmp)->sep, (tmp)->pipe[0], (tmp)->re_dir);
 		tmp = (tmp)->next;
+		free(line3);
 		i++;
 	}
+	free(line2);
 }

@@ -14,9 +14,9 @@ int	ft_pwd(char **envp)
 	{
 		while (envp[index[0]][index[1]] == to_find[index[2]])
 		{
-			if (!to_find[index[2] + 1])
-				return (printf("%s\n", ft_substr(envp[index[0]],
-							index[1] + 2, ft_strlen(envp[index[0]]) - index[1])));
+			if (!to_find[index[2] + 1])										/////////////////////////////////////////////////////
+				return (printf("%s\n", ft_substr(envp[index[0]],         //SE USASSIMO " printf("%s\n", find_it(envp, to_find)) " ?? //
+							index[1] + 2, ft_strlen(envp[index[0]]) - index[1]))); /////////////////////////////////////////
 			index[1]++;
 			index[2]++;
 		}
