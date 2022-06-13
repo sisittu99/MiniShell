@@ -76,7 +76,7 @@ void	ft_exit(char **cmd);
 
 // * EXPORT * //
 
-void	ft_export(t_bash **bash, char **cmd, char **envp);
+int		ft_export(t_bash **bash, char **cmd, char **envp);
 void	ft_env_var_found(char *cmd, t_bash **bash, int index[3]);
 
 // * PATH * //

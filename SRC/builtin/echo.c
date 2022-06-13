@@ -36,14 +36,14 @@ int	ft_echo(char **cmd)
 		flag = ft_flag_echo(cmd);
 		if (cmd[1 + flag])
 		{
-			if (ft_strcmp(cmd[1 + flag], "$?") == 1)
-				printf("Still to implement!");
-			else
-			{
+			// if (ft_strcmp(cmd[1 + flag], "$?") == 1)
+			// 	printf("%d", exit_status);
+			// else
+			// {
 				while (cmd[i + flag + 1])
 					printf("%s ", cmd[(i++) + flag]);
 				printf("%s", cmd[i + flag]);
-			}
+			// }
 		}
 	}
 	if (flag == 0)

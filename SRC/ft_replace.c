@@ -93,9 +93,20 @@ char	*ft_replace(char *s, char *envp[], int pos, int *ret_i)
 			{
 				s1 = ft_substr(s, 0, pos);
 				var = ft_substr(s, (pos + 1), j);
-				index = find_it(envp, var);
-				s2 = ft_substr(envp[index[0]], index[1] + 1,
+				// controllo che non sia lo status del processo prec.		--->  $?  <---
+				printf("!!!!%s!!!!\n!!!!%s!!!!\n", s1, var);
+				if (ft_strcmp(var, "?") == 1)
+				{
+					printf("entered\n"); fflush(stdout);
+					s2 = ft_itoa(exit_status);
+					exit(0);
+				}
+				else
+				{
+					index = find_it(envp, var);
+					s2 = ft_substr(envp[index[0]], index[1] + 1,
 								ft_strlen(envp[index[0]]));
+				}
 				free(var);
 				i = pos + 1 + j;
 				s3 = ft_substr(s, i, (ft_strlen(s) - i));

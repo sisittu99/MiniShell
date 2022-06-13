@@ -103,10 +103,7 @@ char	**ft_sort_env(char **envp)
 	return (sort);
 }
 
-//SISTEMARE +=
-//SISTEMARE SORT
-
-int	ft_export(t_bash **bash, char **cmd, char **envp)
+int	ft_lonely_export(char **envp)
 {
 	char	**tmp;
 	int		i;
@@ -114,35 +111,45 @@ int	ft_export(t_bash **bash, char **cmd, char **envp)
 
 	i = 1;
 	j = 0;
-	if (cmd[1] == NULL)
+	tmp = ft_new_env(envp, 0);
+	tmp = ft_sort_env(envp);
+	while (tmp[i])
 	{
-		tmp = ft_new_env(envp, 0);
-		tmp = ft_sort_env(envp);   ///SISTEMARE///
-		while (tmp[i])
+		ft_putstr_fd("declare -x ", 1);
+		while (tmp[i][j])
 		{
-			ft_putstr_fd("declare -x ", 1);
-			while (tmp[i][j])
+			if (tmp[i][j] == '=')
 			{
-				if (tmp[i][j] == '=')
-				{
+				ft_putchar_fd(tmp[i][j++], 1);
+				write(1, "\"", 1);
+				while (tmp[i][j])
 					ft_putchar_fd(tmp[i][j++], 1);
-					write(1, "\"", 1);
-					while (tmp[i][j])
-						ft_putchar_fd(tmp[i][j++], 1);
-					write(1, "\"", 1);
-				}
-				else
-					ft_putchar_fd(tmp[i][j++], 1);
+				write(1, "\"", 1);
 			}
-			ft_putchar_fd('\n', 1);
-			j = 0;
-			i++;
+			else
+				ft_putchar_fd(tmp[i][j++], 1);
 		}
-		return (0);
+		ft_putchar_fd('\n', 1);
+		j = 0;
+		i++;
 	}
+	return (0);
+}
+
+int	ft_export(t_bash **bash, char **cmd, char **envp)
+{
+	int		i;
+	int		j;
+	int		status;
+
+	i = 1;
+	j = 0;
+	if (cmd[1] == NULL)
+		return (ft_lonely_export(envp));
 	if (((*bash)->pipe[0] == 0 && (*bash)->pipe[1] == 0)
 		&& (*bash)->next == NULL)
-		(*bash)->envp =ft_new_env(envp, 0);
+		(*bash)->envp = ft_new_env(envp, 0);
+	status = 0;
 	while (cmd[i])
 	{
 		while (cmd[i][j])
@@ -150,10 +157,12 @@ int	ft_export(t_bash **bash, char **cmd, char **envp)
 			if (!ft_isalpha(cmd[i][j]) && !ft_isdigit(cmd[i][j]) && cmd[i][j] != '_')
 			{
 				printf("export: `%s\': not a valid identifier\n", cmd[i]);
+				status = 1;
 				break ;
 			}
-			else if ((cmd[i][j + 1] == '\0' || cmd[i][j + 1] == '=') && ((*bash)->pipe[0] == 0 && (*bash)->pipe[1] == 0)
-					&& (*bash)->next == NULL)
+			else if ((cmd[i][j + 1] == '\0' || cmd[i][j + 1] == '=')
+						&& ((*bash)->pipe[0] == 0 && (*bash)->pipe[1] == 0)
+						&& (*bash)->next == NULL)
 			{
 				ft_handle_env(cmd[i], bash);
 				break ;
@@ -163,5 +172,5 @@ int	ft_export(t_bash **bash, char **cmd, char **envp)
 		j = 0;
 		i++;
 	}
-	return (0);
+	return (status);
 }

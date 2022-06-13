@@ -43,6 +43,10 @@ char **ft_unset_find_var(char **envp, char *to_find)
 	return (envp);
 }
 
+
+/*Elimina le variabili all'interno dell'env.
+  Restituisce 0 se le elimina tutte, >0 se almeno una fallisce.
+  Almeno, secondo il man di GNU... in realtà torna sempre 0.*/
 int	ft_unset(t_bash **bash, char **cmd, char **envp)
 {
 	char	**new;
