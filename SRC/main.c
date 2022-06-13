@@ -24,7 +24,7 @@ char	**ft_new_env(char **mat, int def)
 	i = 0;
 	while (mat[i])
 		i++;
-	new = (char **) malloc (sizeof(char *) * i + def);
+	new = (char **) malloc (sizeof(char *) * (i + def + 1));
 	if (!new)
 		return (NULL);
 	i = 0;
@@ -33,37 +33,43 @@ char	**ft_new_env(char **mat, int def)
 		new[i] = ft_strdup(mat[i]);
 		i++;
 	}
-	new[i] = NULL;
+	new[i] = 0;
 	return (new);
 }
 
-void	ft_command(t_bash **bash, struct sigaction *sa, char **env, char **tmp)
+void	ft_command(t_bash **bash, struct sigaction *sa, char **envp, char **tmp)
 {
 	char	*line;
+	char	**env;
 
-	line = readline("bash-biutiful>$ ");
-	if (!line)
-		ft_control_d(line);
-	if (*line)
+	env = ft_new_env(envp, 0);
+	while (1)
 	{
-		ft_parse(bash, line, env);
-		if ((*bash)->next != NULL || (*bash)->re_dir == '1')
-			ft_sig_define(sa, 1);
-		ft_execute(bash, env, &line);
-		if (*tmp == NULL || ft_strcmp(*tmp, line) == 0)
+		ft_sig_define(sa, 0);
+		line = readline("bash-biutiful>$ ");
+		if (!line)
+			ft_control_d(line);
+		if (*line)
 		{
-			add_history(line);
-			if (*tmp)
-				free(*tmp);
-			*tmp = ft_strdup(line);
+			ft_parse(bash, line, env);
+			if ((*bash)->next != NULL || (*bash)->re_dir == '1')
+				ft_sig_define(sa, 1);
+			ft_execute(bash, env, &line);
+			if (*tmp == NULL || ft_strcmp(*tmp, line) == 0)
+			{
+				add_history(line);
+				if (*tmp)
+					free(*tmp);
+				*tmp = ft_strdup(line);
+			}
+			if ((*bash)->envp)
+			{
+				ft_free(env);
+				env = ft_new_env((*bash)->envp, 0);
+			}
+			ft_delete_lst(bash);
+			free(line);
 		}
-		if ((*bash)->envp)
-		{
-			ft_free(env);
-			env = ft_new_env((*bash)->envp, 0);
-		}
-		ft_delete_lst(bash);
-		free(line);
 	}
 }
 
@@ -71,7 +77,6 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_bash				*bash;
 	char				*tmp;		//DA METTERE IN STRUCT PERCHÉ RESTA ALLOCATA QUANDO SI ESCE DAL PROGRAMMA *** //
-	char				**env;
 	struct sigaction	sa;
 
 	(void)argv;
@@ -82,12 +87,7 @@ int	main(int argc, char **argv, char **envp)
 	}
 	bash = NULL;
 	tmp = NULL;
-	env = ft_new_env(envp, 0);
-	while (1)
-	{
-		ft_sig_define(&sa, 0);
-		ft_command(&bash, &sa, env, &tmp);
-	}
+	ft_command(&bash, &sa, envp, &tmp);
 	free(tmp); //*** LEAKS ! (NON CI ARRIVERÀ MAI)//
 	return (0);
 }

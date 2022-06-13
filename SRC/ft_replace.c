@@ -1,12 +1,15 @@
 #include "../INCL/minishell.h"
 
+// ft_substr(envp[index[0]], index[1] + 1, ft_strlen(envp[index[0]]))
+
 /* -> Sostituzione della variabile con il suo valore <- */
-char	*find_it(char **envp, char *to_find)
+int	*find_it(char **envp, char *to_find)
 {
-	int		index[3];
+	int		*index;
 	int		i;
 
 	i = 0;
+	index =(int *) malloc (sizeof(int) * 3);
 	while (i < 3)
 		index[i++] = 0;
 	while (envp[index[0]])
@@ -17,9 +20,8 @@ char	*find_it(char **envp, char *to_find)
 			if (!to_find[index[2] + 1])
 			{
 				if (envp[index[0]][index[1]] == '=')
-					return (ft_substr(envp[index[0]], index[1] + 1,
-							ft_strlen(envp[index[0]])));
-				return ("\0");
+					return (index);
+				return (NULL);
 			}
 			index[2]++;
 		}
@@ -76,7 +78,7 @@ char	*ft_replace(char *s, char *envp[], int pos, int *ret_i)
 	char	*s2;
 	char	*s3;
 	char	*var;
-
+	int	*index;
 	int	i;
 	int	j;
 
@@ -91,7 +93,9 @@ char	*ft_replace(char *s, char *envp[], int pos, int *ret_i)
 			{
 				s1 = ft_substr(s, 0, pos);
 				var = ft_substr(s, (pos + 1), j);
-				s2 = find_it(envp, var);
+				index = find_it(envp, var);
+				s2 = ft_substr(envp[index[0]], index[1] + 1,
+								ft_strlen(envp[index[0]]));
 				free(var);
 				i = pos + 1 + j;
 				s3 = ft_substr(s, i, (ft_strlen(s) - i));

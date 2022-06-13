@@ -36,12 +36,15 @@ void	nb_words_help(char *s, int a, int *i, int *j)
 	  li separa e li conta <- */
 void	nb_words_redir(char *s, int a, int *j)
 {
-	if ((s[a] == '>' || s[a] == '<') && (s[a - 1] != ' '
-			&& s[a - 1] != '>' && s[a - 1] != '<'))
-		*j = 0;
-	else if ((s[a - 1] == '>' || s[a - 1] == '<')
-		&& (s[a] != ' ' && s[a] != '>' && s[a] != '<'))
-		*j = 0;
+	if (a > 0)
+	{
+		if ((s[a] == '>' || s[a] == '<') && (s[a - 1] != ' '
+				&& s[a - 1] != '>' && s[a - 1] != '<'))
+			*j = 0;
+		else if ((s[a - 1] == '>' || s[a - 1] == '<')
+				&& (s[a] != ' ' && s[a] != '>' && s[a] != '<'))
+			*j = 0;
+	}
 	return ;
 }
 
@@ -119,19 +122,22 @@ void	wds_assign(char *s, char c, char **dest, size_t len)
 			dest[x++] = ft_substr(s, j, (i - j));
 			j = -1;
 		}
-		if ((s[i] == '>' || s[i] == '<') && s[i - 1] != ' '
-			&& s[i - 1] != '>' && s[i - 1] != '<')
+		if (i > 0)
 		{
-			if (j < (int) i)
-				dest[x++] = ft_substr(s, j, (i - j));
-			j = i;
-		}
-		else if ((s[i - 1] == '>' || s[i - 1] == '<')
-			&& (s[i] != ' ' && s[i] != '>' && s[i] != '<'))
-		{
-			if (j < (int) i)
-				dest[x++] = ft_substr(s, j, (i - j));
-			j = i;
+			if ((s[i] == '>' || s[i] == '<') && s[i - 1] != ' '
+				&& s[i - 1] != '>' && s[i - 1] != '<')
+			{
+				if (j < (int) i)
+					dest[x++] = ft_substr(s, j, (i - j));
+				j = i;
+			}
+			else if ((s[i - 1] == '>' || s[i - 1] == '<')
+				&& (s[i] != ' ' && s[i] != '>' && s[i] != '<'))
+			{
+				if (j < (int) i)
+					dest[x++] = ft_substr(s, j, (i - j));
+				j = i;
+			}
 		}
 		i++;
 	}

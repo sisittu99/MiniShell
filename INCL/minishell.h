@@ -77,7 +77,7 @@ void	ft_env_var_found(char *cmd, t_bash **bash, int index[3]);
 
 char	**ft_path(char **envp);
 char	*ft_access(char *cmd, char **path);
-char	*find_it(char **envp, char *to_find);
+int		*find_it(char **envp, char *to_find);
 
 // * LIST UTILS * //
 

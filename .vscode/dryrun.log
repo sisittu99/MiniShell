@@ -1,21 +1,5 @@
 make --dry-run --keep-going --print-directory
 make: Entering directory `/Users/fdrudi/42_Cursus/42_minishell'
-make -C ./libft
- 
-gcc  -g -Wall -Wextra -Werror -c SRC/main.c -o SRC/main.o
-gcc  -g -Wall -Wextra -Werror -c SRC/path.c -o SRC/path.o
-gcc  -g -Wall -Wextra -Werror -c SRC/ms_split.c -o SRC/ms_split.o
-gcc  -g -Wall -Wextra -Werror -c SRC/ft_replace.c -o SRC/ft_replace.o
-gcc  -g -Wall -Wextra -Werror -c SRC/parse.c -o SRC/parse.o
-gcc  -g -Wall -Wextra -Werror -c SRC/list_utils.c -o SRC/list_utils.o
-gcc  -g -Wall -Wextra -Werror -c SRC/execute.c -o SRC/execute.o
-gcc  -g -Wall -Wextra -Werror -c SRC/builtin/check_builtin.c -o SRC/builtin/check_builtin.o
-gcc  -g -Wall -Wextra -Werror -c SRC/builtin/builtin.c -o SRC/builtin/builtin.o
-gcc  -g -Wall -Wextra -Werror -c SRC/builtin/echo.c -o SRC/builtin/echo.o
- 
-gcc  -g -Wall -Wextra -Werror -c SRC/builtin/export.c -o SRC/builtin/export.o
-gcc  -g -Wall -Wextra -Werror -c SRC/builtin/unset.c -o SRC/builtin/unset.o
-gcc  -g -Wall -Wextra -Werror -c SRC/signals.c -o SRC/signals.o
-gcc  -Wall -Wextra -Werror ./SRC/main.o ./SRC/path.o ./SRC/ms_split.o ./SRC/ft_replace.o ./SRC/parse.o ./SRC/list_utils.o ./SRC/execute.o ./SRC/builtin/check_builtin.o ./SRC/builtin/builtin.o ./SRC/builtin/echo.o ./SRC/builtin/export.o ./SRC/builtin/unset.o ./SRC/signals.o libft/libft.a -o minishell -L/usr/include -lreadline -L/Users/fdrudi/.brew/opt/readline/lib -I/Users/fdrudi/.brew/opt/readline/include
+make: `minishell' is up to date.
 make: Leaving directory `/Users/fdrudi/42_Cursus/42_minishell'
  
