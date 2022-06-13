@@ -25,7 +25,7 @@ int	ft_pwd(char **envp)
 	return (0);
 }
 
-void	ft_env(char **envp)
+int	ft_env(char **envp)
 {
 	int	i;
 
@@ -36,11 +36,32 @@ void	ft_env(char **envp)
 			printf("%s\n", envp[i]);
 		i++;
 	}
-	return ;
+	return (0);
 }
 
-void	ft_exit(void)
+void	ft_exit(char **cmd)
 {
-	printf("Exit\n");
-	exit(0);
+	int	i;
+
+	if (!cmd[1])
+	{
+		printf("\nExit\n");
+		exit(exit_status);
+	}
+	if (cmd[2])
+	{
+		perror("exit: too many arguments\n");
+		return ;
+	}
+	i = -1;
+	while (cmd[1][++i])
+	{
+		if (ft_isdigit(cmd[1][i]) == 1)
+		{
+			printf("\nExit\nexit: %s: numeric argument required\n", cmd[1]);
+			exit(255);
+		}
+	}
+	printf("\nExit\n");
+	exit(ft_atoi(cmd[1]));
 }

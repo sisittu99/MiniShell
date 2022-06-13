@@ -136,6 +136,13 @@ void	ft_print_cmd(char **cmd, int nbr)
 	}
 }
 
+
+	///////////////////////////////////////////////////////////
+/*When running a list of commands separated by && (AND) or || (OR),	////////////////////////
+the exit status of the command determines whether the next command in the list will be executed.*/
+	////////////////////////////////////////////////////////////////////////////////////////
+
+
 /* -> Fa il Parsing della stringa, dividendo i comandi grazie ai separatori
 	  e creando un nodo per comando, pronto per essere passato all'exec <- */
 void	ft_parse(t_bash **bash, char *line, char **envp)

@@ -1,24 +1,23 @@
 #include "../../INCL/minishell.h"
 
-void	ft_exec_builtin(t_bash **bash, char **envp)
+void	ft_exec_builtin(t_bash **bash, char **envp, int def)
 {
-	(void)envp;
 	if ((*bash)->built == 0)
-		ft_echo((*bash)->cmd);
+		exit_status = ft_echo((*bash)->cmd);
 	else if ((*bash)->built == 1)
-		ft_cd(bash, (*bash)->cmd, envp);
+		exit_status = ft_cd(bash, (*bash)->cmd, envp);
 	else if ((*bash)->built == 2)
-		ft_pwd(envp);
+		exit_status = ft_pwd(envp);
 	else if ((*bash)->built == 3)
-		ft_export(bash, (*bash)->cmd, envp);
+		exit_status = ft_export(bash, (*bash)->cmd, envp);
 	else if ((*bash)->built == 4)
-		ft_unset(bash, (*bash)->cmd, envp);
+		exit_status = ft_unset(bash, (*bash)->cmd, envp);
 	else if ((*bash)->built == 5)
-		ft_env(envp);
+		exit_status = ft_env(envp);
 	else if ((*bash)->built == 6)
-		printf("exit\n"); // ft_exit();
-	if ((*bash)->next != NULL)
-		exit(0);
+		ft_exit((*bash)->cmd);
+	if (def == 1)
+		exit(exit_status);
 	return ;
 }
 

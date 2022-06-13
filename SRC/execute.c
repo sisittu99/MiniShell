@@ -103,7 +103,7 @@ int	ft_check_re_dir(t_bash **bash, int i, char *line)
 }
 
 /* -> Controlla i redirect presenti ed esegue il comando <- */
-void	ft_execve(t_bash **bash, char **envp, char *line)
+void	ft_execve(t_bash **bash, char **envp, char *line, int def)
 {
 	int	i;
 
@@ -123,17 +123,20 @@ void	ft_execve(t_bash **bash, char **envp, char *line)
 	{
 		if (execve(ft_access((*bash)->cmd[0], ft_path(envp)), (*bash)->cmd, envp) == -1)
 		{
-			write(2, "does not work man\n", 19);
-			exit(errno);
+			write(2, "command not found\n", 19);
+			exit(127);
 		}
 	}
 	else
-		ft_exec_builtin(bash, envp);
+		ft_exec_builtin(bash, envp, def);
 }
 
 /* -> Esegue un comando singolo <- */
 void	ft_lonely_cmd(t_bash **bash, char **envp, char *line)
 {
+	int	status;
+
+	status = 0;
 	(*bash)->built = ft_check_builtin((*bash)->cmd[0]);
 	if ((*bash)->built == -1)
 	{
@@ -141,11 +144,13 @@ void	ft_lonely_cmd(t_bash **bash, char **envp, char *line)
 		if ((*bash)->proc < 0)
 			exit(errno);
 		else if ((*bash)->proc == 0)
-			ft_execve(bash, envp, line);
-		waitpid((*bash)->proc, NULL, 0);
+			ft_execve(bash, envp, line, 1);
+		waitpid((*bash)->proc, &status, 0);
+		if (WIFEXITED(status))
+			exit_status = WEXITSTATUS(status);
 		return ;
 	}
-	ft_execve(bash, envp, line);
+	ft_execve(bash, envp, line, 0);
 	return ;
 }
 
@@ -172,9 +177,11 @@ void	ft_pipe(t_bash **bash, char **envp, char *line)
 {
 	t_bash	*tmp;
 	t_bash	*start;
+	int		status;
 
 	start = *bash;
 	tmp = *bash;
+	status = 0;
 	(*bash)->proc = fork();
 	if ((*bash)->proc < 0)
 		exit(errno);
@@ -182,7 +189,7 @@ void	ft_pipe(t_bash **bash, char **envp, char *line)
 	{
 		dup2((*bash)->pipe[1], STDOUT_FILENO);
 		ft_close_pipe(&start);
-		ft_execve(bash, envp, line);
+		ft_execve(bash, envp, line, 1);
 	}
 	while ((tmp->next->pipe[0] != 0 && tmp->next->pipe[1] != 0)
 		&& tmp->next != NULL)
@@ -196,7 +203,7 @@ void	ft_pipe(t_bash **bash, char **envp, char *line)
 			dup2(tmp->pipe[0], STDIN_FILENO);
 			dup2((*bash)->pipe[1], STDOUT_FILENO);
 			ft_close_pipe(&start);
-			ft_execve(bash, envp, line);
+			ft_execve(bash, envp, line, 1);
 		}
 		tmp = tmp->next;
 	}
@@ -208,10 +215,17 @@ void	ft_pipe(t_bash **bash, char **envp, char *line)
 	{
 		dup2(tmp->pipe[0], STDIN_FILENO);
 		ft_close_pipe(&start);
-		ft_execve(bash, envp, line);
+		ft_execve(bash, envp, line, 1);
 	}
 	ft_close_pipe(&start);
-	while (wait(NULL) > 0);
+	tmp = start;
+	while (start)
+	{
+		waitpid(start->proc, &status, 0);
+		if (WIFEXITED(status))
+			exit_status = WEXITSTATUS(status);
+		start = start->next;
+	}
 }
 
 /* -> Gestisce l'esecuzione dei comandi, facendo controlli sia sui separatori,
@@ -221,13 +235,11 @@ void	ft_execute(t_bash **bash, char **envp, char **line)
 	t_bash	*tmp;
 
 	tmp = *bash;
-	//caso singolo
 	if ((*bash)->next == NULL)
 	{
 		ft_lonely_cmd(bash, envp, ft_strjoin(*line, "\n"));
 		return ;
 	}
-	//altri casi
 	while (tmp)
 	{
 		if ((tmp->pipe[0] != 0 && tmp->pipe[1] != 0)

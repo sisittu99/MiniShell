@@ -32,7 +32,12 @@ typedef struct s_bash
 	struct s_bash	*next;
 }				t_bash;
 
+
 char	**ft_new_env(char **mat, int def);
+
+// * GLOBAL VARIABLE * //
+
+int		exit_status;
 
 // * SIGNALS * //
 
@@ -61,12 +66,13 @@ void	ft_execute(t_bash **bash, char **envp, char **line);
 
 char	**ft_builtin_assgn(void);
 int		ft_check_builtin(char *cmd);
-void	ft_exec_builtin(t_bash **bash, char **envp);
-void	ft_echo(char **cmd);
+void	ft_exec_builtin(t_bash **bash, char **envp, int def);
+int		ft_echo(char **cmd);
 int		ft_pwd(char **envp);
 int		ft_cd(t_bash **bash, char **cmd, char **envp);
-void	ft_env(char **envp);
-void	ft_unset(t_bash **bash, char **cmd, char **envp);
+int		ft_env(char **envp);
+int		ft_unset(t_bash **bash, char **cmd, char **envp);
+void	ft_exit(char **cmd);
 
 // * EXPORT * //
 

@@ -43,14 +43,14 @@ char **ft_unset_find_var(char **envp, char *to_find)
 	return (envp);
 }
 
-void	ft_unset(t_bash **bash, char **cmd, char **envp)
+int	ft_unset(t_bash **bash, char **cmd, char **envp)
 {
 	char	**new;
 	char	*to_find;
 	int		i;
 
 	if (cmd[1] == NULL)
-		return ;
+		return (0);
 	new = ft_new_env(envp, 0);
 	i = 1;
 	while (cmd[i])
@@ -61,5 +61,5 @@ void	ft_unset(t_bash **bash, char **cmd, char **envp)
 	}
 	(*bash)->envp = ft_new_env(new, 0);
 	ft_free(new);
-	return ;
+	return (0);
 }

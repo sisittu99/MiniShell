@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdrudi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 15:06:36 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/01/15 12:53:57 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/13 16:27:14 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 int	ft_isdigit(int c)
 {
 	if (c > 57 || c < 48)
-		return (0);
-	return (1);
+		return (1);
+	return (0);
 }

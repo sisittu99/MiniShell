@@ -89,5 +89,14 @@ int	main(int argc, char **argv, char **envp)
 	tmp = NULL;
 	ft_command(&bash, &sa, envp, &tmp);
 	free(tmp); //*** LEAKS ! (NON CI ARRIVERÀ MAI)//
-	return (0);
+	return (exit_status);
 }
+
+
+// 1) sistemare il find it
+/* 2) gestire lo status di uscita delle builtin
+   3) controllare gli errori delle altre e i loro messaggi
+   4) implementare printf con fd 2
+   5) condizioni in echo: $? senza altri argomenti eccetto -n
+   6) ~
+   7) pulizia, controlli che poi si comincia coi bonus belli a papà */

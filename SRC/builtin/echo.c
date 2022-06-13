@@ -24,7 +24,7 @@ int	ft_flag_echo(char **cmd)
 }
 
 
-void	ft_echo(char **cmd)
+int	ft_echo(char **cmd)
 {
 	int		i;
 	int		flag;
@@ -48,4 +48,5 @@ void	ft_echo(char **cmd)
 	}
 	if (flag == 0)
 		printf("\n");
+	return (0);
 }

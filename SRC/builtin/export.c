@@ -106,7 +106,7 @@ char	**ft_sort_env(char **envp)
 //SISTEMARE +=
 //SISTEMARE SORT
 
-void	ft_export(t_bash **bash, char **cmd, char **envp)
+int	ft_export(t_bash **bash, char **cmd, char **envp)
 {
 	char	**tmp;
 	int		i;
@@ -138,7 +138,7 @@ void	ft_export(t_bash **bash, char **cmd, char **envp)
 			j = 0;
 			i++;
 		}
-		return ;
+		return (0);
 	}
 	if (((*bash)->pipe[0] == 0 && (*bash)->pipe[1] == 0)
 		&& (*bash)->next == NULL)
@@ -163,4 +163,5 @@ void	ft_export(t_bash **bash, char **cmd, char **envp)
 		j = 0;
 		i++;
 	}
+	return (0);
 }
