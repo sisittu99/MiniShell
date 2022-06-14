@@ -54,13 +54,13 @@ int	ft_check_var(char *s, int pos)
 	int	i;
 
 	i = 0;
-	if (s[pos] == 63)
+	if (s[pos] == 63 && (s[pos + 1] == 32 || s[pos + 1] == '\0'))
 		return (-1);
 	if (ft_isalpha(s[pos]) || s[pos] == 95)
 	{
 		i++;
-		while (ft_isalpha(s[pos + i]) || ft_isdigit(s[pos + i])
-			|| s[pos + i] == 95)
+		while (s[pos + i] != '\0' && (ft_isalpha(s[pos + i]) || ft_isdigit(s[pos + i])
+			|| s[pos + i] == 95))
 			i++;
 		return (i);
 	}
@@ -78,43 +78,42 @@ char	*ft_replace(char *s, char *envp[], int pos, int *ret_i)
 	char	*s2;
 	char	*s3;
 	char	*var;
-	int	*index;
-	int	i;
-	int	j;
+	int		*index;
+	int		i;
+	int		j;
 
 	i = 0;
 	j = 0;
+	s2 = NULL;
 	while (s[pos] != '\"')
 	{
 		if (s[pos] == '$' && (s[pos + 1] != '\"'))
 		{
 			j = ft_check_var(s, pos + 1);
-			if (j > 0)
+			if (j > 0 || j == -1)
 			{
 				s1 = ft_substr(s, 0, pos);
-				var = ft_substr(s, (pos + 1), j);
-				// controllo che non sia lo status del processo prec.		--->  $?  <---
-				printf("!!!!%s!!!!\n!!!!%s!!!!\n", s1, var);
-				if (ft_strcmp(var, "?") == 1)
+				if (j == -1)
 				{
-					printf("entered\n"); fflush(stdout);
 					s2 = ft_itoa(exit_status);
-					exit(0);
+					i = pos + 1 + 1;
 				}
-				else
+				else if (j > 0)
 				{
+					var = ft_substr(s, (pos + 1), j);
+					i = pos + 1 + j;
 					index = find_it(envp, var);
-					s2 = ft_substr(envp[index[0]], index[1] + 1,
+					if (index != NULL)
+						s2 = ft_substr(envp[index[0]], index[1] + 1,
 								ft_strlen(envp[index[0]]));
+					else
+						s2 = ft_strjoin("$", var);
+					free(var);
 				}
-				free(var);
-				i = pos + 1 + j;
 				s3 = ft_substr(s, i, (ft_strlen(s) - i));
 				free(s);
 				s = ft_replace_join(s1, s2, s3);
 			}
-			else if (j == -1)
-				return (NULL); // ** DA AGGIUNGERE REGOLA PER '$?' QUANDO SARÀ TESTATO ** //
 		}
 		else if (s[pos + 1] == '\0')
 			return (s);

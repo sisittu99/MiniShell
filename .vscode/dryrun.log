@@ -1,5 +1,6 @@
 make --dry-run --keep-going --print-directory
 make: Entering directory `/Users/fdrudi/42_Cursus/42_minishell'
 make: `minishell' is up to date.
+ 
 make: Leaving directory `/Users/fdrudi/42_Cursus/42_minishell'
  

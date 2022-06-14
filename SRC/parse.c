@@ -2,13 +2,14 @@
 
 /* -> Analizza la stringa e cambia le Variabili col rispettivo valore.
 	  Controlla inoltre che la Variabile non sia dentro agli '\'' <- */
-char *find_var_to_replace(char *line, char **envp, char re_dir)
+char	*find_var_to_replace(char *line, char **envp, char re_dir)
 {
 	int	pos_dollar;
 	int	pos_apex[2];
 	int	i;
 
 	i = 0;
+
 	pos_dollar = ms_strchr(line, i, '$');
 	pos_apex[0] = 0;
 	pos_apex[1] = 1;
