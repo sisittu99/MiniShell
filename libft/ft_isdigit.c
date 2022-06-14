@@ -6,13 +6,13 @@
 /*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 15:06:36 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/13 16:27:14 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/14 15:14:55 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 int	ft_isdigit(int c)
 {
 	if (c > 57 || c < 48)
-		return (1);
-	return (0);
+		return (0);
+	return (1);
 }

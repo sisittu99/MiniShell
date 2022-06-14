@@ -156,7 +156,7 @@ int	ft_export(t_bash **bash, char **cmd, char **envp)
 		{
 			if (!ft_isalpha(cmd[i][j]) && !ft_isdigit(cmd[i][j]) && cmd[i][j] != '_')
 			{
-				printf("export: `%s\': not a valid identifier\n", cmd[i]);
+				fd_printf(2, "export: `%s\': not a valid identifier\n", cmd[i]);
 				status = 1;
 				break ;
 			}

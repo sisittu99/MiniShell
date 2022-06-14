@@ -50,15 +50,15 @@ void	ft_exit(char **cmd)
 	}
 	if (cmd[2])
 	{
-		perror("exit: too many arguments\n");
+		fd_printf(2, "exit: too many arguments\n");
 		return ;
 	}
 	i = -1;
 	while (cmd[1][++i])
 	{
-		if (ft_isdigit(cmd[1][i]) == 1)
+		if (!ft_isdigit(cmd[1][i]))
 		{
-			printf("\nExit\nexit: %s: numeric argument required\n", cmd[1]);
+			fd_printf(2, "\nExit\nexit: %s: numeric argument required\n", cmd[1]);
 			exit(255);
 		}
 	}
