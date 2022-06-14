@@ -6,7 +6,7 @@
 /*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 18:35:10 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/05 18:22:06 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/14 12:45:02 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,15 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stddef.h>
+# include <stdarg.h>
 
 typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
 }					t_list;
+
+// * LIBFT * //
 
 int		ft_atoi(const char *str);
 void	ft_bzero(void *s, size_t n);
@@ -67,5 +70,17 @@ char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 int		ft_tolower(int c);
 int		ft_toupper(int c);
+
+// * FT_PRINTF * //
+
+int	fd_printf(int fd, const char *str, ...);
+int	ft_assign(int fd, const char *str, int j, va_list args);
+int	ft_putchar(char c, int fd);
+int	ft_putstr(char *s, int fd);
+int	ft_putnbr(int n, int fd);
+int	ft_unsigned_putnbr(unsigned int n, int fd);
+int	ft_hex_putnbr(unsigned int n, char *hex, int fd);
+int	ft_point_print(unsigned long n, char *hex, int fd);
+int	ft_point_putnbr(unsigned long n, char *hex, int fd);
 
 #endif

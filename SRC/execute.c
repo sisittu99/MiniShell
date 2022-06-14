@@ -123,7 +123,7 @@ void	ft_execve(t_bash **bash, char **envp, char *line, int def)
 	{
 		if (execve(ft_access((*bash)->cmd[0], ft_path(envp)), (*bash)->cmd, envp) == -1)
 		{
-			write(2, "command not found\n", 19);
+			fd_printf(2, "bash: %s: command not found\n", (*bash)->cmd[0]);
 			exit(127);
 		}
 	}
