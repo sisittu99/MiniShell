@@ -31,6 +31,8 @@ char	*ft_access(char *cmd, char **path)
 
 	if (access(cmd, F_OK) == 0)
 		return (cmd);
+	if (path == NULL)
+		return (NULL);
 	while (*path)
 	{
 		tmp = ft_strjoin(*path, "/");

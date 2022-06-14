@@ -1,7 +1,5 @@
 #include "../INCL/minishell.h"
 
-// ft_substr(envp[index[0]], index[1] + 1, ft_strlen(envp[index[0]]))
-
 /* -> Sostituzione della variabile con il suo valore <- */
 int	*find_it(char **envp, char *to_find)
 {
@@ -58,7 +56,6 @@ int	ft_check_var(char *s, int pos)
 		return (-1);
 	if (ft_isalpha(s[pos]) || s[pos] == 95)
 	{
-		// i++;
 		while (s[pos + i] != '\0' && (ft_isalpha(s[pos + i]) || ft_isdigit(s[pos + i])
 			|| s[pos + i] == 95))
 			i++;
@@ -72,62 +69,7 @@ int	ft_check_var(char *s, int pos)
 	  sostituzione della variabile con il suo valore.
 	  || ** Questa funzione dev'essere chiamata dopo il controllo e la
 	  conferma che la variabile dev'essere sostituita col valore ** || <- */
-// char	*ft_replace(char *s, char *envp[], int pos, int *ret_i)
-// {
-// 	char	*s1;
-// 	char	*s2;
-// 	char	*s3;
-// 	char	*var;
-// 	int		*index;
-// 	int		i;
-// 	int		j;
-
-// 	i = 0;
-// 	j = 0;
-// 	s2 = NULL;
-// 	while (s[pos] != '\"')
-// 	{
-// 		if (s[pos] == '$' && (s[pos + 1] != '\"'))
-// 		{
-// 			j = ft_check_var(s, pos + 1);
-// 			if (j > 0 || j == -1)
-// 			{
-// 				s1 = ft_substr(s, 0, pos);
-// 				if (j == -1)
-// 				{
-// 					s2 = ft_itoa(exit_status);
-// 					i = pos + 1 + 1;
-// 				}
-// 				else if (j > 0)
-// 				{
-// 					var = ft_substr(s, (pos + 1), j);
-// 					i = pos + 1 + j;
-// 					index = find_it(envp, var);
-// 					if (index != NULL)
-// 						s2 = ft_substr(envp[index[0]], index[1] + 1,
-// 								ft_strlen(envp[index[0]]));
-// 					else
-// 					{
-// 						printf(" WRONG!\n var: %s\n j: %d\n", var, j);
-// 						s2 = ft_strjoin("$", var);
-// 					}
-// 					free(var);
-// 				}
-// 				s3 = ft_substr(s, i, (ft_strlen(s) - i));
-// 				free(s);
-// 				s = ft_replace_join(s1, s2, s3);
-// 			}
-// 			printf("s: %s\n", s);
-// 		}
-// 		else if (s[pos + 1] == '\0')
-// 			return (s);
-// 		pos++;
-// 	}
-// 	*ret_i = pos - 1;
-// 	return (s);
-// }
-
-char	*ft_replace(char *s, char *envp[], int pos, int *ret_i)
+void	ft_replace(char **s, char *envp[], int pos, int *ret_i)
 {
 	char	*s1;
 	char	*s2;
@@ -139,47 +81,62 @@ char	*ft_replace(char *s, char *envp[], int pos, int *ret_i)
 
 	i = 0;
 	j = 0;
+	var = NULL;
+	s1 = NULL;
 	s2 = NULL;
-
-	if (s[pos + 1] == '\0')
-		return (s);
-	else if (s[pos] == '$' && (s[pos + 1] != '\"'))
+	s3 = NULL;
+	if ((*s)[pos] == '~')
 	{
-		j = ft_check_var(s, pos + 1);
+		s1 = ft_substr((*s), 0, pos);
+		index = find_it(envp, "HOME");
+		i = pos + 1;
+		if (index != NULL)
+		{
+			s2 = ft_substr(envp[index[0]], index[1] + 1,
+					ft_strlen(envp[index[0]]));
+			*ret_i = pos + ft_strlen(s2);
+		}
+		else
+			s2 = ft_strdup("~");
+		s3 = ft_substr((*s), i, (ft_strlen((*s)) - i));
+		free((*s));
+		(*s) = ft_replace_join(s1, s2, s3);
+	}
+	else if ((*s)[pos + 1] == '\0')
+		return ;
+	else if ((*s)[pos] == '$' && ((*s)[pos + 1] != '\"'))
+	{
+		j = ft_check_var((*s), pos + 1);
 		if (j > 0 || j == -1)
 		{
-			s1 = ft_substr(s, 0, pos);
+			s1 = ft_substr((*s), 0, pos);
 			if (j == -1)
 			{
 				s2 = ft_itoa(exit_status);
 				i = pos + 1 + 1;
-				*ret_i += 1;
 			}
 			else if (j > 0)
 			{
-				var = ft_substr(s, (pos + 1), j);
+				var = ft_substr((*s), (pos + 1), j);
 				i = pos + 1 + j;
 				index = find_it(envp, var);
 				if (index != NULL)
 				{
 					s2 = ft_substr(envp[index[0]], index[1] + 1,
 							ft_strlen(envp[index[0]]));
-					*ret_i = pos + ft_strlen(s2);
 				}
 				else
 					s2 = ft_strjoin("$", var);
 				free(var);
 			}
-			s3 = ft_substr(s, i, (ft_strlen(s) - i));
-			free(s);
-			s = ft_replace_join(s1, s2, s3);
+			*ret_i = pos + ft_strlen(s2);
+			s3 = ft_substr((*s), i, (ft_strlen((*s)) - i));
+			free((*s));
+			(*s) = ft_replace_join(s1, s2, s3);
 		}
-		// printf("s: %s\n", s);
 	}
-	return (s);
+	return ;
 }
-
-
 
 /* -> Elimina un carattere in posizione 'pos' e
 	  ritorna la stringa modificata e riallocata <- */

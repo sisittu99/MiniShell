@@ -1,5 +1,66 @@
 #include "../INCL/minishell.h"
 
+int	*ms_bzero(int size)
+{
+	int	i;
+	int	*cp;
+
+	if (size <= 0)
+		return (0);
+	cp = (int *) malloc (sizeof(int) * size);
+	if (!cp)
+		return (0);
+	i = -1;
+	while (++i < size)
+		cp[i] = 0;
+	return (cp);
+}
+
+void	ft_find_tilde(char **line, char **envp, char re_dir)
+{
+	int	pos;
+	int	pos_apex[4];
+	int	i;
+
+	i = 0;
+	pos_apex[0] = 0;
+	pos_apex[1] = 1;
+	pos_apex[2] = 0;
+	pos_apex[3] = 1;
+	pos = ms_strchr(*line, i, '~');
+	while (pos != -1)
+	{
+		if (pos_apex[0] < pos_apex[1])
+		{
+			pos_apex[0] = ms_strchr(*line, i, '\'');
+			pos_apex[1] = ms_strchr(*line, (pos_apex[0] + 1), '\'');
+		}
+		if (pos_apex[2] < pos_apex[3])
+		{
+			pos_apex[2] = ms_strchr(*line, i, '\"');
+			pos_apex[3] = ms_strchr(*line, (pos_apex[2] + 1), '\"');
+		}
+		if (!(pos_apex[0] < pos && pos < pos_apex[1])
+			&& !(pos_apex[2] < pos && pos < pos_apex[3])
+			&& re_dir != '1')
+		{
+			ft_replace(line, envp, pos, &i);
+			i++;
+		}
+		else if ((pos_apex[0] < pos && pos < pos_apex[1])
+				&& (pos_apex[2] < pos && pos < pos_apex[3]))
+			i = pos_apex[1] > pos_apex[3] ? pos_apex[1] + 1 : pos_apex[3] + 1;
+		else if (pos_apex[0] < pos && pos < pos_apex[1])
+			i = pos_apex[1] + 1;
+		else if (pos_apex[2] < pos && pos < pos_apex[3])
+			i = pos_apex[3] + 1;
+		else
+			i++;
+		pos = ms_strchr(*line, i, '~');
+	}
+
+}
+
 /* -> Analizza la stringa e cambia le Variabili col rispettivo valore.
 	  Controlla inoltre che la Variabile non sia dentro agli '\'' <- */
 char	*find_var_to_replace(char *line, char **envp, char re_dir)
@@ -9,7 +70,7 @@ char	*find_var_to_replace(char *line, char **envp, char re_dir)
 	int	i;
 
 	i = 0;
-
+	ft_find_tilde(&line, envp, re_dir);
 	pos_dollar = ms_strchr(line, i, '$');
 	pos_apex[0] = 0;
 	pos_apex[1] = 1;
@@ -22,7 +83,7 @@ char	*find_var_to_replace(char *line, char **envp, char re_dir)
 		}
 		if (!(pos_apex[0] < pos_dollar && pos_dollar < pos_apex[1]) && re_dir != '1')
 		{
-			line = ft_replace(line, envp, pos_dollar, &i);
+			ft_replace(&line, envp, pos_dollar, &i);
 			i++;
 		}
 		else if (pos_apex[0] < pos_dollar && pos_dollar < pos_apex[1])
@@ -67,13 +128,13 @@ void	ft_init_node(t_bash **bash, char *line, int pos, int len)
 int	ft_syntax_err(char *line, int i)
 {
 	if (line[i] == '|' && line[i + 1] != '|')
-		return (write(2, "bash: syntax error near unexpected token `|'\n", 57));
+		return (fd_printf(2, "bash: syntax error near unexpected token `|'\n")); // AGGIUNGERE CONTROLLI >> << //
 	else if (line[i] == '&' && line[i + 1] != '&')
-		return (write(2, "bash: syntax error near unexpected token `&'\n", 57));
+		return (fd_printf(2, "bash: syntax error near unexpected token `&'\n"));
 	else if (line[i] == '|' && line[i + 1] == '|')
-		return (write(2, "bash: syntax error near unexpected token `||'\n", 57));
+		return (fd_printf(2, "bash: syntax error near unexpected token `||'\n"));
 	else if (line[i] == '&' && line[i + 1] == '&')
-		return (write(2, "bash: syntax error near unexpected token `&&'\n", 57));
+		return (fd_printf(2, "bash: syntax error near unexpected token `&&'\n"));
 	return (0);
 }
 
@@ -98,7 +159,7 @@ int	ft_check_sep(t_bash **bash, char *line, int *i, int *j)
 		if ((line[*i] == '|' && line[*i + 1] == '|')
 			|| (line[*i] == '&' && line[*i + 1] == '&'))
 		{
-			if (ft_syntax_err(line, (*i + 2)) != 0)
+			if (ft_syntax_err(line, (*i + 1)) != 0)
 				return (0);
 			ft_init_node(bash, line, *j, (*i - *j));
 			*j = *i + 1;
@@ -113,7 +174,7 @@ int	ft_check_sep(t_bash **bash, char *line, int *i, int *j)
 		if ((line[*i] == '<' && line[*i + 1] == '<')
 			|| (line[*i + 1] == '>' && line[*i + 1] == '>'))
 		{
-			if (ft_syntax_err(line, (*i + 2)) != 0)
+			if (ft_syntax_err(line, (*i + 1)) != 0)
 				return (0);
 			ft_init_node(bash, line, *j, (*i - *j));
 			// *j = *i + 1;
@@ -146,7 +207,7 @@ the exit status of the command determines whether the next command in the list w
 
 /* -> Fa il Parsing della stringa, dividendo i comandi grazie ai separatori
 	  e creando un nodo per comando, pronto per essere passato all'exec <- */
-void	ft_parse(t_bash **bash, char *line, char **envp)
+int	ft_parse(t_bash **bash, char *line, char **envp)
 {
 	t_bash	*tmp;
 	int		i;
@@ -160,7 +221,7 @@ void	ft_parse(t_bash **bash, char *line, char **envp)
 	while (line2[++i] != '\0')
 	{
 		if (ft_check_sep(bash, line2, &i, &j) == 0)
-			return ;
+			return (0);
 	}
 	if (j < i)
 		ft_init_node(bash, line2, j, (i - j));
@@ -169,8 +230,6 @@ void	ft_parse(t_bash **bash, char *line, char **envp)
 	while (tmp != NULL)
 	{
 		line3 = find_var_to_replace(ft_strdup(tmp->line), envp, tmp->re_dir);
-//DA FARE FUNZIONE PER LA TILDE!!!!
-//	line2 = ft_find_tilde(line2, envp);
 		(tmp)->cmd = ms_split(line3);
 		// ft_print_cmd((tmp)->cmd, i);
 		// printf("Node: %d\t[%s]\tsep: %c   pipe: %d   re_dir: %c\n", i, line3, (tmp)->sep, (tmp)->pipe[0], (tmp)->re_dir);
@@ -179,4 +238,5 @@ void	ft_parse(t_bash **bash, char *line, char **envp)
 		i++;
 	}
 	free(line2);
+	return (1);
 }

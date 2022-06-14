@@ -51,10 +51,13 @@ void	ft_command(t_bash **bash, struct sigaction *sa, char **envp, char **tmp)
 			ft_control_d(line);
 		if (*line)
 		{
-			ft_parse(bash, line, env);
-			if ((*bash)->next != NULL || (*bash)->re_dir == '1')
-				ft_sig_define(sa, 1);
-			ft_execute(bash, env, &line);
+			if (ft_parse(bash, line, env) == 1)
+			{
+				printf("HERE!\n");
+				if ((*bash)->next != NULL || (*bash)->re_dir == '1')
+					ft_sig_define(sa, 1);
+				ft_execute(bash, env, &line);
+			}
 			if (*tmp == NULL || ft_strcmp(*tmp, line) == 0)
 			{
 				add_history(line);
@@ -93,10 +96,9 @@ int	main(int argc, char **argv, char **envp)
 }
 
 
-// 1) sistemare il find it
-/* 2) gestire lo status di uscita delle builtin
-   3) controllare gli errori delle altre e i loro messaggi
-   4) implementare printf con fd 2
-   5) condizioni in echo: $? senza altri argomenti eccetto -n
-   6) ~
-   7) pulizia, controlli che poi si comincia coi bonus belli a papà */
+/* 1) sistemare il find it
+   2) sistemare syntax error pipe/redir/ecc.
+   3) gestire lo status di uscita delle builtin
+   4) controllare gli errori delle altre e i loro messaggi
+   5) pulizia, controlli che poi si comincia coi bonus belli a papà
+   6) leaks */

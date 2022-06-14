@@ -76,7 +76,7 @@ int	ft_check_re_dir(t_bash **bash, int i, char *line)
 	{
 		if (pipe(pip) == -1)
 		{
-			write(2, "error: could not create pipe\n", 32);
+			fd_printf(2, "error: could not create pipe\n");
 			exit(errno);
 		}
 		while (1)
@@ -108,7 +108,6 @@ void	ft_execve(t_bash **bash, char **envp, char *line, int def)
 	int	i;
 
 	i = 0;
-	(void)line;
 	if ((*bash)->re_dir)
 	{
 		while ((*bash)->cmd[i] != 0)

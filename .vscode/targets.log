@@ -8,7 +8,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This program built for i386-apple-darwin11.3.0
  
 
-# Make data base, printed on Tue Jun 14 13:17:43 2022
+# Make data base, printed on Tue Jun 14 15:40:08 2022
 
 # Variables
 
@@ -30,7 +30,6 @@ VSCODE_LOG_NATIVE = false
 @F = $(notdir $@)
 # makefile
 CURDIR := /Users/fdrudi/42_Cursus/42_minishell
- 
 # makefile
 SHELL = /bin/sh
 # makefile (from `Makefile', line 29)
@@ -84,7 +83,7 @@ VSCODE_CODE_CACHE_PATH = /Users/fdrudi/Library/Application Support/Code/CachedDa
 # environment
 LOGNAME = fdrudi
 # environment
-APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
 # environment
 ZSH = /Users/fdrudi/.oh-my-zsh
 # environment
@@ -118,6 +117,7 @@ TERM_SESSION_ID = w0t0p0:B75E4314-AF4B-4226-8F1A-C0F74ACFB056
 # makefile (from `Makefile', line 13)
 NAME = minishell
 # environment
+ 
 LESS = -R
 # automatic
 %D = $(patsubst %/,%,$(dir $%))
@@ -208,7 +208,7 @@ VSCODE_PID = 36518
 SRC/builtin/unset.o: SRC/builtin/unset.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `SRC/builtin/unset'
-#  Last modified 2022-06-14 13:17:19
+#  Last modified 2022-06-14 15:40:00
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -220,7 +220,7 @@ SRC/builtin/unset.o: SRC/builtin/unset.c
 # Not a target:
 SRC/ft_replace.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-06-14 13:14:43
+#  Last modified 2022-06-14 15:32:16
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -239,7 +239,7 @@ all: minishell
 SRC/signals.o: SRC/signals.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `SRC/signals'
-#  Last modified 2022-06-14 13:17:19
+#  Last modified 2022-06-14 15:40:00
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -265,7 +265,7 @@ SRC/main.c:
 SRC/parse.o: SRC/parse.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `SRC/parse'
-#  Last modified 2022-06-14 13:17:18
+#  Last modified 2022-06-14 15:39:59
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -292,7 +292,7 @@ SRC/execute.c:
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-06-14 13:17:17
+#  Last modified 2022-06-14 15:39:59
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -301,7 +301,7 @@ Makefile:
 SRC/builtin/check_builtin.o: SRC/builtin/check_builtin.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `SRC/builtin/check_builtin'
-#  Last modified 2022-06-14 13:17:19
+#  Last modified 2022-06-14 15:39:59
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -313,16 +313,17 @@ SRC/builtin/check_builtin.o: SRC/builtin/check_builtin.c
 # Not a target:
 SRC/builtin/builtin.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-06-13 16:35:43
+#  Last modified 2022-06-14 15:17:57
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
+ 
 SRC/list_utils.o: SRC/list_utils.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `SRC/list_utils'
-#  Last modified 2022-06-14 13:17:19
+#  Last modified 2022-06-14 15:39:59
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -333,7 +334,6 @@ SRC/list_utils.o: SRC/list_utils.c
 
 # Not a target:
 SRC/builtin/unset.c:
- 
 #  Implicit rule search has been done.
 #  Last modified 2022-06-14 11:01:44
 #  File has been updated.
@@ -353,7 +353,7 @@ SRC/path.c:
 SRC/ms_split.o: SRC/ms_split.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `SRC/ms_split'
-#  Last modified 2022-06-14 13:17:18
+#  Last modified 2022-06-14 15:39:59
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -364,7 +364,7 @@ SRC/ms_split.o: SRC/ms_split.c
 
 minishell: libft/libft.a SRC/main.o SRC/path.o SRC/ms_split.o SRC/ft_replace.o SRC/parse.o SRC/list_utils.o SRC/execute.o SRC/builtin/check_builtin.o SRC/builtin/builtin.o SRC/builtin/echo.o SRC/builtin/chdir.o SRC/builtin/export.o SRC/builtin/unset.o SRC/signals.o
 #  Implicit rule search has not been done.
-#  Last modified 2022-06-14 13:17:19
+#  Last modified 2022-06-14 15:40:00
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -375,7 +375,7 @@ minishell: libft/libft.a SRC/main.o SRC/path.o SRC/ms_split.o SRC/ft_replace.o S
 
 libft/libft.a:
 #  Implicit rule search has not been done.
-#  Last modified 2022-06-14 13:10:21
+#  Last modified 2022-06-14 15:28:05
 #  File has been updated.
 #  Successfully updated.
 #  commands to execute (from `Makefile', line 39):
@@ -403,7 +403,7 @@ fclean: clean
 SRC/builtin/echo.o: SRC/builtin/echo.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `SRC/builtin/echo'
-#  Last modified 2022-06-14 13:17:19
+#  Last modified 2022-06-14 15:39:59
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -423,7 +423,7 @@ norm:
 # Not a target:
 SRC/parse.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-06-14 12:13:56
+#  Last modified 2022-06-14 15:39:11
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -432,7 +432,7 @@ SRC/parse.c:
 SRC/builtin/export.o: SRC/builtin/export.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `SRC/builtin/export'
-#  Last modified 2022-06-14 13:17:19
+#  Last modified 2022-06-14 15:40:00
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -467,7 +467,7 @@ SRC/builtin/check_builtin.c:
 SRC/builtin/chdir.o: SRC/builtin/chdir.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `SRC/builtin/chdir'
-#  Last modified 2022-06-14 13:17:19
+#  Last modified 2022-06-14 15:39:59
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -503,7 +503,7 @@ clean:
 SRC/ft_replace.o: SRC/ft_replace.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `SRC/ft_replace'
-#  Last modified 2022-06-14 13:17:18
+#  Last modified 2022-06-14 15:39:59
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -529,7 +529,7 @@ SRC/ms_split.c:
 SRC/main.o: SRC/main.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `SRC/main'
-#  Last modified 2022-06-14 13:17:18
+#  Last modified 2022-06-14 15:39:59
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -541,7 +541,7 @@ SRC/main.o: SRC/main.c
 SRC/path.o: SRC/path.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `SRC/path'
-#  Last modified 2022-06-14 13:17:18
+#  Last modified 2022-06-14 15:39:59
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -562,7 +562,7 @@ SRC/builtin/echo.c:
 SRC/execute.o: SRC/execute.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `SRC/execute'
-#  Last modified 2022-06-14 13:17:19
+#  Last modified 2022-06-14 15:39:59
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -574,7 +574,7 @@ SRC/execute.o: SRC/execute.c
 # Not a target:
 SRC/builtin/export.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-06-14 11:01:44
+#  Last modified 2022-06-14 15:18:26
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -583,7 +583,7 @@ SRC/builtin/export.c:
 SRC/builtin/builtin.o: SRC/builtin/builtin.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `SRC/builtin/builtin'
-#  Last modified 2022-06-14 13:17:19
+#  Last modified 2022-06-14 15:39:59
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -599,6 +599,7 @@ SRC/builtin/chdir.c:
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
+ 
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
 # files hash-table stats:
@@ -614,7 +615,6 @@ SRC/builtin/chdir.c:
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4087 / max = 4087 / min = 4087 / avg = 4087
 
- 
-# Finished Make data base on Tue Jun 14 13:17:43 2022
+# Finished Make data base on Tue Jun 14 15:40:08 2022
 
  
