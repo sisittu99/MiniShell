@@ -96,7 +96,7 @@ int	main(int argc, char **argv, char **envp)
 
 
 /* 1) sistemare il find it
-   2) sistemare syntax error pipe/redir/ecc.
+   2) gestire digit '&' ??? (es. msg. err. : "bash: syntax error: `&' is disabled\n")
    3) gestire lo status di uscita delle builtin
    4) controllare gli errori delle altre e i loro messaggi
    5) pulizia, controlli che poi si comincia coi bonus belli a papà
