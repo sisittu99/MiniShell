@@ -260,8 +260,8 @@ int	ft_parse(t_bash **bash, char *line, char **envp)
 	{
 		line3 = find_var_to_replace(ft_strdup(tmp->line), envp, tmp->re_dir);
 		(tmp)->cmd = ms_split(line3);
-		ft_print_cmd((tmp)->cmd, i);
-		printf("Node: %d\t[%s]\tsep: %c   pipe: %d   re_dir: %c\n", i, line3, (tmp)->sep, (tmp)->pipe[0], (tmp)->re_dir);
+		// ft_print_cmd((tmp)->cmd, i);
+		// printf("Node: %d\t[%s]\tsep: %c   pipe: %d   re_dir: %c\n", i, line3, (tmp)->sep, (tmp)->pipe[0], (tmp)->re_dir);
 		tmp = (tmp)->next;
 		free(line3);
 		i++;
