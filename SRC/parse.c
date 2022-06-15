@@ -124,17 +124,40 @@ void	ft_init_node(t_bash **bash, char *line, int pos, int len)
 		sep[i++] = 0;
 }
 
+int	ft_syntax_err_b(char *line, int *def, int i)
+{
+	if (line[i] == '|' && line[i + 1] == ' ')
+	{
+		while (line[++i] == ' ')
+		{
+			if (line[i + 1] == '|')
+				return (fd_printf(2, "bash: syntax error near unexpected token `%c'\n", line[i + 1]));
+			if (line[i + 1] == '\0')
+				*def = i + 1;
+		}
+	}
+	return (0);
+}
+
 /* -> Controlla gli errori di Sintassi sui separatori <- */
 int	ft_syntax_err(char *line, int i)
 {
 	if (line[i] == '|' && line[i + 1] != '|')
-		return (fd_printf(2, "bash: syntax error near unexpected token `|'\n")); // AGGIUNGERE CONTROLLI >> << //
+		return (fd_printf(2, "bash: syntax error near unexpected token `|'\n"));
 	else if (line[i] == '&' && line[i + 1] != '&')
 		return (fd_printf(2, "bash: syntax error near unexpected token `&'\n"));
 	else if (line[i] == '|' && line[i + 1] == '|')
 		return (fd_printf(2, "bash: syntax error near unexpected token `||'\n"));
 	else if (line[i] == '&' && line[i + 1] == '&')
 		return (fd_printf(2, "bash: syntax error near unexpected token `&&'\n"));
+	else if ((line[i] == '<' && line[i + 1] != '<'))
+		return (fd_printf(2, "bash: syntax error near unexpected token `<'\n"));
+	else if ((line[i] == '>' && line[i + 1] != '>'))
+		return (fd_printf(2, "bash: syntax error near unexpected token `>'\n"));
+	else if ((line[i] == '<' && line[i + 1] == '<'))
+		return (fd_printf(2, "bash: syntax error near unexpected token `<<'\n"));
+	else if ((line[i] == '>' && line[i + 1] == '>'))
+		return (fd_printf(2, "bash: syntax error near unexpected token `>>'\n"));
 	return (0);
 }
 
@@ -159,7 +182,7 @@ int	ft_check_sep(t_bash **bash, char *line, int *i, int *j)
 		if ((line[*i] == '|' && line[*i + 1] == '|')
 			|| (line[*i] == '&' && line[*i + 1] == '&'))
 		{
-			if (ft_syntax_err(line, (*i + 1)) != 0)
+			if (ft_syntax_err(line, (*i + 2)) != 0)
 				return (0);
 			ft_init_node(bash, line, *j, (*i - *j));
 			*j = *i + 1;
@@ -174,7 +197,7 @@ int	ft_check_sep(t_bash **bash, char *line, int *i, int *j)
 		if ((line[*i] == '<' && line[*i + 1] == '<')
 			|| (line[*i + 1] == '>' && line[*i + 1] == '>'))
 		{
-			if (ft_syntax_err(line, (*i + 1)) != 0)
+			if (ft_syntax_err(line, (*i + 2)) != 0)
 				return (0);
 			ft_init_node(bash, line, *j, (*i - *j));
 			// *j = *i + 1;
@@ -222,6 +245,8 @@ int	ft_parse(t_bash **bash, char *line, char **envp)
 	{
 		if (ft_check_sep(bash, line2, &i, &j) == 0)
 			return (0);
+		if (ft_syntax_err_b(line2, &j, i) != 0)
+			return (0);
 	}
 	if (j < i)
 		ft_init_node(bash, line2, j, (i - j));
@@ -231,8 +256,8 @@ int	ft_parse(t_bash **bash, char *line, char **envp)
 	{
 		line3 = find_var_to_replace(ft_strdup(tmp->line), envp, tmp->re_dir);
 		(tmp)->cmd = ms_split(line3);
-		// ft_print_cmd((tmp)->cmd, i);
-		// printf("Node: %d\t[%s]\tsep: %c   pipe: %d   re_dir: %c\n", i, line3, (tmp)->sep, (tmp)->pipe[0], (tmp)->re_dir);
+		ft_print_cmd((tmp)->cmd, i);
+		printf("Node: %d\t[%s]\tsep: %c   pipe: %d   re_dir: %c\n", i, line3, (tmp)->sep, (tmp)->pipe[0], (tmp)->re_dir);
 		tmp = (tmp)->next;
 		free(line3);
 		i++;

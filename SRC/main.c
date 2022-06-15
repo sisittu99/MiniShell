@@ -53,7 +53,6 @@ void	ft_command(t_bash **bash, struct sigaction *sa, char **envp, char **tmp)
 		{
 			if (ft_parse(bash, line, env) == 1)
 			{
-				printf("HERE!\n");
 				if ((*bash)->next != NULL || (*bash)->re_dir == '1')
 					ft_sig_define(sa, 1);
 				ft_execute(bash, env, &line);
@@ -65,7 +64,7 @@ void	ft_command(t_bash **bash, struct sigaction *sa, char **envp, char **tmp)
 					free(*tmp);
 				*tmp = ft_strdup(line);
 			}
-			if ((*bash)->envp)
+			if (*bash && (*bash)->envp)
 			{
 				ft_free(env);
 				env = ft_new_env((*bash)->envp, 0);

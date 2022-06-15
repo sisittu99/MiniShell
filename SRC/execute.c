@@ -227,6 +227,30 @@ void	ft_pipe(t_bash **bash, char **envp, char *line)
 	}
 }
 
+void	ft_check_new_cmd(t_bash **bash, char **cpy, char **envp)
+{
+	char	*line;
+	t_bash	*tmp;
+
+	tmp = *bash;
+	while (tmp->next != NULL)
+		tmp = tmp->next;
+	if (((tmp->pipe[0] != 0 && tmp->pipe[1] != 0) ||
+		(tmp->sep == '|' || tmp->sep == '&')) && tmp->next == NULL)
+	{
+		add_history(*cpy);
+		line = readline("> ");
+		if (!line)
+		{
+			fd_printf(2, "bash: syntax error: unexpected end of file\n");
+			fd_printf(1, "\nExit\n");
+			exit(2);
+		}
+		ft_parse(bash, line, envp);
+	}
+	return ;
+}
+
 /* -> Gestisce l'esecuzione dei comandi, facendo controlli sia sui separatori,
 	  che sui redirect, che sulle funzioni Builtin, ecc... <- */
 void	ft_execute(t_bash **bash, char **envp, char **line)
@@ -234,6 +258,7 @@ void	ft_execute(t_bash **bash, char **envp, char **line)
 	t_bash	*tmp;
 
 	tmp = *bash;
+	ft_check_new_cmd(&tmp, line, envp);
 	if ((*bash)->next == NULL)
 	{
 		ft_lonely_cmd(bash, envp, ft_strjoin(*line, "\n"));
