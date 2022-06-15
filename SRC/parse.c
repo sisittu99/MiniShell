@@ -126,11 +126,15 @@ void	ft_init_node(t_bash **bash, char *line, int pos, int len)
 
 int	ft_syntax_err_b(char *line, int *def, int i)
 {
-	if (line[i] == '|' && line[i + 1] == ' ')
+	if ((line[i] == '>' || line[i] == '<') && line[i + 1] == '\0')
+		return (fd_printf(2, "bash: syntax error near unexpected token `newline'\n"));
+	else if ((line[i] == '|' || line[i] == '<' || line[i] == '>')
+		 && line[i + 1] == ' ')
 	{
 		while (line[++i] == ' ')
 		{
-			if (line[i + 1] == '|')
+			if (line[i + 1] == '|' || line[i + 1] == '<'
+				|| line[i + 1] == '>')
 				return (fd_printf(2, "bash: syntax error near unexpected token `%c'\n", line[i + 1]));
 			if (line[i + 1] == '\0')
 				*def = i + 1;
