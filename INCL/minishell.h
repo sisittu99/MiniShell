@@ -92,11 +92,12 @@ char	**ft_builtin_assgn(void);
 int		ft_check_builtin(char *cmd);
 void	ft_exec_builtin(t_bash **bash, char **envp, int def);
 int		ft_echo(char **cmd);
-int		ft_pwd(char **envp);
+int		ft_pwd(char **cmd, char **envp);
 int		ft_cd(t_bash **bash, char **cmd, char **envp);
-int		ft_env(char **envp);
+int		ft_env(char **cmd, char **envp);
 int		ft_unset(t_bash **bash, char **cmd, char **envp);
 void	ft_exit(char **cmd);
+int		ft_invalid_option(char **cmd);
 
 // * EXPORT * //
 

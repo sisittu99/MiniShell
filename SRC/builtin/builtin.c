@@ -1,20 +1,25 @@
 #include "../../INCL/minishell.h"
 
-int	ft_pwd(char **envp)
+int	ft_pwd(char **cmd, char **envp)
 {
 	int		*index;
 
+	if (ft_invalid_option(cmd) == 1)
+		return (1);
 	index = find_it(envp, "PWD");
-	printf("%s\n", ft_substr(envp[index[0]],
+	if (index != NULL)
+		printf("%s\n", ft_substr(envp[index[0]],
 				index[1] + 2, ft_strlen(envp[index[0]]) - index[1]));
 	return (0);
 }
 
-int	ft_env(char **envp)
+int	ft_env(char **cmd, char **envp)
 {
 	int	i;
 
 	i = 0;
+	if (ft_invalid_option(cmd) == 1)
+		return (1);
 	while (envp[i])
 	{
 		if (ft_strchr(envp[i], '=') != 0)

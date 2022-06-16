@@ -146,6 +146,8 @@ int	ft_export(t_bash **bash, char **cmd, char **envp)
 	j = 0;
 	if (cmd[1] == NULL)
 		return (ft_lonely_export(envp));
+	if (ft_invalid_option(cmd) == 1)
+		return (1);
 	if (((*bash)->pipe[0] == 0 && (*bash)->pipe[1] == 0)
 		&& (*bash)->next == NULL)
 		(*bash)->envp = ft_new_env(envp, 0);
@@ -156,7 +158,7 @@ int	ft_export(t_bash **bash, char **cmd, char **envp)
 		{
 			if (!ft_isalpha(cmd[i][j]) && !ft_isdigit(cmd[i][j]) && cmd[i][j] != '_')
 			{
-				fd_printf(2, "export: `%s\': not a valid identifier\n", cmd[i]);
+				fd_printf(2, "bash: export: `%s\': not a valid identifier\n", cmd[i]);
 				status = 1;
 				break ;
 			}

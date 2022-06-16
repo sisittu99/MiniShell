@@ -55,6 +55,8 @@ int	ft_unset(t_bash **bash, char **cmd, char **envp)
 
 	if (cmd[1] == NULL)
 		return (0);
+	if (ft_invalid_option(cmd) == 1)
+		return (1);
 	new = ft_new_env(envp, 0);
 	i = 1;
 	while (cmd[i])

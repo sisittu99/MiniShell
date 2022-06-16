@@ -45,6 +45,7 @@ int	ft_check_re_dir(t_bash **bash, int i, char *line)
 
 	if ((*bash)->proc == 0)
 	{
+		printf("???\n");
 		sigaction(SIGINT, &sa, NULL);
 		sigaction(SIGQUIT, &sa, NULL);
 	}
@@ -106,7 +107,7 @@ int	ft_check_re_dir(t_bash **bash, int i, char *line)
 void	ft_execve(t_bash **bash, char **envp, char *line, int def)
 {
 	int	i;
-
+	
 	i = 0;
 	if ((*bash)->re_dir)
 	{

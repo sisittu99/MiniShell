@@ -7,10 +7,14 @@ int	ft_cd(t_bash **bash, char **cmd, char **envp)
 	int		res;
 	char	*new_pwd;
 
+	dir = NULL;
+	if (ft_invalid_option(cmd) == 1)
+		return (1);
 	if (cmd[1] == NULL)
 	{
 		index = find_it(envp, "HOME");
-		dir = ft_substr(envp[index[0]], index[1] + 1,
+		if (index != NULL)
+			dir = ft_substr(envp[index[0]], index[1] + 1,
 						ft_strlen(envp[index[0]]));
 	}
 	// else

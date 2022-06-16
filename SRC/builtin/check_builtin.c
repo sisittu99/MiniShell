@@ -7,13 +7,13 @@ void	ft_exec_builtin(t_bash **bash, char **envp, int def)
 	else if ((*bash)->built == 1)
 		exit_status = ft_cd(bash, (*bash)->cmd, envp);
 	else if ((*bash)->built == 2)
-		exit_status = ft_pwd(envp);
+		exit_status = ft_pwd((*bash)->cmd, envp);
 	else if ((*bash)->built == 3)
 		exit_status = ft_export(bash, (*bash)->cmd, envp);
 	else if ((*bash)->built == 4)
 		exit_status = ft_unset(bash, (*bash)->cmd, envp);
 	else if ((*bash)->built == 5)
-		exit_status = ft_env(envp);
+		exit_status = ft_env((*bash)->cmd, envp);
 	else if ((*bash)->built == 6)
 		ft_exit((*bash)->cmd);
 	if (def == 1)
@@ -58,4 +58,14 @@ int	ft_check_builtin(char *cmd)
 		i++;
 	}
 	return (-1);
+}
+
+int	ft_invalid_option(char **cmd)
+{
+	if (cmd[1][0] == '-')
+	{
+		fd_printf(2, "bash: %s: %s: invalid option\n", cmd[0], cmd[1]);
+		return (1);
+	}
+	return (0);
 }
