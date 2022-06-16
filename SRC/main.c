@@ -46,7 +46,10 @@ void	ft_command(t_bash **bash, struct sigaction *sa, char **envp, char **tmp)
 	while (1)
 	{
 		ft_sig_define(sa, 0);
-		line = readline("bash-biutiful>$ ");
+		if (exit_status != 0)
+			line = readline(BOLDRED"bash-st00pid>$ "RESET);
+		else
+			line = readline(BOLDGREEN"bash-biutiful>$ "RESET);
 		if (!line)
 			ft_control_d(line);
 		if (*line)

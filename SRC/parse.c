@@ -82,10 +82,7 @@ char	*find_var_to_replace(char *line, char **envp, char re_dir)
 			pos_apex[1] = ms_strchr(line, (pos_apex[0] + 1), '\'');
 		}
 		if (!(pos_apex[0] < pos_dollar && pos_dollar < pos_apex[1]) && re_dir != '1')
-		{
 			ft_replace(&line, envp, pos_dollar, &i);
-			i++;
-		}
 		else if (pos_apex[0] < pos_dollar && pos_dollar < pos_apex[1])
 			i = pos_apex[1] + 1;
 		else
