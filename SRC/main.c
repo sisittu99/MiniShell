@@ -98,8 +98,7 @@ int	main(int argc, char **argv, char **envp)
 }
 
 
-/* 1) sistemare il find it
-   3) gestire lo status di uscita delle builtin
-   4) controllare gli errori delle altre e i loro messaggi
+/* 1) sistemare il find it.
+   2) pwd in segfault?!
    5) pulizia, controlli che poi si comincia coi bonus belli a papà
    6) leaks */
