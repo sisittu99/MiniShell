@@ -37,7 +37,6 @@ void	ft_control_d(char *line)
 
 void	ft_sig_default(int sig)
 {
-	(void)sig;
 	if (sig == SIGINT)
 	{
 		rl_replace_line("", 0);
@@ -50,3 +49,4 @@ void	ft_sig_default(int sig)
 		exit(0);
 	}
 }
+

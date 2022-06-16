@@ -6,7 +6,7 @@
 /*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 18:35:10 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/14 12:45:02 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/16 12:49:21 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,9 @@ int	ft_unsigned_putnbr(unsigned int n, int fd);
 int	ft_hex_putnbr(unsigned int n, char *hex, int fd);
 int	ft_point_print(unsigned long n, char *hex, int fd);
 int	ft_point_putnbr(unsigned long n, char *hex, int fd);
+
+// * FT_GNL * //
+
+char *ft_get_next_line(int fd);
 
 #endif

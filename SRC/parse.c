@@ -126,7 +126,10 @@ void	ft_init_node(t_bash **bash, char *line, int pos, int len)
 
 int	ft_syntax_err_b(char *line, int *def, int i)
 {
-	if ((line[i] == '>' || line[i] == '<') && line[i + 1] == '\0')
+	if (((line[i] == '|' || line[i] == '<' || line[i] == '>')
+		 && line[i + 1] == '&') || (line[i] == '&' && line[i + 1] != '&'))
+		return (fd_printf(2, "bash: syntax error: token `&' has been disabled\n"));
+	else if ((line[i] == '>' || line[i] == '<') && line[i + 1] == '\0')
 		return (fd_printf(2, "bash: syntax error near unexpected token `newline'\n"));
 	else if ((line[i] == '|' || line[i] == '<' || line[i] == '>')
 		 && line[i + 1] == ' ')
@@ -249,7 +252,7 @@ int	ft_parse(t_bash **bash, char *line, char **envp)
 	{
 		if (ft_check_sep(bash, line2, &i, &j) == 0)
 			return (0);
-		if (ft_syntax_err_b(line2, &j, i) != 0)
+		if (ft_syntax_err_b(line2, &j, i - 1) != 0)
 			return (0);
 	}
 	if (j < i)
