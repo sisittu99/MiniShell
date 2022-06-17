@@ -58,6 +58,7 @@ typedef struct s_bash
 
 
 char	**ft_new_env(char **mat, int def);
+char	**wd_split(const char *s, char c);
 
 // * GLOBAL VARIABLE * //
 
@@ -78,7 +79,7 @@ void	rl_replace_line(const char *text, int clear_undo);
 
 int		ft_parse(t_bash **bash, char *line, char **envp);
 char	**ms_split(char *s);
-void	ft_replace(char **s, char *envp[], int pos, int *ret_i);
+void	ft_replace(char **s, char **envp, int pos, int *ret_i);
 char	*ft_delete_char(char *s, int pos);
 int		ms_strchr(char *s, int pos, char c);
 

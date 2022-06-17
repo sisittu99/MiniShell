@@ -6,17 +6,18 @@
 #    By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/22 15:36:33 by fdrudi            #+#    #+#              #
-#    Updated: 2022/06/14 15:39:59 by fdrudi           ###   ########.fr        #
+#    Updated: 2022/06/17 12:38:02 by fdrudi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	minishell
 
-SRC			=	./SRC/main.c ./SRC/path.c ./SRC/ms_split.c ./SRC/ft_replace.c\
-				./SRC/parse.c ./SRC/list_utils.c ./SRC/execute.c\
+SRC			=	./SRC/main.c ./SRC/path.c ./SRC/ms_split.c ./SRC/ft_replace.c \
+				./SRC/parse.c ./SRC/list_utils.c ./SRC/execute.c \
 				./SRC/builtin/check_builtin.c ./SRC/builtin/builtin.c \
 				./SRC/builtin/echo.c ./SRC/builtin/chdir.c \
-				./SRC/builtin/export.c ./SRC/builtin/unset.c ./SRC/signals.c\
+				./SRC/builtin/export.c ./SRC/builtin/unset.c ./SRC/signals.c \
+				./SRC/wd_split.c \
 
 OBJ			=	$(SRC:.c=.o)
 
@@ -28,7 +29,7 @@ CC			=	gcc #-fsanitize=address
 
 RM			=	rm -f
 
-CFLAGS		=	-Wall -Wextra -Werror
+CFLAGS		=	#-Wall -Wextra -Werror
 
 %.o:%.c
 			$(CC) -g $(CFLAGS) -c $< -o $@

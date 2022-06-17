@@ -16,7 +16,7 @@ int	*ms_bzero(int size)
 	return (cp);
 }
 
-void	ft_find_tilde(char **line, char **envp, char re_dir)
+void	ft_find_tilde(char **line, char **envp, char re_dir, char c)
 {
 	int	pos;
 	int	pos_apex[4];
@@ -27,7 +27,7 @@ void	ft_find_tilde(char **line, char **envp, char re_dir)
 	pos_apex[1] = 1;
 	pos_apex[2] = 0;
 	pos_apex[3] = 1;
-	pos = ms_strchr(*line, i, '~');
+	pos = ms_strchr(*line, i, c);
 	while (pos != -1)
 	{
 		if (pos_apex[0] < pos_apex[1])
@@ -70,7 +70,8 @@ char	*find_var_to_replace(char *line, char **envp, char re_dir)
 	int	i;
 
 	i = 0;
-	ft_find_tilde(&line, envp, re_dir);
+	ft_find_tilde(&line, envp, re_dir, '~');
+	ft_find_tilde(&line, envp, re_dir, '*');
 	pos_dollar = ms_strchr(line, i, '$');
 	pos_apex[0] = 0;
 	pos_apex[1] = 1;
