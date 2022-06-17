@@ -57,12 +57,18 @@ typedef struct s_bash
 }				t_bash;
 
 
-char	**ft_new_env(char **mat, int def);
-char	**wd_split(const char *s, char c);
 
 // * GLOBAL VARIABLE * //
 
 int		exit_status;
+
+// * WILDCARD * //
+
+char	*ft_wildcard(char *s, char *pwd, int pos, int *ret_i);
+char	*ft_find_wildcard(char *s, int *pos);
+int		ft_check_wildcard(char **wild, char *name);
+char	**wd_split(const char *s, char c);
+int		wd_strncmp(char **s1, char *s2, int *pos, int j);
 
 // * SIGNALS * //
 
@@ -80,6 +86,8 @@ void	rl_replace_line(const char *text, int clear_undo);
 int		ft_parse(t_bash **bash, char *line, char **envp);
 char	**ms_split(char *s);
 void	ft_replace(char **s, char **envp, int pos, int *ret_i);
+char	*ft_replace_help(char *s, char **envp, int pos, int *ret_i);
+char	*ft_replace_tilde(char *s, char **envp, int pos, int *ret_i);
 char	*ft_delete_char(char *s, int pos);
 int		ms_strchr(char *s, int pos, char c);
 
@@ -110,6 +118,10 @@ void	ft_env_var_found(char *cmd, t_bash **bash, int index[3]);
 char	**ft_path(char **envp);
 char	*ft_access(char *cmd, char **path);
 int		*find_it(char **envp, char *to_find);
+
+// * UTILS * //
+
+char	**ft_new_env(char **mat, int def);
 
 // * LIST UTILS * //
 

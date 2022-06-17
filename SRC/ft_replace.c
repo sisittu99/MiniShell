@@ -64,49 +64,7 @@ int	ft_check_var(char *s, int pos)
 	return (0);
 }
 
-char	*ft_find_wildcard(char *s, int *pos)
-{
-	int		i;
-	char	*tmp;
-
-	while (*pos > 0 && s[*pos] != ' ')
-		*pos--;
-	if (*pos < 0)
-		pos = 0;
-	i = *pos + 1;
-	while (s[i] != ' ' && s[i] != '\0')
-		i++;
-	tmp = ft_substr(s, *pos, (i - *pos));
-	return (tmp);
-}
-
-char	*ft_wildcard(char *s, char **envp, int pos, int *ret_i)
-{
-	char			*s1;
-	char			*s2;
-	char			**wild;
-	char			*pwd;
-	DIR				*dir;
-	struct dirent	*rdir;
-
-	// pwd = (char *) malloc (sizeof(char) * 256);
-	// getcwd(pwd, 256);
-	// dir = opendir(pwd);
-	// if (dir == NULL)
-	// {
-	// 	fd_printf(2, "error: could not open dir\n");
-	// 	return (NULL);
-	// }
-	wild = wd_split(ft_find_wildcard(s, &pos), '*');
-	exit(0);
-	s1 = ft_substr(s, 0, pos);
-	rdir = readdir(dir);
-	// while (rdir != NULL)
-	// {
-
-	// }
-}
-
+/* -> Funzione che sostituisce la tilde con la path HOME <-*/
 char	*ft_replace_tilde(char *s, char **envp, int pos, int *ret_i)
 {
 	char	*s1;
@@ -132,6 +90,7 @@ char	*ft_replace_tilde(char *s, char **envp, int pos, int *ret_i)
 	return (s);
 }
 
+/* -> Funzione helper per la funzione Replace <- */
 char	*ft_replace_help(char *s, char **envp, int pos, int *ret_i)
 {
 	char	*s1;
@@ -181,28 +140,26 @@ char	*ft_replace_help(char *s, char **envp, int pos, int *ret_i)
 void	ft_replace(char **s, char **envp, int pos, int *ret_i)
 {
 	char	*tmp;
+	char	pwd[256];
 
-	tmp = NULL;
-	if ((*s)[pos] == '*')
+	tmp = ft_strdup(*s);
+	free(*s);
+	if (tmp[pos] == '*')
 	{
-		tmp = ft_strdup(*s);
-		free(*s);
-		(*s) = ft_wildcard(tmp, envp, pos, ret_i);
+		getcwd(pwd, sizeof(pwd));
+		(*s) = ft_wildcard(tmp, pwd, pos, ret_i);
 	}
-	else if ((*s)[pos] == '~')
-	{
-		tmp = ft_strdup(*s);
-		free(*s);
+	else if (tmp[pos] == '~')
 		(*s) = ft_replace_tilde(tmp, envp, pos, ret_i);
-	}
-	else if ((*s)[pos + 1] == '\0')
-		return ;
-	else if ((*s)[pos] == '$' && ((*s)[pos + 1] != '\"'))
+	else if (tmp[pos + 1] == '\0')
 	{
-		tmp = ft_strdup(*s);
-		free(*s);
-		(*s) = ft_replace_help(tmp, envp, pos, ret_i);
+		(*s) = ft_strdup(tmp);
+		free(tmp);
+		return ;
 	}
+	else if (tmp[pos] == '$' && ((*s)[pos + 1] != '\"'))
+		(*s) = ft_replace_help(tmp, envp, pos, ret_i);
+	free(tmp);
 	return ;
 }
 

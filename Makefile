@@ -6,7 +6,7 @@
 #    By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/22 15:36:33 by fdrudi            #+#    #+#              #
-#    Updated: 2022/06/17 12:38:02 by fdrudi           ###   ########.fr        #
+#    Updated: 2022/06/17 17:33:17 by fdrudi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ SRC			=	./SRC/main.c ./SRC/path.c ./SRC/ms_split.c ./SRC/ft_replace.c \
 				./SRC/builtin/check_builtin.c ./SRC/builtin/builtin.c \
 				./SRC/builtin/echo.c ./SRC/builtin/chdir.c \
 				./SRC/builtin/export.c ./SRC/builtin/unset.c ./SRC/signals.c \
-				./SRC/wd_split.c \
+				./SRC/wd_split.c ./SRC/wildcard.c \
 
 OBJ			=	$(SRC:.c=.o)
 

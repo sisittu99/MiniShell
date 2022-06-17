@@ -37,26 +37,25 @@ static char	**wds_assign(const char *s, char c, char **dest, size_t len)
 	{
 		if (s[i] != c && j < 0)
 			j = i;
+		else if (s[i] == c && j < 0)
+			dest[x++] = ft_strdup("*");
 		else if ((s[i] == c || i == len) && j >= 0)
 		{
-			dest[x++] = ft_strdup("*");
 			dest[x++] = ft_substr(s, j, (i - j));
-			if (s[i] == c && s[i + 1] == '\0')
+			if (s[i] == c)
 				dest[x++] = ft_strdup("*");
 			j = -1;
 		}
 		i++;
 	}
 	dest[x] = NULL;
-	i = 0;
-	while (dest[i] != NULL)
-	{
-		printf("%s\n", dest[i]);
-		i++;
-	}
 	return (dest);
 }
 
+/* -> Funzione split modificata per la wildcard.
+	  Suddivide tutte le componenti della wildcard
+	  mantenendo anche il carattere passatole
+	  in una stringa separata dalle altre <- */
 char	**wd_split(const char *s, char c)
 {
 	char	**dest;
