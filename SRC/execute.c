@@ -107,7 +107,7 @@ int	ft_check_re_dir(t_bash **bash, int i, char *line)
 void	ft_execve(t_bash **bash, char **envp, char *line, int def)
 {
 	int	i;
-	
+
 	i = 0;
 	if ((*bash)->re_dir)
 	{
@@ -252,13 +252,34 @@ void	ft_check_new_cmd(t_bash **bash, char **cpy, char **envp)
 	return ;
 }
 
+int	ft_end_or(t_bash **bash, char **envp, char *line, int def)
+{
+	if (def == 0)
+		ft_lonely_cmd(bash, envp, line);
+	if ((*bash)->sep == '&')
+	{
+		if (exit_status != 0)
+			return (0);
+		return (1);
+	}
+	else if ((*bash)->sep == '|')
+	{
+		if (exit_status != 0)
+			return (1);
+		return (0);
+	}
+	return (1);
+}
+
 /* -> Gestisce l'esecuzione dei comandi, facendo controlli sia sui separatori,
 	  che sui redirect, che sulle funzioni Builtin, ecc... <- */
 void	ft_execute(t_bash **bash, char **envp, char **line)
 {
 	t_bash	*tmp;
+	int		def;
 
 	tmp = *bash;
+	def = 0;
 	ft_check_new_cmd(&tmp, line, envp);
 	if ((*bash)->next == NULL)
 	{
@@ -269,7 +290,19 @@ void	ft_execute(t_bash **bash, char **envp, char **line)
 	{
 		if ((tmp->pipe[0] != 0 && tmp->pipe[1] != 0)
 			&& tmp->next != NULL)
+		{
 			ft_pipe(&tmp, envp, ft_strjoin(*line, "\n"));
+			def = 1;
+		}
+		if (tmp->sep == '|' || tmp->sep == '&')
+		{
+			if (ft_end_or(&tmp, envp, ft_strjoin(*line, "\n"), def) == 0)
+				return ;
+			tmp = (tmp)->next;
+			if (tmp->next == NULL)
+				ft_lonely_cmd(&tmp, envp, ft_strjoin(*line, "\n"));
+			def = 0;
+		}
 		tmp = (tmp)->next;
 	}
 	return ;

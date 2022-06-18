@@ -124,10 +124,13 @@ void	ft_init_node(t_bash **bash, char *line, int pos, int len)
 
 int	ft_syntax_err_b(char *line, int *def, int i)
 {
-	if (((line[i] == '|' || line[i] == '<' || line[i] == '>')
-		 && line[i + 1] == '&') || (line[i] == '&' && line[i + 1] != '&'))
+	if ((line[i] == '|' || line[i] == '<' || line[i] == '>')
+		 && line[i + 1] == '&')
 		return (fd_printf(2, "bash: syntax error: token `&' has been disabled\n"));
-	else if ((line[i] == '>' || line[i] == '<') && line[i + 1] == '\0')
+	else if ((line[i] == '&' && line[i + 1] != '&') || (line[i] == '&' && line[i + 1] == '\0'))
+		return (fd_printf(2, "bash: syntax error: token `&' has been disabled\n"));
+	else if ((line[i] == '>' || line[i] == '<') && (line[i + 1] == '\0'
+				|| line[i + 1] == '|' || line[i + 1] == '&'))
 		return (fd_printf(2, "bash: syntax error near unexpected token `newline'\n"));
 	else if ((line[i] == '|' || line[i] == '<' || line[i] == '>')
 		 && line[i + 1] == ' ')
@@ -175,40 +178,40 @@ int	ft_check_sep(t_bash **bash, char *line, int *i, int *j)
 	if ((line[*i] == '\'' || line[*i] == '\"'))
 	{
 		typequote = line[*i];
-		*i += 1;
-		if (line[*i] == typequote)
-			*i += 1;
-		else if (ms_strchr(line, *i, typequote) > -1)
-			while (line[*i] != typequote)
-				*i += 1;
+		(*i) += 1;
+		if (line[(*i)] == typequote)
+			(*i) += 1;
+		else if (ms_strchr(line, (*i), typequote) > -1)
+			while (line[(*i)] != typequote)
+				(*i) += 1;
 	}
-	if (line[*i] == '|' || (line[*i] == '&' && line[*i + 1] == '&'))
+	if (line[(*i)] == '|' || (line[(*i)] == '&' && line[(*i) + 1] == '&'))
 	{
-		if ((line[*i] == '|' && line[*i + 1] == '|')
-			|| (line[*i] == '&' && line[*i + 1] == '&'))
+		if ((line[(*i)] == '|' && line[(*i) + 1] == '|')
+			|| (line[(*i)] == '&' && line[(*i) + 1] == '&'))
 		{
-			if (ft_syntax_err(line, (*i + 2)) != 0)
+			if (ft_syntax_err(line, ((*i) + 2)) != 0)
 				return (0);
-			ft_init_node(bash, line, *j, (*i - *j));
-			*j = *i + 1;
-			*i += 1;
+			ft_init_node(bash, line, (*j), ((*i) - (*j)));
+			(*j) = (*i) + 1;
+			(*i) += 1;
 		}
 		else
-			ft_init_node(bash, line, *j, (*i - *j));
-		*j = *i + 1;
+			ft_init_node(bash, line, (*j), ((*i) - (*j)));
+		(*j) = (*i) + 1;
 	}
-	else if (line[*i] == '<' || line[*i] == '>')
+	else if (line[(*i)] == '<' || line[(*i)] == '>')
 	{
-		if ((line[*i] == '<' && line[*i + 1] == '<')
-			|| (line[*i + 1] == '>' && line[*i + 1] == '>'))
+		if ((line[(*i)] == '<' && line[(*i) + 1] == '<')
+			|| (line[(*i) + 1] == '>' && line[(*i) + 1] == '>'))
 		{
-			if (ft_syntax_err(line, (*i + 2)) != 0)
+			if (ft_syntax_err(line, ((*i) + 2)) != 0)
 				return (0);
-			ft_init_node(bash, line, *j, (*i - *j));
-			// *j = *i + 1;
+			ft_init_node(bash, line, (*j), ((*i) - (*j)));
+			// (*j) = (*i) + 1;
 		}
 		else
-			ft_init_node(bash, line, *j, (*i - *j));
+			ft_init_node(bash, line, (*j), ((*i) - (*j)));
 	}
 	return (1);
 }
@@ -248,9 +251,9 @@ int	ft_parse(t_bash **bash, char *line, char **envp)
 	line2 = ft_strdup(line);
 	while (line2[++i] != '\0')
 	{
-		if (ft_check_sep(bash, line2, &i, &j) == 0)
+		if (ft_syntax_err_b(line2, &j, i) != 0)
 			return (0);
-		if (ft_syntax_err_b(line2, &j, i - 1) != 0)
+		if (ft_check_sep(bash, line2, &i, &j) == 0)
 			return (0);
 	}
 	if (j < i)
@@ -261,8 +264,8 @@ int	ft_parse(t_bash **bash, char *line, char **envp)
 	{
 		line3 = find_var_to_replace(ft_strdup(tmp->line), envp, tmp->re_dir);
 		(tmp)->cmd = ms_split(line3);
-		ft_print_cmd((tmp)->cmd, i);
-		printf("Node: %d\t[%s]\tsep: %c   pipe: %d   re_dir: %c\n", i, line3, (tmp)->sep, (tmp)->pipe[0], (tmp)->re_dir);
+		// ft_print_cmd((tmp)->cmd, i);
+		// printf("Node: %d\t[%s]\tsep: %c   pipe: %d   re_dir: %c\n", i, line3, (tmp)->sep, (tmp)->pipe[0], (tmp)->re_dir);
 		tmp = (tmp)->next;
 		free(line3);
 		i++;
