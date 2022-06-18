@@ -83,6 +83,7 @@ int	main(int argc, char **argv, char **envp)
 	t_bash				*bash;
 	char				*tmp;		//DA METTERE IN STRUCT PERCHÉ RESTA ALLOCATA QUANDO SI ESCE DAL PROGRAMMA *** //
 	struct sigaction	sa;
+	int					fd;
 
 	(void)argv;
 	if (argc != 1)
@@ -92,6 +93,9 @@ int	main(int argc, char **argv, char **envp)
 	}
 	bash = NULL;
 	tmp = NULL;
+	fd = open("~/.inputrc", O_WRONLY | O_CREAT | O_APPEND, 0777);
+	fd_printf(fd, "set echo-control-characters Off");
+	close(fd);
 	ft_command(&bash, &sa, envp, &tmp);
 	free(tmp); //*** LEAKS ! (NON CI ARRIVERÀ MAI)//
 	return (exit_status);
@@ -99,6 +103,5 @@ int	main(int argc, char **argv, char **envp)
 
 
 /* 1) sistemare il find it.
-   2) pwd in segfault?!
    5) pulizia, controlli che poi si comincia coi bonus belli a papà
    6) leaks */
