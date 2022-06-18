@@ -4,7 +4,7 @@ int	ft_pwd(char **cmd, char **envp)
 {
 	int		*index;
 
-	if (ft_invalid_option(cmd) == 1)
+	if (ft_invalid_option(ft_new_env(cmd, 0)) == 1)
 		return (1);
 	index = find_it(envp, "PWD");
 	if (index != NULL)

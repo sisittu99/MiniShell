@@ -62,10 +62,13 @@ int	ft_check_builtin(char *cmd)
 
 int	ft_invalid_option(char **cmd)
 {
-	if (cmd[1][0] == '-')
+	if (cmd[1] != NULL)
 	{
-		fd_printf(2, "bash: %s: %s: invalid option\n", cmd[0], cmd[1]);
-		return (1);
+		if (cmd[1][0] == '-')
+		{
+			fd_printf(2, "bash: %s: %s: invalid option\n", cmd[0], cmd[1]);
+			return (1);
+		}
 	}
 	return (0);
 }
