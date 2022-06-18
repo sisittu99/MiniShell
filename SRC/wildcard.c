@@ -29,7 +29,6 @@ int	ft_check_wildcard(char **wild, char *name)
 {
 	int	i;
 	int	j;
-	int z;
 
 	i = 0;
 	j = 0;
@@ -85,10 +84,12 @@ char	*ft_wildcard(char *s, char *pwd, int pos, int *ret_i)
 {
 	char			*s1;
 	char			*s2;
+	char			*s3;
 	char			**wild;
 	DIR				*dir;
 	struct dirent	*rdir;
 
+	s3 = NULL;
 	dir = opendir(pwd);
 	if (dir == NULL)
 	{
@@ -108,6 +109,14 @@ char	*ft_wildcard(char *s, char *pwd, int pos, int *ret_i)
 			free(s2);
 		}
 		rdir = readdir(dir);
+	}
+	*ret_i = ft_strlen(s1);
+	while (s[pos] != ' ' && s[pos] != '\0')
+		pos++;
+	if (s[pos] != '\0')
+	{
+		s3 =ft_substr(s, pos, (ft_strlen(s) - pos));
+		return (ft_strjoin(s1, s3));
 	}
 	closedir(dir);
 	ft_free(wild);

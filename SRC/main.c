@@ -94,6 +94,7 @@ int	main(int argc, char **argv, char **envp)
 	bash = NULL;
 	tmp = NULL;
 	fd = open("~/.inputrc", O_WRONLY | O_CREAT | O_APPEND, 0777);
+
 	fd_printf(fd, "set echo-control-characters Off");
 	close(fd);
 	ft_command(&bash, &sa, envp, &tmp);

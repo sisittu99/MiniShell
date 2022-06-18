@@ -56,7 +56,7 @@ void	ft_find_tilde(char **line, char **envp, char re_dir, char c)
 			i = pos_apex[3] + 1;
 		else
 			i++;
-		pos = ms_strchr(*line, i, '~');
+		pos = ms_strchr(*line, i, c);
 	}
 
 }

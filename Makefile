@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+         #
+#    By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/22 15:36:33 by fdrudi            #+#    #+#              #
-#    Updated: 2022/06/17 17:33:17 by fdrudi           ###   ########.fr        #
+#    Updated: 2022/06/18 12:57:14 by mcerchi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ CC			=	gcc #-fsanitize=address
 
 RM			=	rm -f
 
-CFLAGS		=	#-Wall -Wextra -Werror
+CFLAGS		=	-Wall -Wextra -Werror
 
 %.o:%.c
 			$(CC) -g $(CFLAGS) -c $< -o $@

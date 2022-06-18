@@ -101,6 +101,8 @@ char	*ft_replace_help(char *s, char **envp, int pos, int *ret_i)
 	int		i;
 	int		j;
 
+	i = 0;
+	s2 = NULL;
 	j = ft_check_var(s, pos + 1);
 	if (j > 0 || j == -1)
 	{
@@ -159,7 +161,7 @@ void	ft_replace(char **s, char **envp, int pos, int *ret_i)
 	}
 	else if (tmp[pos] == '$' && ((*s)[pos + 1] != '\"'))
 		(*s) = ft_replace_help(tmp, envp, pos, ret_i);
-	free(tmp);
+	// free(tmp);
 	return ;
 }
 
