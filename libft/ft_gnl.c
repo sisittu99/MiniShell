@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_gnl.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
+/*   By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 12:47:37 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/16 12:48:59 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/18 15:48:07 by mcerchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int ft_strlen_gnl(char *s)
+int	ft_strlen_gnl(char *s)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!s)
@@ -24,10 +24,10 @@ int ft_strlen_gnl(char *s)
 	return (i);
 }
 
-char *ft_strjoin_gnl(char *s, char c)
+char	*ft_strjoin_gnl(char *s, char c)
 {
-	int i;
-	char *new;
+	int		i;
+	char	*new;
 
 	i = 0;
 	if (!s)
@@ -42,22 +42,26 @@ char *ft_strjoin_gnl(char *s, char c)
 	}
 	new[i++] = c;
 	new[i] = '\0';
-	free(s);
 	return (new);
 }
 
-char *ft_read_line(int fd, char *dst)
+char	*ft_read_line(int fd, char *dst)
 {
-	int len;
-	char buf;
+	int		len;
+	char	buf;
+	char	*tmp;
 
 	len = 1;
+	tmp = NULL;
 	while (len != 0 && buf != '\n')
 	{
 		len = read(fd, &buf, 1);
 		if (len == -1)
 			return (NULL);
-		dst = ft_strjoin_gnl(dst, buf);
+		tmp = ft_strjoin_gnl(dst, buf);
+		free(dst);
+		dst = ft_strdup(tmp);
+		free(tmp);
 	}
 	if (dst[0] == '\n')
 		return ("\n");
@@ -66,9 +70,9 @@ char *ft_read_line(int fd, char *dst)
 	return (dst);
 }
 
-char *ft_get_next_line(int fd)
+char	*ft_get_next_line(int fd)
 {
-	char *dst;
+	char	*dst;
 
 	if (fd < 0)
 		return (NULL);
