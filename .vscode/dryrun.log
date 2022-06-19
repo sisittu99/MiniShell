@@ -3,11 +3,13 @@ make: Entering directory `/Users/fdrudi/42_Cursus/42_minishell'
 make -C ./libft
 gcc  -g -Wall -Wextra -Werror -c SRC/main.c -o SRC/main.o
 gcc  -g -Wall -Wextra -Werror -c SRC/path.c -o SRC/path.o
+ 
 gcc  -g -Wall -Wextra -Werror -c SRC/ms_split.c -o SRC/ms_split.o
 gcc  -g -Wall -Wextra -Werror -c SRC/ft_replace.c -o SRC/ft_replace.o
 gcc  -g -Wall -Wextra -Werror -c SRC/parse.c -o SRC/parse.o
 gcc  -g -Wall -Wextra -Werror -c SRC/list_utils.c -o SRC/list_utils.o
 gcc  -g -Wall -Wextra -Werror -c SRC/execute.c -o SRC/execute.o
+ 
 gcc  -g -Wall -Wextra -Werror -c SRC/builtin/check_builtin.c -o SRC/builtin/check_builtin.o
 gcc  -g -Wall -Wextra -Werror -c SRC/builtin/builtin.c -o SRC/builtin/builtin.o
 gcc  -g -Wall -Wextra -Werror -c SRC/builtin/echo.c -o SRC/builtin/echo.o

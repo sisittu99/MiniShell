@@ -252,10 +252,18 @@ void	ft_check_new_cmd(t_bash **bash, char **cpy, char **envp)
 	return ;
 }
 
-int	ft_end_or(t_bash **bash, char **envp, char *line, int def)
+/* -> Funzione che controlla e ritorna la condizione per && o ||
+	  controllando quando eseguire o meno <- */
+int	ft_and_or(t_bash **bash, char **envp, char *line, int def)
 {
 	if (def == 0)
-		ft_lonely_cmd(bash, envp, line);
+	{
+		if (((*bash)->pipe[0] != 0 && (*bash)->pipe[1] != 0)		//SISTEMARE PIPE IN && ||
+		&& (*bash)->next != NULL)
+			ft_pipe(bash, envp, ft_strjoin(line, "\n"));
+		else
+			ft_lonely_cmd(bash, envp, line);
+	}
 	if ((*bash)->sep == '&')
 	{
 		if (exit_status != 0)
@@ -271,15 +279,46 @@ int	ft_end_or(t_bash **bash, char **envp, char *line, int def)
 	return (1);
 }
 
+int	ft_check_exec(t_bash **tmp, char **envp, char *line)
+{
+	int	def;
+
+	def = 0;
+	if (((*tmp)->pipe[0] != 0 && (*tmp)->pipe[1] != 0)
+		&& (*tmp)->next != NULL)
+	{
+		ft_pipe(tmp, envp, ft_strjoin(line, "\n"));
+		def = 1;
+	}
+	if ((*tmp)->sep == '|' || (*tmp)->sep == '&')
+	{
+		if (ft_and_or(tmp, envp, ft_strjoin(line, "\n"), def) == 0)
+		{
+			// if ((*tmp)->next != NULL && (*tmp)->next->brack != 0)
+			// 	return (1);
+			*tmp = (*tmp)->next;
+		}
+		if ((*tmp)->next == NULL)
+			return (0);
+		// if ((*tmp)->next->brack != 0)
+		// 	return (1);
+		*tmp = (*tmp)->next;
+		if ((*tmp)->next == NULL)
+			ft_lonely_cmd(tmp, envp, ft_strjoin(line, "\n"));
+		def = 0;
+	}
+	return (1);
+}
+
 /* -> Gestisce l'esecuzione dei comandi, facendo controlli sia sui separatori,
 	  che sui redirect, che sulle funzioni Builtin, ecc... <- */
 void	ft_execute(t_bash **bash, char **envp, char **line)
 {
 	t_bash	*tmp;
-	int		def;
+	int		lvl;
 
 	tmp = *bash;
-	def = 0;
+	lvl = 0;
 	ft_check_new_cmd(&tmp, line, envp);
 	if ((*bash)->next == NULL)
 	{
@@ -288,22 +327,24 @@ void	ft_execute(t_bash **bash, char **envp, char **line)
 	}
 	while (tmp)
 	{
-		if ((tmp->pipe[0] != 0 && tmp->pipe[1] != 0)
-			&& tmp->next != NULL)
-		{
-			ft_pipe(&tmp, envp, ft_strjoin(*line, "\n"));
-			def = 1;
-		}
-		if (tmp->sep == '|' || tmp->sep == '&')
-		{
-			if (ft_end_or(&tmp, envp, ft_strjoin(*line, "\n"), def) == 0)
+		// if (tmp->brack != 0)
+		// {
+		// 	lvl = tmp->brack;
+		// 	while (tmp)
+		// 	{
+		// 		if (tmp->brack != lvl)
+		// 			break;
+		// 		if (ft_check_exec(&tmp, envp, *line) == 0)
+		// 			return ;
+		// 		tmp = (tmp)->next;
+		// 	}
+		// }
+		// else
+		// {
+			if (ft_check_exec(&tmp, envp, *line) == 0)
 				return ;
 			tmp = (tmp)->next;
-			if (tmp->next == NULL)
-				ft_lonely_cmd(&tmp, envp, ft_strjoin(*line, "\n"));
-			def = 0;
-		}
-		tmp = (tmp)->next;
+		// }
 	}
 	return ;
 }
