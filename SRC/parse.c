@@ -230,10 +230,100 @@ void	ft_print_cmd(char **cmd, int nbr)
 }
 
 
-	///////////////////////////////////////////////////////////
-/*When running a list of commands separated by && (AND) or || (OR),	////////////////////////
-the exit status of the command determines whether the next command in the list will be executed.*/
-	////////////////////////////////////////////////////////////////////////////////////////
+int	ft_check_par(t_bash **bash, int def)
+{
+	int		i;
+	int		j;
+	t_bash	*tmp;
+
+	i = 0;
+	j = -1;
+	tmp = *bash;
+	while (tmp)
+	{
+		(void)def;
+	}
+	while (tmp != NULL)
+	{
+		i = ms_strchr(tmp->line, i, ')');
+		if (i != -1)
+		{
+			*bash = tmp;
+			j = i;
+		}
+		tmp = tmp->next;
+	}
+	return (j);
+}
+
+void	ft_find_par(t_bash **bash, char *line)
+{
+	t_bash	*tmp;
+	t_bash	*start;
+	char	*line;
+	int		pos;
+	int		i;
+
+	i = 0;
+	pos = 0;
+	tmp = *bash;
+	start = *bash;
+
+	while (line[i])
+	{
+		if (line[i] == '(')
+			pos++;
+		i++;
+	}
+	while (tmp)
+	{
+		i = 0;
+		while (tmp->line[i])
+		{
+			
+		}
+		tmp = tmp->next;
+	}
+
+
+
+
+
+	pos[0] = ms_strchr((*bash)->line, i, '(');
+	while (pos[0] != -1)
+	{
+		pos[1] = ft_check_par(&tmp, pos[0]);
+		if (pos[1] != -1)
+		{
+			while (i <= pos[0])
+			{
+				if ((*bash)->line[i] == '\'' || (*bash)->line[i] == '\"')
+					return ;
+				i++;
+			}
+			i = pos[1];
+			while (tmp->line[i] != '\0')
+			{
+				if (tmp->line[i] == '\'' || tmp->line[i] == '\"')
+					return ;
+				i++;
+			}
+			// printf("here: %d\t%d\n", start->id, tmp->id);
+			line = ft_strdup(start->line);
+			free(start->line);
+			start->line = ft_delete_char(line, pos[0]);
+			// free(line);
+			while (start->id < tmp->id)
+			{
+				start->par += 1;
+				start = start->next;
+			}
+		}
+		else
+			break;
+		pos[0] = ms_strchr((*bash)->line, pos[0], '(');
+	}
+}
 
 
 /* -> Fa il Parsing della stringa, dividendo i comandi grazie ai separatori
@@ -259,13 +349,14 @@ int	ft_parse(t_bash **bash, char *line, char **envp)
 	if (j < i)
 		ft_init_node(bash, line2, j, (i - j));
 	i = 1;
+	ft_find_par(bash, line2);
 	tmp = *bash;
 	while (tmp != NULL)
 	{
 		line3 = find_var_to_replace(ft_strdup(tmp->line), envp, tmp->re_dir);
 		(tmp)->cmd = ms_split(line3);
 		// ft_print_cmd((tmp)->cmd, i);
-		// printf("Node: %d\t[%s]\tsep: %c   pipe: %d   re_dir: %c\n", i, line3, (tmp)->sep, (tmp)->pipe[0], (tmp)->re_dir);
+		printf("Node: %d\t[%s]\tsep: %c\tpipe: %d\tre_dir: %c\tpar: %d\n", i, tmp->line, (tmp)->sep, (tmp)->pipe[0], (tmp)->re_dir, tmp->par);
 		tmp = (tmp)->next;
 		free(line3);
 		i++;

@@ -257,13 +257,7 @@ void	ft_check_new_cmd(t_bash **bash, char **cpy, char **envp)
 int	ft_and_or(t_bash **bash, char **envp, char *line, int def)
 {
 	if (def == 0)
-	{
-		if (((*bash)->pipe[0] != 0 && (*bash)->pipe[1] != 0)		//SISTEMARE PIPE IN && ||
-		&& (*bash)->next != NULL)
-			ft_pipe(bash, envp, ft_strjoin(line, "\n"));
-		else
-			ft_lonely_cmd(bash, envp, line);
-	}
+		ft_lonely_cmd(bash, envp, line);
 	if ((*bash)->sep == '&')
 	{
 		if (exit_status != 0)
@@ -294,19 +288,20 @@ int	ft_check_exec(t_bash **tmp, char **envp, char *line)
 	{
 		if (ft_and_or(tmp, envp, ft_strjoin(line, "\n"), def) == 0)
 		{
-			// if ((*tmp)->next != NULL && (*tmp)->next->brack != 0)
+			// if ((*tmp)->next != NULL && (*tmp)->next->par != 0)
 			// 	return (1);
 			*tmp = (*tmp)->next;
 		}
 		if ((*tmp)->next == NULL)
 			return (0);
-		// if ((*tmp)->next->brack != 0)
+		// if ((*tmp)->next->par != 0)
 		// 	return (1);
 		*tmp = (*tmp)->next;
 		if ((*tmp)->next == NULL)
 			ft_lonely_cmd(tmp, envp, ft_strjoin(line, "\n"));
-		def = 0;
 	}
+	else
+		*tmp = (*tmp)->next;
 	return (1);
 }
 
@@ -327,12 +322,12 @@ void	ft_execute(t_bash **bash, char **envp, char **line)
 	}
 	while (tmp)
 	{
-		// if (tmp->brack != 0)
+		// if (tmp->par != 0)
 		// {
-		// 	lvl = tmp->brack;
+		// 	lvl = tmp->par;
 		// 	while (tmp)
 		// 	{
-		// 		if (tmp->brack != lvl)
+		// 		if (tmp->par != lvl)
 		// 			break;
 		// 		if (ft_check_exec(&tmp, envp, *line) == 0)
 		// 			return ;
@@ -343,7 +338,6 @@ void	ft_execute(t_bash **bash, char **envp, char **line)
 		// {
 			if (ft_check_exec(&tmp, envp, *line) == 0)
 				return ;
-			tmp = (tmp)->next;
 		// }
 	}
 	return ;

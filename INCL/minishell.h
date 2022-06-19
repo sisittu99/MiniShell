@@ -52,6 +52,8 @@ typedef struct s_bash
 	char			sep;
 	char			re_dir;
 	int				built;
+	int				par;
+	int				id;
 	char			**envp;
 	struct s_bash	*next;
 }				t_bash;

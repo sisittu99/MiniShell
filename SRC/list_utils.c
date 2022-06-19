@@ -60,16 +60,14 @@ void	ft_node_add_back(t_bash **lst, t_bash *new)
 
 t_bash	*ft_new_node(char *line, int pos, int len, char *sep)
 {
-	t_bash	*new;
-	int		i;
+	t_bash		*new;
+	char		*tmp;
+	static int	id;
+
 	new = (t_bash *) malloc (sizeof(t_bash));
-	new->line = (char *) malloc (sizeof(char) * len + 1);
-	if (!new || !new->line)
-		return (NULL);
-	i = 0;
-	while (i < len)
-		new->line[i++] = line[pos++];
-	new->line[i] = '\0';
+	tmp = ft_substr(line, pos, len);
+	new->line = ft_strtrim(tmp, " ");
+	free(tmp);
 	new->cmd = NULL;
 	new->sep = sep[1];
 	if ((sep[0] - 48) == 1)
@@ -87,6 +85,9 @@ t_bash	*ft_new_node(char *line, int pos, int len, char *sep)
 	}
 	new->re_dir = sep[2];
 	new->built = -2;
+	new->par = 0;
+	new->id = id;
+	id += 1;
 	new->envp = NULL;
 	new->next = NULL;
 	return (new);
