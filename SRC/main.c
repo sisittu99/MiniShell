@@ -37,7 +37,7 @@ char	**ft_new_env(char **mat, int def)
 	return (new);
 }
 
-void	ft_command(t_bash **bash, struct sigaction *sa, char **envp, char **tmp)
+void	ft_command(t_bash **bash, struct sigaction *sa, char **envp)
 {
 	char	*line;
 	char	**env;
@@ -60,13 +60,7 @@ void	ft_command(t_bash **bash, struct sigaction *sa, char **envp, char **tmp)
 					ft_sig_define(sa, 1);
 				ft_execute(bash, env, &line);
 			}
-			if (*tmp == NULL || ft_strcmp(*tmp, line) == 0)
-			{
-				add_history(line);
-				if (*tmp)
-					free(*tmp);
-				*tmp = ft_strdup(line);
-			}
+			add_history(line);
 			if (*bash && (*bash)->envp)
 			{
 				ft_free(env);
@@ -81,7 +75,6 @@ void	ft_command(t_bash **bash, struct sigaction *sa, char **envp, char **tmp)
 int	main(int argc, char **argv, char **envp)
 {
 	t_bash				*bash;
-	char				*tmp;		//DA METTERE IN STRUCT PERCHÉ RESTA ALLOCATA QUANDO SI ESCE DAL PROGRAMMA *** //
 	struct sigaction	sa;
 
 	(void)argv;
@@ -91,10 +84,8 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	}
 	bash = NULL;
-	tmp = NULL;
 	ft_rm_ctrl(envp);
-	ft_command(&bash, &sa, envp, &tmp);
-	free(tmp); //*** LEAKS ! (NON CI ARRIVERÀ MAI)//
+	ft_command(&bash, &sa, envp);
 	return (exit_status);
 }
 

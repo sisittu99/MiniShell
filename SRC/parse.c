@@ -124,7 +124,9 @@ void	ft_init_node(t_bash **bash, char *line, int pos, int len)
 
 int	ft_syntax_err_b(char *line, int *def, int i)
 {
-	if ((line[i] == '|' || line[i] == '<' || line[i] == '>')
+	if (line[i] == '$' && line[i + 1] == '(')
+		return (fd_printf(2, "bash: syntax error: token `$()' has been disabled\n"));
+	else if ((line[i] == '|' || line[i] == '<' || line[i] == '>')
 		 && line[i + 1] == '&')
 		return (fd_printf(2, "bash: syntax error: token `&' has been disabled\n"));
 	else if ((line[i] == '&' && line[i + 1] != '&') || (line[i] == '&' && line[i + 1] == '\0'))
@@ -230,101 +232,84 @@ void	ft_print_cmd(char **cmd, int nbr)
 }
 
 
-int	ft_check_par(t_bash **bash, int def)
+int	ft_par_error(char *line, int i, int j)
+{
+	int	pos;
+	int	pos2;
+
+	pos = ms_strchr(ft_substr(line, i, j + 1), 0, '(');
+	if (pos != -1 && j < (int)ft_strlen(line))
+		j += 1;
+	pos2 = ms_strchr(ft_substr(line, i, j + 1), 0, ')');
+	if (pos != -1 && pos2 != -1)
+	{
+		if (pos < pos2)
+			return (fd_printf(2, "bash: syntax error near unexpected token `%s'\n", ft_substr(line, pos + 1, pos2 - pos - 1)));
+		else
+			return (fd_printf(2, "bash: syntax error near unexpected token `)'\n"));
+	}
+	else if (pos2 != -1)
+		return (fd_printf(2, "bash: syntax error near unexpected token `)'\n"));
+	else if (pos != -1)
+		return (fd_printf(2, "bash: syntax error near unexpected token `('\n"));
+	return (0);
+}
+
+int	ft_nbr_par(char **line)
 {
 	int		i;
 	int		j;
-	t_bash	*tmp;
+	int		pos[2];
+	char	*tmp;
 
 	i = 0;
-	j = -1;
-	tmp = *bash;
-	while (tmp)
-	{
-		(void)def;
-	}
-	while (tmp != NULL)
-	{
-		i = ms_strchr(tmp->line, i, ')');
-		if (i != -1)
-		{
-			*bash = tmp;
-			j = i;
-		}
-		tmp = tmp->next;
-	}
-	return (j);
+	j = ft_strlen((*line)) - 1;
+	while ((*line)[i] == '(')
+		i++;
+	while ((*line)[j] == ')')
+		j--;
+	if (ft_par_error(*line, i, j) != 0)
+			return (300);
+	pos[0] = i;
+	pos[1] = ft_strlen((*line)) - 1 - j;
+	tmp = ft_substr((*line), i, j + 1);
+	free(*line);
+	(*line) = ft_strdup(tmp);
+	free(tmp);
+	return (pos[0] - pos[1]);
 }
 
-void	ft_find_par(t_bash **bash, char *line)
+
+int	ft_find_par(t_bash **bash)
 {
 	t_bash	*tmp;
-	t_bash	*start;
-	char	*line;
-	int		pos;
-	int		i;
+	int		lvl;
+	int		new_lvl;
 
-	i = 0;
-	pos = 0;
 	tmp = *bash;
-	start = *bash;
-
-	while (line[i])
+	lvl = ft_nbr_par(&tmp->line);
+	if (lvl < 0 || lvl == 300)
+		return (0);
+	tmp->par = lvl;
+	while (tmp->next)
 	{
-		if (line[i] == '(')
-			pos++;
-		i++;
-	}
-	while (tmp)
-	{
-		i = 0;
-		while (tmp->line[i])
-		{
-			
-		}
-		tmp = tmp->next;
-	}
-
-
-
-
-
-	pos[0] = ms_strchr((*bash)->line, i, '(');
-	while (pos[0] != -1)
-	{
-		pos[1] = ft_check_par(&tmp, pos[0]);
-		if (pos[1] != -1)
-		{
-			while (i <= pos[0])
-			{
-				if ((*bash)->line[i] == '\'' || (*bash)->line[i] == '\"')
-					return ;
-				i++;
-			}
-			i = pos[1];
-			while (tmp->line[i] != '\0')
-			{
-				if (tmp->line[i] == '\'' || tmp->line[i] == '\"')
-					return ;
-				i++;
-			}
-			// printf("here: %d\t%d\n", start->id, tmp->id);
-			line = ft_strdup(start->line);
-			free(start->line);
-			start->line = ft_delete_char(line, pos[0]);
-			// free(line);
-			while (start->id < tmp->id)
-			{
-				start->par += 1;
-				start = start->next;
-			}
-		}
+		new_lvl = ft_nbr_par(&tmp->next->line);
+		if (new_lvl == 300)
+			return (0);
+		if (new_lvl >= 0)
+			tmp->next->par = tmp->par + new_lvl;
 		else
-			break;
-		pos[0] = ms_strchr((*bash)->line, pos[0], '(');
+			tmp->next->par = tmp->par;
+		if (lvl < 0)
+			tmp->next->par += lvl;
+		tmp = tmp->next;
+		lvl = new_lvl;
 	}
+	printf("%d\t%d\n", tmp->par, lvl);
+	if (tmp->par + lvl != 0)
+		return (0);
+	return (1);
 }
-
 
 /* -> Fa il Parsing della stringa, dividendo i comandi grazie ai separatori
 	  e creando un nodo per comando, pronto per essere passato all'exec <- */
@@ -342,14 +327,21 @@ int	ft_parse(t_bash **bash, char *line, char **envp)
 	while (line2[++i] != '\0')
 	{
 		if (ft_syntax_err_b(line2, &j, i) != 0)
+		{
+			exit_status = 258;
 			return (0);
+		}
 		if (ft_check_sep(bash, line2, &i, &j) == 0)
+		{
+			exit_status = 258;
 			return (0);
+		}
 	}
 	if (j < i)
 		ft_init_node(bash, line2, j, (i - j));
 	i = 1;
-	ft_find_par(bash, line2);
+	if (ft_find_par(bash) == 0)
+		return (0);
 	tmp = *bash;
 	while (tmp != NULL)
 	{

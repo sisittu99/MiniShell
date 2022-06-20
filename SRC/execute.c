@@ -329,7 +329,7 @@ void	ft_execute(t_bash **bash, char **envp, char **line)
 		// 	{
 		// 		if (tmp->par != lvl)
 		// 			break;
-		// 		if (ft_check_exec(&tmp, envp, *line) == 0)
+		// 		if (ft_check_exec(&tmp, envp, *line) == 0) //SE ERRORE DEFINISCI "DEF" PER ESCUZIONE DIRETTAMENTE QUI
 		// 			return ;
 		// 		tmp = (tmp)->next;
 		// 	}
