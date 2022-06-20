@@ -305,7 +305,6 @@ int	ft_find_par(t_bash **bash)
 		tmp = tmp->next;
 		lvl = new_lvl;
 	}
-	printf("%d\t%d\n", tmp->par, lvl);
 	if (tmp->par + lvl != 0)
 		return (0);
 	return (1);

@@ -275,30 +275,37 @@ int	ft_and_or(t_bash **bash, char **envp, char *line, int def)
 
 int	ft_check_exec(t_bash **tmp, char **envp, char *line)
 {
-	int	def;
+	static int	def;
 
-	def = 0;
 	if (((*tmp)->pipe[0] != 0 && (*tmp)->pipe[1] != 0)
 		&& (*tmp)->next != NULL)
 	{
 		ft_pipe(tmp, envp, ft_strjoin(line, "\n"));
 		def = 1;
 	}
+	if ((*tmp)->next == NULL)
+		ft_lonely_cmd(tmp, envp, ft_strjoin(line, "\n"));
 	if ((*tmp)->sep == '|' || (*tmp)->sep == '&')
 	{
 		if (ft_and_or(tmp, envp, ft_strjoin(line, "\n"), def) == 0)
 		{
-			// if ((*tmp)->next != NULL && (*tmp)->next->par != 0)
-			// 	return (1);
+			if ((*tmp)->next != NULL && (*tmp)->next->par != 0)
+			{
+				if (((*tmp)->next->par != (*tmp)->par) && ((*tmp)->sep == '|')) //SISTEMARE CONDIZIONI PER SOTTOPARENTESI
+					def = 1;
+				*tmp = (*tmp)->next;
+				return (1);
+			}
 			*tmp = (*tmp)->next;
 		}
 		if ((*tmp)->next == NULL)
 			return (0);
-		// if ((*tmp)->next->par != 0)
-		// 	return (1);
+		def = 0;
+		if (((*tmp)->next->par != (*tmp)->par) && ((*tmp)->sep == '|'))
+			def = 1;
 		*tmp = (*tmp)->next;
-		if ((*tmp)->next == NULL)
-			ft_lonely_cmd(tmp, envp, ft_strjoin(line, "\n"));
+		if ((*tmp)->next != NULL && (*tmp)->next->par != 0)
+				return (1);
 	}
 	else
 		*tmp = (*tmp)->next;
@@ -322,23 +329,22 @@ void	ft_execute(t_bash **bash, char **envp, char **line)
 	}
 	while (tmp)
 	{
-		// if (tmp->par != 0)
-		// {
-		// 	lvl = tmp->par;
-		// 	while (tmp)
-		// 	{
-		// 		if (tmp->par != lvl)
-		// 			break;
-		// 		if (ft_check_exec(&tmp, envp, *line) == 0) //SE ERRORE DEFINISCI "DEF" PER ESCUZIONE DIRETTAMENTE QUI
-		// 			return ;
-		// 		tmp = (tmp)->next;
-		// 	}
-		// }
-		// else
-		// {
+		if (tmp->par != 0)
+		{
+			lvl = tmp->par;
+			while (tmp)
+			{
+				if (tmp->par != lvl)
+					break;
+				if (ft_check_exec(&tmp, envp, *line) == 0) //SE ERRORE DEFINISCI "DEF" PER ESCUZIONE DIRETTAMENTE QUI
+					return ;
+			}
+		}
+		else
+		{
 			if (ft_check_exec(&tmp, envp, *line) == 0)
 				return ;
-		// }
+		}
 	}
 	return ;
 }
