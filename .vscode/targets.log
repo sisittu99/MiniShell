@@ -6,9 +6,8 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # PARTICULAR PURPOSE.
 
 # This program built for i386-apple-darwin11.3.0
- 
 
-# Make data base, printed on Tue Jun 21 11:03:31 2022
+# Make data base, printed on Tue Jun 21 16:56:02 2022
 
 # Variables
 
@@ -16,10 +15,10 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 <D = $(patsubst %/,%,$(dir $<))
 # automatic
 ?F = $(notdir $?)
-# makefile (from `Makefile', line 22)
+# makefile (from `Makefile', line 25)
 OBJ = $(SRC:.c=.o)
 # makefile (from `Makefile', line 15)
-SRC = ./SRC/main.c ./SRC/path.c ./SRC/ms_split.c ./SRC/ft_replace.c ./SRC/parse.c ./SRC/list_utils.c ./SRC/execute.c ./SRC/builtin/check_builtin.c ./SRC/builtin/builtin.c ./SRC/builtin/echo.c ./SRC/builtin/chdir.c ./SRC/builtin/export.c ./SRC/builtin/unset.c ./SRC/signals.c ./SRC/wd_split.c ./SRC/wildcard.c 
+SRC = ./SRC/main.c ./SRC/path.c ./SRC/ms_split.c ./SRC/ft_replace.c ./SRC/parse.c ./SRC/list_utils.c ./SRC/execute.c ./SRC/builtin/check_builtin.c ./SRC/builtin/builtin.c ./SRC/builtin/echo.c ./SRC/builtin/chdir.c ./SRC/builtin/export.c ./SRC/builtin/export_one.c ./SRC/builtin/export_two.c ./SRC/builtin/unset.c ./SRC/signals.c ./SRC/wd_split.c ./SRC/wildcard.c ./SRC/re_dir.c ./SRC/ft_pipe.c ./SRC/ft_and_or.c ./SRC/execute_b.c ./SRC/ft_replace_b.c 
 # environment
 VSCODE_LOG_NATIVE = false
 # automatic
@@ -32,28 +31,28 @@ VSCODE_LOG_NATIVE = false
 CURDIR := /Users/fdrudi/42_Cursus/42_minishell
 # makefile
 SHELL = /bin/sh
-# makefile (from `Makefile', line 30)
+# makefile (from `Makefile', line 33)
 RM = rm -f
 # environment
 VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
 # environment
 _ = /usr/bin/make
-# makefile (from `Makefile', line 32)
+# makefile (from `Makefile', line 35)
 CFLAGS = -Wall -Wextra -Werror
 # makefile (from `Makefile', line 1)
 MAKEFILE_LIST :=  Makefile
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /var/folders/zz/zyxvpxvq6csfxvn_n0001l50000cs8/T/vscode-ipc-721442d1-8c78-4e27-9a17-13855c302260.sock
-# makefile (from `Makefile', line 26)
+VSCODE_IPC_HOOK_EXTHOST = /var/folders/zz/zyxvpxvq6csfxvn_n0001l50000cs8/T/vscode-ipc-9c305d3e-4298-4903-a011-f3d4f6005c2b.sock
+# makefile (from `Makefile', line 29)
 READLINE = -L/usr/include -lreadline -L$(HOME)/.brew/opt/readline/lib -I$(HOME)/.brew/opt/readline/include
 # environment
 VSCODE_CWD = /
 # environment
-Apple_PubSub_Socket_Render = /private/tmp/com.apple.launchd.9ZoB6z7gH8/Render
+Apple_PubSub_Socket_Render = /private/tmp/com.apple.launchd.j3WTAjG1vD/Render
 # environment
-PATH = /Users/fdrudi/.brew/bin:/Users/fdrudi/.brew/bin:/Users/fdrudi/.brew/bin:/Users/fdrudi/.brew/bin:/Users/fdrudi/.brew/bin:/Users/fdrudi/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Users/fdrudi/.brew/bin
+PATH = /Users/fdrudi/.brew/bin:/Users/fdrudi/.brew/bin:/Users/fdrudi/.brew/bin:/Users/fdrudi/.brew/bin:/Users/fdrudi/.brew/bin:/Users/fdrudi/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki
 # environment
 LSCOLORS = Gxfxcxdxbxegedabagacad
 # environment
@@ -63,7 +62,7 @@ ELECTRON_RUN_AS_NODE = 1
 # default
 .FEATURES := target-specific order-only second-expansion else-if archives jobserver check-symlink
 # environment
-SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.zQ5tMcq9fX/Listeners
+SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.vc0vIGXfOJ/Listeners
 # automatic
 %F = $(notdir $%)
 # environment
@@ -92,17 +91,15 @@ VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 ^D = $(patsubst %/,%,$(dir $^))
 # environment
 XPC_FLAGS = 0x0
-# environment
-COLORTERM = truecolor
 # default
 MAKE = $(MAKE_COMMAND)
+# default
+MAKECMDGOALS := all
 # environment
-LC_TERMINAL = iTerm2
-# environment
-SHLVL = 2
-# makefile (from `Makefile', line 24)
+SHLVL = 1
+# makefile (from `Makefile', line 27)
 LIBFT = libft/libft.a
-# makefile (from `Makefile', line 28)
+# makefile (from `Makefile', line 31)
 CC = gcc 
 # default
 MAKE_VERSION := 3.81
@@ -110,10 +107,6 @@ MAKE_VERSION := 3.81
 USER = fdrudi
 # makefile
 .DEFAULT_GOAL := minishell
-# default
-MAKECMDGOALS := all
-# environment
-TERM_SESSION_ID = w0t0p0:2D5AFDD9-2AF3-4690-BBAB-A284A8BC2BA4
 # makefile (from `Makefile', line 13)
 NAME = minishell
 # environment
@@ -122,8 +115,6 @@ LESS = -R
 %D = $(patsubst %/,%,$(dir $%))
 # default
 MAKE_COMMAND := /Applications/Xcode.app/Contents/Developer/usr/bin/make
-# environment
-TERM_PROGRAM = iTerm.app
 # default
 .VARIABLES := 
 # environment
@@ -139,31 +130,25 @@ MFLAGS = -Rrqp
 # automatic
 *D = $(patsubst %/,%,$(dir $*))
 # environment
-TERM_PROGRAM_VERSION = 3.4.15
-# environment
-XPC_SERVICE_NAME = com.microsoft.VSCode.2972
-# environment
-LC_TERMINAL_VERSION = 3.4.15
+XPC_SERVICE_NAME = com.apple.xpc.launchd.oneshot.0x10000001.Electron
 # automatic
 +D = $(patsubst %/,%,$(dir $+))
 # automatic
 +F = $(notdir $+)
 # environment
-ITERM_SESSION_ID = w0t0p0:2D5AFDD9-2AF3-4690-BBAB-A284A8BC2BA4
-# environment
-COLORFGBG = 7;0
-# environment
 __CF_USER_TEXT_ENCODING = 0x3328:0x0:0x0
+# environment
+COMMAND_MODE = unix2003
 # default
 MAKEFILES := 
 # automatic
 <F = $(notdir $<)
 # environment
-ITERM_PROFILE = Default
-# environment
 PAGER = less
 # environment
 LC_ALL = C
+# environment
+SECURITYSESSIONID = 186a8
 # automatic
 ^F = $(notdir $^)
 # default
@@ -175,11 +160,9 @@ MAKELEVEL := 0
 # environment
 LANG = C
 # environment
-TERM = xterm-256color
-# environment
-VSCODE_PID = 37064
+VSCODE_PID = 4707
 # variable set hash-table stats:
-# Load=83/1024=8%, Rehash=0, Collisions=6/115=5%
+# Load=75/1024=7%, Rehash=0, Collisions=3/107=3%
 
 # Pattern-specific Variable Values
 
@@ -187,14 +170,14 @@ VSCODE_PID = 37064
 
 # Directories
 
-# . (device 16777224, inode 730564): 9 files, no impossibilities.
+# . (device 16777224, inode 730564): 11 files, no impossibilities.
 
-# 9 files, no impossibilities in 1 directories.
+# 11 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
 %.o: %.c
-#  commands to execute (from `Makefile', line 35):
+#  commands to execute (from `Makefile', line 38):
 	$(CC) -g $(CFLAGS) -c $< -o $@
 	
 
@@ -204,6 +187,12 @@ VSCODE_PID = 37064
 
 # Not a target:
 SRC/builtin/unset.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+SRC/ft_replace_b.o:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -236,6 +225,12 @@ SRC/parse.o:
 #  File has not been updated.
 
 # Not a target:
+SRC/execute_b.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
 .SUFFIXES:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
@@ -250,7 +245,7 @@ SRC/wildcard.o:
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-06-18 16:32:59
+#  Last modified 2022-06-21 16:56:01
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -258,6 +253,12 @@ Makefile:
 
 # Not a target:
 SRC/builtin/check_builtin.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+SRC/ft_pipe.o:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -280,14 +281,15 @@ SRC/ms_split.o:
 #  Modification time never checked.
 #  File has not been updated.
 
-minishell: libft/libft.a SRC/main.o SRC/path.o SRC/ms_split.o SRC/ft_replace.o SRC/parse.o SRC/list_utils.o SRC/execute.o SRC/builtin/check_builtin.o SRC/builtin/builtin.o SRC/builtin/echo.o SRC/builtin/chdir.o SRC/builtin/export.o SRC/builtin/unset.o SRC/signals.o SRC/wd_split.o SRC/wildcard.o
+minishell: libft/libft.a SRC/main.o SRC/path.o SRC/ms_split.o SRC/ft_replace.o SRC/parse.o SRC/list_utils.o SRC/execute.o SRC/builtin/check_builtin.o SRC/builtin/builtin.o SRC/builtin/echo.o SRC/builtin/chdir.o SRC/builtin/export.o SRC/builtin/export_one.o SRC/builtin/export_two.o SRC/builtin/unset.o SRC/signals.o SRC/wd_split.o SRC/wildcard.o SRC/re_dir.o SRC/ft_pipe.o SRC/ft_and_or.o SRC/execute_b.o SRC/ft_replace_b.o
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has been updated.
 #  Needs to be updated (-q is set).
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/2=0%
-#  commands to execute (from `Makefile', line 38):
+ 
+#  commands to execute (from `Makefile', line 41):
 	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME) $(READLINE)
 	
 
@@ -315,17 +317,16 @@ libft/libft.a:
 # ? := 
 # variable set hash-table stats:
 # Load=8/32=25%, Rehash=0, Collisions=1/10=10%
-#  commands to execute (from `Makefile', line 40):
+#  commands to execute (from `Makefile', line 43):
 	make -C ./libft
 	
 
 fclean: clean
- 
 #  Phony target (prerequisite of .PHONY).
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 48):
+#  commands to execute (from `Makefile', line 51):
 	${RM} $(NAME) ${OBJ}
 	
 
@@ -339,9 +340,15 @@ norm:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 58):
+#  commands to execute (from `Makefile', line 61):
 	@norminette
 	
+
+# Not a target:
+SRC/builtin/export_two.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 # Not a target:
 SRC/builtin/export.o:
@@ -353,7 +360,7 @@ fclean.all: fclean
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 51):
+#  commands to execute (from `Makefile', line 54):
 	make fclean -C ./libft
 	
 
@@ -380,12 +387,18 @@ clean:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 45):
+#  commands to execute (from `Makefile', line 48):
 	${RM} $(OBJ)
 	
 
 # Not a target:
 SRC/ft_replace.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+SRC/re_dir.o:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -419,8 +432,20 @@ SRC/builtin/builtin.o:
 #  Modification time never checked.
 #  File has not been updated.
 
+# Not a target:
+SRC/ft_and_or.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+SRC/builtin/export_one.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
 # files hash-table stats:
-# Load=29/1024=3%, Rehash=0, Collisions=0/71=0%
+# Load=36/1024=4%, Rehash=0, Collisions=1/85=1%
 # VPATH Search Paths
 
 # No `vpath' search paths.
@@ -432,6 +457,6 @@ SRC/builtin/builtin.o:
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4087 / max = 4087 / min = 4087 / avg = 4087
 
-# Finished Make data base on Tue Jun 21 11:03:31 2022
+# Finished Make data base on Tue Jun 21 16:56:02 2022
 
  

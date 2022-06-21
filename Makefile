@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+         #
+#    By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/22 15:36:33 by fdrudi            #+#    #+#              #
-#    Updated: 2022/06/18 12:57:14 by mcerchi          ###   ########.fr        #
+#    Updated: 2022/06/21 16:56:01 by fdrudi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,8 +16,11 @@ SRC			=	./SRC/main.c ./SRC/path.c ./SRC/ms_split.c ./SRC/ft_replace.c \
 				./SRC/parse.c ./SRC/list_utils.c ./SRC/execute.c \
 				./SRC/builtin/check_builtin.c ./SRC/builtin/builtin.c \
 				./SRC/builtin/echo.c ./SRC/builtin/chdir.c \
-				./SRC/builtin/export.c ./SRC/builtin/unset.c ./SRC/signals.c \
-				./SRC/wd_split.c ./SRC/wildcard.c \
+				./SRC/builtin/export.c ./SRC/builtin/export_one.c ./SRC/builtin/export_two.c \
+				./SRC/builtin/unset.c ./SRC/signals.c \
+				./SRC/wd_split.c ./SRC/wildcard.c ./SRC/re_dir.c \
+				./SRC/ft_pipe.c ./SRC/ft_and_or.c ./SRC/execute_b.c \
+				./SRC/ft_replace_b.c \
 
 OBJ			=	$(SRC:.c=.o)
 

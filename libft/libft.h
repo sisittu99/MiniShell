@@ -6,7 +6,7 @@
 /*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 18:35:10 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/16 12:49:21 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/21 15:02:23 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,18 +73,18 @@ int		ft_toupper(int c);
 
 // * FT_PRINTF * //
 
-int	fd_printf(int fd, const char *str, ...);
-int	ft_assign(int fd, const char *str, int j, va_list args);
-int	ft_putchar(char c, int fd);
-int	ft_putstr(char *s, int fd);
-int	ft_putnbr(int n, int fd);
-int	ft_unsigned_putnbr(unsigned int n, int fd);
-int	ft_hex_putnbr(unsigned int n, char *hex, int fd);
-int	ft_point_print(unsigned long n, char *hex, int fd);
-int	ft_point_putnbr(unsigned long n, char *hex, int fd);
+int		fd_printf(int fd, const char *str, ...);
+int		ft_assign(int fd, const char *str, int j, va_list args);
+int		ft_putchar(char c, int fd);
+int		ft_putstr(char *s, int fd);
+int		ft_putnbr(int n, int fd);
+int		ft_unsigned_putnbr(unsigned int n, int fd);
+int		ft_hex_putnbr(unsigned int n, char *hex, int fd);
+int		ft_point_print(unsigned long n, char *hex, int fd);
+int		ft_point_putnbr(unsigned long n, char *hex, int fd);
 
 // * FT_GNL * //
 
-char *ft_get_next_line(int fd);
+char	*ft_get_next_line(int fd);
 
 #endif

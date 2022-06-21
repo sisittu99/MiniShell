@@ -22,7 +22,8 @@ int	ft_assign(int fd, const char *str, int j, va_list args)
 	else if (str[j] == 's')
 		len = ft_putstr(va_arg(args, char *), fd);
 	else if (str[j] == 'p')
-		len = ft_point_putnbr(va_arg(args, unsigned long), "0123456789abcdef", fd);
+		len = ft_point_putnbr(va_arg(args, unsigned long),
+				"0123456789abcdef", fd);
 	else if (str[j] == 'd' || str[j] == 'i')
 		len = ft_putnbr(va_arg(args, int), fd);
 	else if (str[j] == 'u')
