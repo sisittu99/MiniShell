@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   echo.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/21 16:24:22 by fdrudi            #+#    #+#             */
+/*   Updated: 2022/06/21 16:24:23 by fdrudi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../INCL/minishell.h"
 
 int	ft_flag_echo(char **cmd)
@@ -23,7 +35,6 @@ int	ft_flag_echo(char **cmd)
 	return (flag);
 }
 
-
 int	ft_echo(char **cmd)
 {
 	int		i;
@@ -36,14 +47,9 @@ int	ft_echo(char **cmd)
 		flag = ft_flag_echo(cmd);
 		if (cmd[1 + flag])
 		{
-			// if (ft_strcmp(cmd[1 + flag], "$?") == 1)
-			// 	printf("%d", exit_status);
-			// else
-			// {
-				while (cmd[i + flag + 1])
-					printf("%s ", cmd[(i++) + flag]);
-				printf("%s", cmd[i + flag]);
-			// }
+			while (cmd[i + flag + 1])
+				printf("%s ", cmd[(i++) + flag]);
+			printf("%s", cmd[i + flag]);
 		}
 	}
 	if (flag == 0)

@@ -327,12 +327,12 @@ int	ft_parse(t_bash **bash, char *line, char **envp)
 	{
 		if (ft_syntax_err_b(line2, &j, i) != 0)
 		{
-			exit_status = 258;
+			g_exit_status = 258;
 			return (0);
 		}
 		if (ft_check_sep(bash, line2, &i, &j) == 0)
 		{
-			exit_status = 258;
+			g_exit_status = 258;
 			return (0);
 		}
 	}

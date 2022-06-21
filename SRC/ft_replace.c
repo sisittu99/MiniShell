@@ -1,49 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_replace.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/21 16:57:51 by fdrudi            #+#    #+#             */
+/*   Updated: 2022/06/21 16:57:51 by fdrudi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../INCL/minishell.h"
-
-/* -> Sostituzione della variabile con il suo valore <- */
-int	*find_it(char **envp, char *to_find)
-{
-	int		*index;
-	int		i;
-
-	i = 0;
-	index =(int *) malloc (sizeof(int) * 3);
-	while (i < 3)
-		index[i++] = 0;
-	while (envp[index[0]])
-	{
-		while (envp[index[0]][index[1]] == to_find[index[2]])
-		{
-			index[1]++;
-			if (!to_find[index[2] + 1])
-			{
-				if (envp[index[0]][index[1]] == '=')
-					return (index);
-				return (NULL);
-			}
-			index[2]++;
-		}
-		index[0]++;
-		index[1] = 0;
-		index[2] = 0;
-	}
-	return (NULL);
-}
-
-char	*ft_replace_join(char *s1, char *s2, char *s3)
-{
-	char	*tmp;
-	char	*dst;
-
-	tmp = ft_strjoin(s1, s2);
-	free(s1);
-	if (*s2 != '\0')
-		free(s2);
-	dst = ft_strjoin(tmp, s3);
-	free(tmp);
-	free(s3);
-	return (dst);
-}
 
 /* -> Controlla che la presunta variabile sia scritta
 	  secondo le regole grammaticali corrette <- */
@@ -56,8 +23,8 @@ int	ft_check_var(char *s, int pos)
 		return (-1);
 	if (ft_isalpha(s[pos]) || s[pos] == 95)
 	{
-		while (s[pos + i] != '\0' && (ft_isalpha(s[pos + i]) || ft_isdigit(s[pos + i])
-			|| s[pos + i] == 95))
+		while (s[pos + i] != '\0' && (ft_isalpha(s[pos + i])
+				|| ft_isdigit(s[pos + i]) || s[pos + i] == 95))
 			i++;
 		return (i);
 	}
@@ -90,44 +57,52 @@ char	*ft_replace_tilde(char *s, char **envp, int pos, int *ret_i)
 	return (s);
 }
 
+char	*ft_replace_help_b(char *s, char **envp, int *ret_i, int **i)
+{
+	char	*var;
+	char	*s2;
+	char	*s3;
+	int		*index;
+
+	var = ft_substr(s, ((*i[2]) + 1), (*i[1]));
+	(*i[0]) = (*i[2]) + 1 + (*i[1]);
+	index = find_it(envp, var);
+	if (index != NULL)
+	{
+		s2 = ft_substr(envp[index[0]], index[1] + 1,
+				ft_strlen(envp[index[0]]));
+	}
+	else
+		s2 = ft_strjoin("$", var);
+	free(var);
+	*ret_i = (*i[2]) + ft_strlen(s2);
+	s3 = ft_substr(s, (*i[0]), (ft_strlen(s) - (*i[0])));
+}
+
 /* -> Funzione helper per la funzione Replace <- */
 char	*ft_replace_help(char *s, char **envp, int pos, int *ret_i)
 {
 	char	*s1;
 	char	*s2;
 	char	*s3;
-	char	*var;
-	int		*index;
-	int		i;
-	int		j;
+	int		i[3];
 
-	i = 0;
+	i[0] = 0;
+	i[2] = pos;
 	s2 = NULL;
-	j = ft_check_var(s, pos + 1);
-	if (j > 0 || j == -1)
+	i[1] = ft_check_var(s, pos + 1);
+	if (i[1] > 0 || i[1] == -1)
 	{
 		s1 = ft_substr(s, 0, pos);
-		if (j == -1)
+		if (i[1] == -1)
 		{
-			s2 = ft_itoa(exit_status);
-			i = pos + 1 + 1;
+			s2 = ft_itoa(g_exit_status);
+			i[0] = pos + 1 + 1;
+			*ret_i = pos + ft_strlen(s2);
+			s3 = ft_substr(s, i[0], (ft_strlen(s) - i[0]));
 		}
-		else if (j > 0)
-		{
-			var = ft_substr(s, (pos + 1), j);
-			i = pos + 1 + j;
-			index = find_it(envp, var);
-			if (index != NULL)
-			{
-				s2 = ft_substr(envp[index[0]], index[1] + 1,
-						ft_strlen(envp[index[0]]));
-			}
-			else
-				s2 = ft_strjoin("$", var);
-			free(var);
-		}
-		*ret_i = pos + ft_strlen(s2);
-		s3 = ft_substr(s, i, (ft_strlen(s) - i));
+		else if (i[1] > 0)
+			s3 = (ft_replace_help_b(s, envp, ret_i, &i));
 		free(s);
 		s = ft_replace_join(s1, s2, s3);
 	}
@@ -161,30 +136,7 @@ void	ft_replace(char **s, char **envp, int pos, int *ret_i)
 	}
 	else if (tmp[pos] == '$' && ((*s)[pos + 1] != '\"'))
 		(*s) = ft_replace_help(tmp, envp, pos, ret_i);
-	// free(tmp);
+	if (tmp)
+		free(tmp);
 	return ;
-}
-
-/* -> Elimina un carattere in posizione 'pos' e
-	  ritorna la stringa modificata e riallocata <- */
-char	*ft_delete_char(char *s, int pos)
-{
-	char	*s1;
-	char	*s2;
-	char	*dst;
-
-	s1 = ft_substr(s, 0, pos);
-	if (s[pos + 1] == '\0')
-	{
-		free (s);
-		s2 = NULL;
-		dst = NULL;
-		return (s1);
-	}
-	s2 = ft_substr(s, pos + 1, ((int) ft_strlen(s) - (pos)));
-	dst = ft_strjoin(s1, s2);
-	free(s);
-	free(s1);
-	free(s2);
-	return (dst);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/21 16:01:31 by fdrudi            #+#    #+#             */
+/*   Updated: 2022/06/21 16:01:32 by fdrudi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../INCL/minishell.h"
 
 int	ft_pwd(char **cmd, char **envp)
@@ -29,19 +41,18 @@ int	ft_env(char **cmd, char **envp)
 	return (0);
 }
 
-void	ft_exit(char **cmd)
+int	ft_exit(char **cmd)
 {
 	int	i;
 
 	if (!cmd[1])
 	{
 		printf("\nExit\n");
-		exit(exit_status);
+		exit(g_exit_status);
 	}
 	if (cmd[2])
 	{
-		fd_printf(2, "exit: too many arguments\n");
-		return ;
+		return (fd_printf(2, "exit: too many arguments\n"));
 	}
 	i = -1;
 	if (cmd[1][0] == '-')
@@ -50,7 +61,8 @@ void	ft_exit(char **cmd)
 	{
 		if (!ft_isdigit(cmd[1][i]))
 		{
-			fd_printf(2, "\nExit\nbash: exit: %s: numeric argument required\n", cmd[1]);
+			fd_printf(2, "\nExit\nbash: exit: %s: numeric argument required\n",
+				cmd[1]);
 			exit(255);
 		}
 	}

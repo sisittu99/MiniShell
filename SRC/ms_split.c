@@ -1,56 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ms_split.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/21 17:46:29 by fdrudi            #+#    #+#             */
+/*   Updated: 2022/06/21 17:46:29 by fdrudi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../INCL/minishell.h"
-
-int	ms_strchr(char *s, int pos, char c)
-{
-	while (s[pos] != '\0')
-	{
-		if (s[pos] == c)
-			return (pos);
-		pos++;
-	}
-	return (-1);
-}
-
-/* -> Controlla che nel conteggio delle parole, se presenti,
-	  le '\'' e le '\"' siano contate come parola singola <- */
-void	nb_words_help(char *s, int a, int *i, int *j)
-{
-	char	typequote;
-
-	typequote = s[a];
-	a++;
-	if (ms_strchr(s, a, typequote) > -1)
-	{
-		while (s[a] != typequote)
-			a++;
-		if (*j == 0)
-		{
-			*j = 1;
-			*i += 1;
-		}
-	}
-}
-
-/* -> Controlla se sono presenti redirect nella stringa
-	  e in caso non siano separati da spazi dalle altre parole,
-	  li separa e li conta <- */
-void	nb_words_redir(char *s, int a, int *j)
-{
-	if (a > 0)
-	{
-		if ((s[a] == '>' || s[a] == '<') && (s[a - 1] != ' '
-				&& s[a - 1] != '>' && s[a - 1] != '<'))
-			*j = 0;
-		else if ((s[a - 1] == '>' || s[a - 1] == '<')
-				&& (s[a] != ' ' && s[a] != '>' && s[a] != '<'))
-			*j = 0;
-	}
-	return ;
-}
 
 /* -> Conta il numero delle parole all'interno
 	  della stringa passata <- */
-static int	nb_words(char *s, char c)
+int	ms_nb_words(char *s, char c)
 {
 	int		i;
 	int		j;
@@ -76,70 +40,30 @@ static int	nb_words(char *s, char c)
 	return (i);
 }
 
-/* -> Controlla che nell'assegnazione delle parole, se presenti,
-	  le '\'' e le '\"' siano contate come parola singola <- */
-char	*wds_assign_help(char *s, int *i, int *j, int len)
-{
-	int		a;
-	char	typequote;
-
-	typequote = s[*i];
-	a = *i;
-	*i += 1;
-	if (ms_strchr(s, *i, typequote) > -1)
-	{
-		while (s[*i] != typequote)
-			*i += 1;
-		s = ft_delete_char(s, a);
-		s = ft_delete_char(s, *i - 1);
-		len -= 1;
-	}
-	if (*j < 0)
-		*j = a;
-	*i -= 1;
-	return (s);
-}
-
 /* -> Divide ed assegna le parole calcolate
 	  in precedenza all'interno della matrice <- */
-void	wds_assign(char *s, char c, char **dest, size_t len)
+void	ms_wds_assign(char *s, char c, char **dest, int len)
 {
-	size_t	i;
-	size_t	x;
-	int		j;
+	int	i[2];
+	int	x;
 
-	i = 0;
+	i[0] = 0;
 	x = 0;
-	j = -1;
+	i[1] = -1;
 	while (i <= len)
 	{
-		if ((s[i] == '\'' || s[i] == '\"'))
-			s = wds_assign_help(s, (int *)&i, &j, len);
-		if (s[i] != c && j < 0)
-			j = i;
-		else if ((s[i] == c || i == len) && j >= 0)
+		if ((s[i[0]] == '\'' || s[i[0]] == '\"'))
+			wds_assign_help(&s, &i, len);
+		if (s[i[0]] != c && i[1] < 0)
+			i[1] = i[0];
+		else if ((s[i[0]] == c || i[0] == len) && i[1] >= 0)
 		{
-			dest[x++] = ft_substr(s, j, (i - j));
-			j = -1;
+			dest[x++] = ft_substr(s, i[1], (i[0] - i[1]));
+			i[1] = -1;
 		}
-		if (i > 0)
-		{
-			if ((s[i] == '>' || s[i] == '<') && s[i - 1] != ' '
-				&& s[i - 1] != '>' && s[i - 1] != '<')
-			{
-				if (j < (int) i)
-					dest[x++] = ft_substr(s, j, (i - j));
-				j = i;
-			}
-			else if ((s[i - 1] == '>' || s[i - 1] == '<')
-				&& (s[i] != ' ' && s[i] != '>' && s[i] != '<'))
-			{
-				if (j < (int) i)
-					dest[x++] = ft_substr(s, j, (i - j));
-				j = i;
-			}
-		}
-		i++;
+		if (i[0] > 0)
+			wds_assign_help_b(s, &i, &dest, &x);
+		i[0]++;
 	}
 	dest[x] = 0;
 }
@@ -148,16 +72,17 @@ char	**ms_split(char *s)
 {
 	char	**dest;
 	char	*tmp;
-	char	c = ' ';
+	char	c;
 	size_t	len;
 
 	if (!s)
 		return (NULL);
+	c = ' ';
 	tmp = ft_strdup(s);
 	len = (ft_strlen(tmp));
-	dest = (char **) malloc ((nb_words(tmp, c) + 1) * sizeof(char *));
+	dest = (char **) malloc ((ms_nb_words(tmp, c) + 1) * sizeof(char *));
 	if (!dest)
 		return (NULL);
-	wds_assign(tmp, c, dest, len);
+	ms_wds_assign(tmp, c, dest, (int)len);
 	return (dest);
 }

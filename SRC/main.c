@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/21 17:13:37 by fdrudi            #+#    #+#             */
+/*   Updated: 2022/06/21 17:13:37 by fdrudi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../INCL/minishell.h"
 
 void	ft_free(char **dc)
@@ -37,6 +49,19 @@ char	**ft_new_env(char **mat, int def)
 	return (new);
 }
 
+char	*ft_prompt(void)
+{
+	char	*line;
+
+	if (g_exit_status != 0)
+		line = readline(BOLDRED"bash-st00pid>$ "RESET);
+	else
+		line = readline(BOLDGREEN"bash-biutiful>$ "RESET);
+	if (!line)
+		ft_control_d(line);
+	return (line);
+}
+
 void	ft_command(t_bash **bash, struct sigaction *sa, char **envp)
 {
 	char	*line;
@@ -46,29 +71,21 @@ void	ft_command(t_bash **bash, struct sigaction *sa, char **envp)
 	while (1)
 	{
 		ft_sig_define(sa, 0);
-		if (exit_status != 0)
-			line = readline(BOLDRED"bash-st00pid>$ "RESET);
-		else
-			line = readline(BOLDGREEN"bash-biutiful>$ "RESET);
-		if (!line)
-			ft_control_d(line);
-		if (*line)
+		line = ft_prompt();
+		if (ft_parse(bash, line, env) == 1)
 		{
-			if (ft_parse(bash, line, env) == 1)
-			{
-				if ((*bash)->next != NULL || (*bash)->re_dir == '1')
-					ft_sig_define(sa, 1);
-				ft_execute(bash, env, &line);
-			}
-			add_history(line);
-			if (*bash && (*bash)->envp)
-			{
-				ft_free(env);
-				env = ft_new_env((*bash)->envp, 0);
-			}
-			ft_delete_lst(bash);
-			free(line);
+			if ((*bash)->next != NULL || (*bash)->re_dir == '1')
+				ft_sig_define(sa, 1);
+			ft_execute(bash, env, &line);
 		}
+		add_history(line);
+		if (*bash && (*bash)->envp)
+		{
+			ft_free(env);
+			env = ft_new_env((*bash)->envp, 0);
+		}
+		ft_delete_lst(bash);
+		free(line);
 	}
 }
 
@@ -86,10 +103,6 @@ int	main(int argc, char **argv, char **envp)
 	bash = NULL;
 	ft_rm_ctrl(envp);
 	ft_command(&bash, &sa, envp);
-	return (exit_status);
+	return (g_exit_status);
 }
-
-
-/* 1) sistemare il find it.
-   5) pulizia, controlli che poi si comincia coi bonus belli a papà
-   6) leaks */
+/* 6) leaks */

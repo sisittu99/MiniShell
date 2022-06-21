@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   unset.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/21 16:24:28 by fdrudi            #+#    #+#             */
+/*   Updated: 2022/06/21 16:24:29 by fdrudi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../INCL/minishell.h"
 
@@ -7,7 +18,8 @@ char	**ft_delete_env_var( char **envp, int index[3])
 	int		i;
 
 	i = 0;
-	while (envp[i++]) ;
+	while (envp[i++])
+		;
 	cpy = (char **) malloc (sizeof(char *) * i);
 	if (!cpy)
 		return (envp);
@@ -21,7 +33,7 @@ char	**ft_delete_env_var( char **envp, int index[3])
 	return (cpy);
 }
 
-char **ft_unset_find_var(char **envp, char *to_find)
+char	**ft_unset_find_var(char **envp, char *to_find)
 {
 	int	index[3];
 	int	i;
@@ -42,7 +54,6 @@ char **ft_unset_find_var(char **envp, char *to_find)
 	}
 	return (envp);
 }
-
 
 /*Elimina le variabili all'interno dell'env.
   Restituisce 0 se le elimina tutte, >0 se almeno una fallisce.

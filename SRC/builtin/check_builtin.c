@@ -1,23 +1,35 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_builtin.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/21 16:24:20 by fdrudi            #+#    #+#             */
+/*   Updated: 2022/06/21 16:24:21 by fdrudi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../INCL/minishell.h"
 
 void	ft_exec_builtin(t_bash **bash, char **envp, int def)
 {
 	if ((*bash)->built == 0)
-		exit_status = ft_echo((*bash)->cmd);
+		g_exit_status = ft_echo((*bash)->cmd);
 	else if ((*bash)->built == 1)
-		exit_status = ft_cd(bash, (*bash)->cmd, envp);
+		g_exit_status = ft_cd(bash, (*bash)->cmd, envp);
 	else if ((*bash)->built == 2)
-		exit_status = ft_pwd((*bash)->cmd, envp);
+		g_exit_status = ft_pwd((*bash)->cmd, envp);
 	else if ((*bash)->built == 3)
-		exit_status = ft_export(bash, (*bash)->cmd, envp);
+		g_exit_status = ft_export(bash, (*bash)->cmd, envp);
 	else if ((*bash)->built == 4)
-		exit_status = ft_unset(bash, (*bash)->cmd, envp);
+		g_exit_status = ft_unset(bash, (*bash)->cmd, envp);
 	else if ((*bash)->built == 5)
-		exit_status = ft_env((*bash)->cmd, envp);
+		g_exit_status = ft_env((*bash)->cmd, envp);
 	else if ((*bash)->built == 6)
 		ft_exit((*bash)->cmd);
 	if (def == 1)
-		exit(exit_status);
+		exit(g_exit_status);
 	return ;
 }
 

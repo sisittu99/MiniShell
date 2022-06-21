@@ -32,7 +32,7 @@ void	ft_control_d(char *line)
 {
 	printf("\nExit\n");
 	free(line);
-	exit (exit_status);
+	exit (g_exit_status);
 }
 
 void	ft_sig_default(int sig)
