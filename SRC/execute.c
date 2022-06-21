@@ -254,20 +254,44 @@ void	ft_check_new_cmd(t_bash **bash, char **cpy, char **envp)
 
 /* -> Funzione che controlla e ritorna la condizione per && o ||
 	  controllando quando eseguire o meno <- */
-int	ft_and_or(t_bash **bash, char **envp, char *line, int def)
+int	ft_and_or(t_bash **bash, char **envp, char *line, int *def)
 {
-	if (def == 0)
+	static int	par;
+
+	if ((*def) == 0)
 		ft_lonely_cmd(bash, envp, line);
 	if ((*bash)->sep == '&')
 	{
 		if (exit_status != 0)
+		{
+			par = (*bash)->par;
+			while ((*bash)->next != NULL
+					&& (((*bash)->sep == '&' && (*bash)->par == (*bash)->next->par)
+					|| ((*bash)->next->par >= par)))
+				*bash = (*bash)->next;
+			(*def) = 1;
+			par = (*bash)->par;
 			return (0);
+		}
+		(*def) = 0;
+		par = (*bash)->par;
 		return (1);
 	}
 	else if ((*bash)->sep == '|')
 	{
 		if (exit_status != 0)
+		{
+			(*def) = 0;
+			par = (*bash)->par;
 			return (1);
+		}
+		par = (*bash)->par;
+		while ((*bash)->next != NULL
+				&& (((*bash)->sep == '|' && (*bash)->par == (*bash)->next->par)
+				|| ((*bash)->next->par >= par)))
+			*bash = (*bash)->next;
+		(*def) = 1;
+		par = (*bash)->par;
 		return (0);
 	}
 	return (1);
@@ -287,28 +311,26 @@ int	ft_check_exec(t_bash **tmp, char **envp, char *line)
 		ft_lonely_cmd(tmp, envp, ft_strjoin(line, "\n"));
 	if ((*tmp)->sep == '|' || (*tmp)->sep == '&')
 	{
-		if (ft_and_or(tmp, envp, ft_strjoin(line, "\n"), def) == 0)
+		if (ft_and_or(tmp, envp, ft_strjoin(line, "\n"), &def) == 0)
 		{
 			if ((*tmp)->next != NULL && (*tmp)->next->par != 0)
 			{
-				if (((*tmp)->next->par != (*tmp)->par) && ((*tmp)->sep == '|')) //SISTEMARE CONDIZIONI PER SOTTOPARENTESI
-					def = 1;
 				*tmp = (*tmp)->next;
 				return (1);
 			}
-			*tmp = (*tmp)->next;
 		}
 		if ((*tmp)->next == NULL)
+		{
+			def = 0;
 			return (0);
-		def = 0;
-		if (((*tmp)->next->par != (*tmp)->par) && ((*tmp)->sep == '|'))
-			def = 1;
+		}
 		*tmp = (*tmp)->next;
-		if ((*tmp)->next != NULL && (*tmp)->next->par != 0)
-				return (1);
 	}
 	else
+	{
+		def = 0;
 		*tmp = (*tmp)->next;
+	}
 	return (1);
 }
 

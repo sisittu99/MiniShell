@@ -1,7 +1,6 @@
 make --dry-run --always-make --keep-going --print-directory
 make: Entering directory `/Users/fdrudi/42_Cursus/42_minishell'
 make -C ./libft
- 
 gcc  -g -Wall -Wextra -Werror -c SRC/main.c -o SRC/main.o
 gcc  -g -Wall -Wextra -Werror -c SRC/path.c -o SRC/path.o
 gcc  -g -Wall -Wextra -Werror -c SRC/ms_split.c -o SRC/ms_split.o

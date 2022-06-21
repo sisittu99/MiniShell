@@ -40,7 +40,7 @@ int	ft_cd(t_bash **bash, char **cmd, char **envp)
 		free(dir);
 		if (res == -1)
 		{
-			fd_printf(2, "bash: cd: %s: No such file or directory\n", dir);
+			fd_printf(2, "bash: cd: %s:  file or directory\n", dir);
 			return (1);
 		}
 		free(new_pwd);

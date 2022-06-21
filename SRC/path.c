@@ -35,6 +35,11 @@ char	*ft_access(char *cmd, char **path)
 		}
 		return (cmd);
 	}
+	if (ms_strchr(cmd, 0, '/') != -1)
+	{
+		fd_printf(2, "bash: %s: No such file or directory\n", cmd);
+		exit(127);
+	}
 	if (path == NULL)
 		return (NULL);
 	while (*path)
@@ -54,6 +59,5 @@ char	*ft_access(char *cmd, char **path)
 		free (address);
 		path++;
 	}
-	fd_printf(2, "bash: %s: No such file or directory\n", cmd);
-	exit(127);
+	return (NULL);
 }
