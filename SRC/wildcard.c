@@ -93,7 +93,7 @@ char	*ft_wildcard(char *s, char *pwd, int pos, int *ret_i)
 	dir = opendir(pwd);
 	if (dir == NULL)
 	{
-		fd_printf(2, "error: could not open dir\n");
+		fd_printf(2, "bash: error: could not open dir\n");
 		return (NULL);
 	}
 	wild = wd_split(ft_find_wildcard(s, &pos), '*');
@@ -115,7 +115,7 @@ char	*ft_wildcard(char *s, char *pwd, int pos, int *ret_i)
 		pos++;
 	if (s[pos] != '\0')
 	{
-		s3 =ft_substr(s, pos, (ft_strlen(s) - pos));
+		s3 = ft_substr(s, pos, (ft_strlen(s) - pos));
 		return (ft_strjoin(s1, s3));
 	}
 	closedir(dir);

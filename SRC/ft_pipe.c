@@ -6,7 +6,7 @@
 /*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 15:32:46 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/21 15:57:53 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/22 12:40:33 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	ft_pipe_help(t_bash **bash, t_bash **start, char **envp, char *line)
 	int		status;
 	t_bash	*tmp;
 
-	tmp = ft_pipe_help_b(bash, &start, envp, line);
+	tmp = ft_pipe_help_b(bash, start, envp, line);
 	status = 0;
 	*bash = (*bash)->next;
 	(*bash)->proc = fork();
@@ -70,12 +70,12 @@ void	ft_pipe_help(t_bash **bash, t_bash **start, char **envp, char *line)
 	else if ((*bash)->proc == 0)
 	{
 		dup2(tmp->pipe[0], STDIN_FILENO);
-		ft_close_pipe(&start);
+		ft_close_pipe(start);
 		ft_execve(bash, envp, line, 1);
 	}
 	ft_close_pipe(start);
 	tmp = (*start);
-	while (start)
+	while (*start)
 	{
 		waitpid((*start)->proc, &status, 0);
 		if (WIFEXITED(status))
@@ -88,7 +88,6 @@ void	ft_pipe_help(t_bash **bash, t_bash **start, char **envp, char *line)
 	   anche consecutivamente <- */
 void	ft_pipe(t_bash **bash, char **envp, char *line)
 {
-	t_bash	*tmp;
 	t_bash	*start;
 
 	start = *bash;

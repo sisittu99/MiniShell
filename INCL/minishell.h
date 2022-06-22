@@ -86,9 +86,9 @@ void	rl_replace_line(const char *text, int clear_undo);
 // * PARSE * //
 
 int		ft_parse(t_bash **bash, char *line, char **envp);
-void	ft_replace(char **s, char **envp, int pos, int *ret_i);
+void	ft_replace(char *s, char **envp, int pos, int *ret_i);
 char	*ft_replace_help(char *s, char **envp, int pos, int *ret_i);
-char	*ft_replace_help_b(char *s, char **envp, int *ret_i, int **i);
+char	*ft_replace_help_b(char *s, char **envp, int *ret_i, int *i);
 char	*ft_replace_tilde(char *s, char **envp, int pos, int *ret_i);
 int		ft_check_var(char *s, int pos);
 char	*ft_replace_join(char *s1, char *s2, char *s3);
@@ -99,9 +99,9 @@ char	**ms_split(char *s);
 int		ms_nb_words(char *s, char c);
 void	nb_words_help(char *s, int a, int *i, int *j);
 void	nb_words_redir(char *s, int a, int *j);
-void	ms_wds_assign(char *s, char c, char **dest, size_t len);
-void	wds_assign_help(char *s, int **i, int len);
-void	wds_assign_help_b(char *s, int **i, char ***dest, int *x);
+void	ms_wds_assign(char *s, char c, char **dest, int len);
+void	wds_assign_help(char *s, int *i, int len);
+void	wds_assign_help_b(char *s, int *i, char **dest, int *x);
 
 // * EXECUTE * //
 
@@ -120,7 +120,7 @@ int		ft_or(t_bash **bash, int *def, int *par);
 int		ft_check_re_dir(t_bash **bash, int i, char *line);
 int		ft_re_dir_help(t_bash **bash, int i, int fd);
 int		ft_re_dir_help_b(t_bash **bash, int i, char *line);
-void	ft_re_dir_loop(t_bash **bash, int i, int **pip, char *line);
+void	ft_re_dir_loop(t_bash **bash, int i, int *pip, char *line);
 	//pipe//
 void	ft_pipe(t_bash **bash, char **envp, char *line);
 void	ft_pipe_help(t_bash **bash, t_bash **start, char **envp, char *line);
@@ -168,7 +168,7 @@ void	ft_free(char **dc);
 t_bash	*ft_new_node(char *line, int pos, int len, char *sep);
 void	ft_node_add_back(t_bash **lst, t_bash *new);
 void	ft_delete_lst(t_bash **bash);
-t_bash	*ft_init_node(t_bash **tmp);
+t_bash	*ms_init_node(t_bash **tmp);
 
 // void	rl_replace_line (const char *text, int clear_undo);
 

@@ -6,41 +6,11 @@
 /*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 16:24:40 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/21 16:26:24 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/22 12:53:49 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../INCL/minishell.h"
-
-/* -> Funzione Helper che elimina due stringhe all'interno di una matrice <- */
-char	**ft_delete_cmd(char **cmd, int pos)
-{
-	char	**tmp;
-	int		i;
-	int		j;
-	int		len;
-
-	i = 0;
-	j = 0;
-	len = 0;
-	while (cmd[len])
-		len++;
-	tmp = (char **) malloc (sizeof(char *) * (len - 1));
-	while (cmd[j] != NULL)
-	{
-		if (pos == j)
-			j += 2;
-		if (cmd[j] != NULL)
-		{
-			tmp[i] = ft_strdup(cmd[j]);
-			i++;
-			j++;
-		}
-	}
-	tmp[len - 2] = 0;
-	ft_free(cmd);
-	return (tmp);
-}
 
 /* -> Controlla i redirect presenti ed esegue il comando <- */
 void	ft_execve(t_bash **bash, char **envp, char *line, int def)

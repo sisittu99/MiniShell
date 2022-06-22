@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signals.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/22 12:09:55 by fdrudi            #+#    #+#             */
+/*   Updated: 2022/06/22 12:09:56 by fdrudi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../INCL/minishell.h"
 
 void	ft_sig_define(struct sigaction *sa, int def)
@@ -61,7 +73,7 @@ void	ft_rm_ctrl(char **envp)
 
 	i = 0;
 	fd = open(ft_strjoin(ft_replace_tilde(ft_strdup("~"), envp, 0, &i),
-		 "/.inputrc"), O_RDWR | O_CREAT | O_APPEND, 0777);
+				"/.inputrc"), O_RDWR | O_CREAT | O_APPEND, 0777);
 	tmp = ft_get_next_line(fd);
 	while (tmp)
 	{

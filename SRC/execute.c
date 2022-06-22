@@ -29,6 +29,8 @@ int	ft_check_exec_help(t_bash **tmp, char **envp, char *line, int *def)
 		return (0);
 	}
 	*tmp = (*tmp)->next;
+	if ((*tmp)->next == NULL)
+		ft_lonely_cmd(tmp, envp, ft_strjoin(line, "\n"));
 	return (1);
 }
 
@@ -44,8 +46,6 @@ int	ft_check_exec(t_bash **tmp, char **envp, char *line)
 		ft_pipe(tmp, envp, ft_strjoin(line, "\n"));
 		def = 1;
 	}
-	if ((*tmp)->next == NULL)
-		ft_lonely_cmd(tmp, envp, ft_strjoin(line, "\n"));
 	if ((*tmp)->sep == '|' || (*tmp)->sep == '&')
 		return (ft_check_exec_help(tmp, envp, line, &def));
 	else
@@ -78,11 +78,12 @@ int	ft_execute(t_bash **bash, char **envp, char **line)
 				if (tmp->par != lvl)
 					break ;
 				if (ft_check_exec(&tmp, envp, *line) == 0)
-					return ;
+					return (0);
 			}
 		}
 		else
 			if (ft_check_exec(&tmp, envp, *line) == 0)
-				return ;
+				return (0);
 	}
+	return (1);
 }

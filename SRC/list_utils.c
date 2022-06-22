@@ -55,7 +55,7 @@ void	ft_node_add_back(t_bash **lst, t_bash *new)
 		(*lst) = new;
 }
 
-t_bash	*ft_init_node(t_bash **tmp)
+t_bash	*ms_init_node(t_bash **tmp)
 {
 	t_bash	*new;
 
@@ -94,5 +94,5 @@ t_bash	*ft_new_node(char *line, int pos, int len, char *sep)
 		new->pipe[1] = 0;
 	}
 	new->re_dir = sep[2];
-	return (ft_init_node(&new));
+	return (ms_init_node(&new));
 }

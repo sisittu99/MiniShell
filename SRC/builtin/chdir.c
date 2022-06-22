@@ -40,16 +40,18 @@ void	ft_handle_pwd_var(t_bash **bash, char **envp, int casus)
 	In caso di nessun argomento, cerca la var HOME
 	e sposta il processo in quella cartella.
 */
-void	ft_find_home(char **envp)
+char	*ft_find_home(char **envp)
 {
 	char	*dir;
 	int		*index;
 
 	index = find_it(envp, "HOME");
+	dir = NULL;
 	if (index != NULL)
 		dir = ft_substr(envp[index[0]], index[1] + 1,
 				ft_strlen(envp[index[0]]));
-	free(index);
+	if (index)
+		free(index);
 	return (dir);
 }
 

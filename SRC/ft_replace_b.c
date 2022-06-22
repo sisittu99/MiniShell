@@ -6,7 +6,7 @@
 /*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 16:55:45 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/21 16:57:43 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/22 12:00:24 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	*find_it(char **envp, char *to_find)
 		index[1] = 0;
 		index[2] = 0;
 	}
+	free(index);
 	return (NULL);
 }
 

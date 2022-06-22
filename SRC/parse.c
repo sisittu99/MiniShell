@@ -16,7 +16,7 @@ int	*ms_bzero(int size)
 	return (cp);
 }
 
-void	ft_find_tilde(char **line, char **envp, char re_dir, char c)
+void	ft_find_tilde(char *line, char **envp, char re_dir, char c)
 {
 	int	pos;
 	int	pos_apex[4];
@@ -27,18 +27,18 @@ void	ft_find_tilde(char **line, char **envp, char re_dir, char c)
 	pos_apex[1] = 1;
 	pos_apex[2] = 0;
 	pos_apex[3] = 1;
-	pos = ms_strchr(*line, i, c);
+	pos = ms_strchr(line, i, c);
 	while (pos != -1)
 	{
 		if (pos_apex[0] < pos_apex[1])
 		{
-			pos_apex[0] = ms_strchr(*line, i, '\'');
-			pos_apex[1] = ms_strchr(*line, (pos_apex[0] + 1), '\'');
+			pos_apex[0] = ms_strchr(line, i, '\'');
+			pos_apex[1] = ms_strchr(line, (pos_apex[0] + 1), '\'');
 		}
 		if (pos_apex[2] < pos_apex[3])
 		{
-			pos_apex[2] = ms_strchr(*line, i, '\"');
-			pos_apex[3] = ms_strchr(*line, (pos_apex[2] + 1), '\"');
+			pos_apex[2] = ms_strchr(line, i, '\"');
+			pos_apex[3] = ms_strchr(line, (pos_apex[2] + 1), '\"');
 		}
 		if (!(pos_apex[0] < pos && pos < pos_apex[1])
 			&& !(pos_apex[2] < pos && pos < pos_apex[3])
@@ -48,7 +48,7 @@ void	ft_find_tilde(char **line, char **envp, char re_dir, char c)
 			i++;
 		}
 		else if ((pos_apex[0] < pos && pos < pos_apex[1])
-				&& (pos_apex[2] < pos && pos < pos_apex[3]))
+			&& (pos_apex[2] < pos && pos < pos_apex[3]))
 			i = pos_apex[1] > pos_apex[3] ? pos_apex[1] + 1 : pos_apex[3] + 1;
 		else if (pos_apex[0] < pos && pos < pos_apex[1])
 			i = pos_apex[1] + 1;
@@ -56,9 +56,8 @@ void	ft_find_tilde(char **line, char **envp, char re_dir, char c)
 			i = pos_apex[3] + 1;
 		else
 			i++;
-		pos = ms_strchr(*line, i, c);
+		pos = ms_strchr(line, i, c);
 	}
-
 }
 
 /* -> Analizza la stringa e cambia le Variabili col rispettivo valore.
@@ -70,8 +69,8 @@ char	*find_var_to_replace(char *line, char **envp, char re_dir)
 	int	i;
 
 	i = 0;
-	ft_find_tilde(&line, envp, re_dir, '~');
-	ft_find_tilde(&line, envp, re_dir, '*');
+	ft_find_tilde(line, envp, re_dir, '~');
+	ft_find_tilde(line, envp, re_dir, '*');
 	pos_dollar = ms_strchr(line, i, '$');
 	pos_apex[0] = 0;
 	pos_apex[1] = 1;
@@ -83,7 +82,7 @@ char	*find_var_to_replace(char *line, char **envp, char re_dir)
 			pos_apex[1] = ms_strchr(line, (pos_apex[0] + 1), '\'');
 		}
 		if (!(pos_apex[0] < pos_dollar && pos_dollar < pos_apex[1]) && re_dir != '1')
-			ft_replace(&line, envp, pos_dollar, &i);
+			ft_replace(line, envp, pos_dollar, &i);
 		else if (pos_apex[0] < pos_dollar && pos_dollar < pos_apex[1])
 			i = pos_apex[1] + 1;
 		else
@@ -347,7 +346,7 @@ int	ft_parse(t_bash **bash, char *line, char **envp)
 		line3 = find_var_to_replace(ft_strdup(tmp->line), envp, tmp->re_dir);
 		(tmp)->cmd = ms_split(line3);
 		// ft_print_cmd((tmp)->cmd, i);
-		printf("Node: %d\t[%s]\tsep: %c\tpipe: %d\tre_dir: %c\tpar: %d\n", i, tmp->line, (tmp)->sep, (tmp)->pipe[0], (tmp)->re_dir, tmp->par);
+		// printf("Node: %d\t[%s]\tsep: %c\tpipe: %d\tre_dir: %c\tpar: %d\n", i, tmp->line, (tmp)->sep, (tmp)->pipe[0], (tmp)->re_dir, tmp->par);
 		tmp = (tmp)->next;
 		free(line3);
 		i++;
