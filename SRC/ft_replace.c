@@ -78,6 +78,7 @@ char	*ft_replace_help_b(char *s, char **envp, int *ret_i, int *i)
 		s2 = ft_strjoin("$", var);
 	free(var);
 	*ret_i = i[2] + ft_strlen(s2);
+	free(s2);
 	s3 = ft_substr(s, i[0], (ft_strlen(s) - i[0]));
 	return (s3);
 }
@@ -139,7 +140,7 @@ void	ft_replace(char *s, char **envp, int pos, int *ret_i)
 	}
 	else if (tmp[pos] == '$' && (s[pos + 1] != '\"'))
 		s = ft_replace_help(tmp, envp, pos, ret_i);
-	if (tmp)
+	if (tmp != NULL)
 		free(tmp);
 	return ;
 }

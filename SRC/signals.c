@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
+/*   By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 12:09:55 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/22 16:06:05 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/22 18:15:48 by mcerchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,31 +62,3 @@ void	ft_sig_default(int sig)
 	}
 }
 
-/*
-	Crea o modifica il file ~/.inputrc,
-	nel quale si spegne la stampa dei caratteri di controllo.
-*/
-void	ft_rm_ctrl(char **envp)
-{
-	int		i;
-	int		fd;
-	char	*tmp;
-
-	i = 0;
-	fd = open(ft_strjoin(ft_replace_tilde(ft_strdup("~"), envp, 0, &i),
-				"/.inputrc"), O_RDWR | O_CREAT | O_APPEND, 0777);
-	tmp = ft_get_next_line(fd);
-	while (tmp)
-	{
-		if (ft_strcmp(tmp, ft_strdup("set echo-control-characters Off\n")) == 1)
-		{
-			close(fd);
-			free(tmp);
-			return ;
-		}
-		tmp = ft_get_next_line(fd);
-	}
-	fd_printf(fd, "set echo-control-characters Off\n");
-	close(fd);
-	free(tmp);
-}

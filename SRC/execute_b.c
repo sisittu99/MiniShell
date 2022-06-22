@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_b.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
+/*   By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 16:24:40 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/22 15:04:58 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/22 19:10:13 by mcerchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,11 @@ int	ft_lonely_cmd(t_bash **bash, char **envp, char *line)
 		waitpid((*bash)->proc, &status, 0);
 		if (WIFEXITED(status))
 			g_exit_status = WEXITSTATUS(status);
+		free(line);
 		return (1);
 	}
 	ft_execve(bash, envp, line, 0);
+	free(line);
 	return (1);
 }
 
@@ -84,6 +86,7 @@ void	ft_check_new_cmd(t_bash **bash, char **cpy, char **envp)
 			exit(2);
 		}
 		ft_parse(bash, line, envp);
+		free(line);
 	}
 	return ;
 }

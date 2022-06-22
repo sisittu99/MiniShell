@@ -15,22 +15,28 @@
 /* -> Funzione helper che controlla le priorità degli && e || <- */
 int	ft_check_exec_help(t_bash **tmp, char **envp, char *line, int *def)
 {
-	if (ft_and_or(tmp, envp, ft_strjoin(line, "\n"), def) == 0)
+	char	*joined_line;
+
+	joined_line = ft_strjoin(line, "\n");
+	if (ft_and_or(tmp, envp, joined_line, def) == 0)
 	{
 		if ((*tmp)->next != NULL && (*tmp)->next->par != 0)
 		{
 			*tmp = (*tmp)->next;
+			free(joined_line);
 			return (1);
 		}
 	}
 	if ((*tmp)->next == NULL)
 	{
 		(*def) = 0;
+		free(joined_line);
 		return (0);
 	}
 	*tmp = (*tmp)->next;
 	if ((*tmp)->next == NULL)
-		ft_lonely_cmd(tmp, envp, ft_strjoin(line, "\n"));
+		ft_lonely_cmd(tmp, envp, joined_line);
+	free(joined_line);
 	return (1);
 }
 
@@ -39,13 +45,16 @@ int	ft_check_exec_help(t_bash **tmp, char **envp, char *line, int *def)
 int	ft_check_exec(t_bash **tmp, char **envp, char *line)
 {
 	static int	def;
+	char		*joined_line;
 
+	joined_line = ft_strjoin(line, "\n");
 	if (((*tmp)->pipe[0] != 0 && (*tmp)->pipe[1] != 0)
 		&& (*tmp)->next != NULL)
 	{
-		ft_pipe(tmp, envp, ft_strjoin(line, "\n"));
+		ft_pipe(tmp, envp, joined_line);
 		def = 1;
 	}
+	free(joined_line);
 	if ((*tmp)->sep == '|' || (*tmp)->sep == '&')
 		return (ft_check_exec_help(tmp, envp, line, &def));
 	else

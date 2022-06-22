@@ -6,7 +6,7 @@
 #    By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/22 15:36:33 by fdrudi            #+#    #+#              #
-#    Updated: 2022/06/22 17:39:53 by mcerchi          ###   ########.fr        #
+#    Updated: 2022/06/22 18:50:13 by mcerchi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ SRC			=	./SRC/main.c ./SRC/path.c ./SRC/ms_split.c \
 				./SRC/builtin/echo.c ./SRC/builtin/chdir.c \
 				./SRC/builtin/export.c ./SRC/builtin/export_one.c \
 				./SRC/builtin/export_two.c \
-				./SRC/builtin/unset.c ./SRC/signals.c \
+				./SRC/builtin/unset.c ./SRC/signals.c ./SRC/rm_ctrl.c\
 				./SRC/wd_split.c ./SRC/wildcard.c ./SRC/wildcard_help.c \
 				./SRC/re_dir.c ./SRC/ft_pipe.c ./SRC/ft_and_or.c \
 				./SRC/execute_b.c ./SRC/ft_replace_b.c ./SRC/syntax_error.c \
@@ -32,7 +32,7 @@ LIBFT		=	libft/libft.a
 READLINE	=	-L/usr/include -lreadline -L$(HOME)/.brew/opt/readline/lib \
 				-I$(HOME)/.brew/opt/readline/include\
 
-CC			=	gcc -fsanitize=address
+CC			=	gcc #-fsanitize=address
 
 RM			=	rm -f
 
@@ -63,5 +63,8 @@ re.all:		fclean.all all
 
 norm:
 			@norminette
+
+run:		all
+			@./minishell
 
 .PHONY:		all clean fclean re

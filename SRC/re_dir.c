@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   re_dir.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
+/*   By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 15:24:31 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/22 15:04:34 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/22 19:15:32 by mcerchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,10 @@ void	ft_re_dir_loop(t_bash **bash, int i, int *pip, char *line)
 		if (line && *line)
 			add_history(line);
 		ft_putstr_fd(tmp, pip[1]);
+		free(buf);
+		free(tmp);
 	}
+	free(buf);
 }
 
 /* -> Funzione helper che controlla il redirect dell'input <- */

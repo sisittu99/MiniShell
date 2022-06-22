@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
+/*   By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 16:24:20 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/21 16:24:21 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/22 18:03:21 by mcerchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,13 @@ int	ft_check_builtin(char *cmd)
 	while (i < 7)
 	{
 		if (ft_strcmp(cmd, built[i]) == 1)
+		{
+			ft_free(built);
 			return (i);
+		}
 		i++;
 	}
+	ft_free(built);
 	return (-1);
 }
 

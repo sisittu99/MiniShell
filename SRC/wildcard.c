@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
+/*   By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 16:47:37 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/22 16:53:24 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/22 19:20:36 by mcerchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,10 @@ char	*ft_wildcard(char *s, char *pwd, int pos, int *ret_i)
 	if (s[pos] != '\0')
 	{
 		s3 = ft_substr(s, pos, (ft_strlen(s) - pos));
-		return (ft_strjoin(s1, s3));
+		s2 = ft_strjoin(s1, s3);
+		free(s1);
+		free(s3);
+		return (s2);
 	}
 	ft_free(wild);
 	return (s1);

@@ -103,7 +103,7 @@ int	ft_parse_help(t_bash **bash, char **envp)
 	{
 		ft_find_tilde(tmp->line, envp, tmp->re_dir, '~');
 		ft_find_tilde(tmp->line, envp, tmp->re_dir, '*');
-		line3 = find_var_to_replace(ft_strdup(tmp->line), envp, tmp->re_dir);
+		line3 = find_var_to_replace(tmp->line, envp, tmp->re_dir);
 		(tmp)->cmd = ms_split(line3);
 		tmp = (tmp)->next;
 		free(line3);
