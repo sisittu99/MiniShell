@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_one.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
+/*   By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 15:56:04 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/21 15:56:05 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/22 22:12:14 by mcerchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ char	**ft_sort_env(char **envp)
 	index[1] = 0;
 	index[2] = 1;
 	sort = ft_init_sort(envp);
-	while (sort[index[0]++])
-		;
+	while (sort[index[0]])
+		index[0]++;
 	while (sort[index[1]])
 	{
 		while (index[2] < index[0] - index[1] - 1)

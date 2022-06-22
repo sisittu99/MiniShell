@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_find.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
+/*   By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 16:14:37 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/22 16:53:56 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/22 22:54:46 by mcerchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,19 +46,27 @@ void	ft_find_tilde_help(int *pos_apex, int *i, int pos)
 		(*i)++;
 }
 
+void	ft_init_pos_apex(int **pos_apex)
+{
+	*pos_apex = (int *) malloc(sizeof(int) * 4);
+	(*pos_apex)[0] = 0;
+	(*pos_apex)[1] = 1;
+	(*pos_apex)[2] = 0;
+	(*pos_apex)[3] = 1;
+}
+
 /* -> Funzione che cerca un carattere passato facendo
 	  il replace col suo valore <- */
 void	ft_find_tilde(char *line, char **envp, char re_dir, char c)
 {
-	int	pos;
-	int	pos_apex[4];
-	int	i;
+	char	*tmp;
+	int		pos;
+	int		*pos_apex;
+	int		i;
 
+	tmp = line;
 	i = 0;
-	pos_apex[0] = 0;
-	pos_apex[1] = 1;
-	pos_apex[2] = 0;
-	pos_apex[3] = 1;
+	ft_init_pos_apex(&pos_apex);
 	pos = ms_strchr(line, i, c);
 	while (pos != -1)
 	{
@@ -73,6 +81,7 @@ void	ft_find_tilde(char *line, char **envp, char re_dir, char c)
 			ft_find_tilde_help(pos_apex, &i, pos);
 		pos = ms_strchr(line, i, c);
 	}
+	free(pos_apex);
 }
 
 /* -> Analizza la stringa e cambia le Variabili col rispettivo valore.

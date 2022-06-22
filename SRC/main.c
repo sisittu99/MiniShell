@@ -86,7 +86,7 @@ void	ft_command(t_bash **bash, struct sigaction *sa, char **envp)
 		}
 		ft_delete_lst(bash);
 		free(line);
-		exit (0);
+		// exit (0);
 	}
 }
 
