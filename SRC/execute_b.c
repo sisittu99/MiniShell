@@ -6,7 +6,7 @@
 /*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 16:24:40 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/22 12:53:49 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/22 15:04:58 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,16 @@ void	ft_execve(t_bash **bash, char **envp, char *line, int def)
 	int	i;
 
 	i = 0;
+	if ((*bash)->built == -2)
+		(*bash)->built = ft_check_builtin((*bash)->cmd[0]);
 	if ((*bash)->re_dir)
 	{
-		while ((*bash)->cmd[i] != 0)
+		while ((*bash)->cmd[i])
 		{
 			if (ft_check_re_dir(bash, i, line) == 0)
 				i++;
 		}
 	}
-	if ((*bash)->built == -2)
-		(*bash)->built = ft_check_builtin((*bash)->cmd[0]);
 	if ((*bash)->built == -1)
 	{
 		if (execve(ft_access((*bash)->cmd[0],
@@ -48,7 +48,7 @@ int	ft_lonely_cmd(t_bash **bash, char **envp, char *line)
 
 	status = 0;
 	(*bash)->built = ft_check_builtin((*bash)->cmd[0]);
-	if ((*bash)->built == -1)
+	if ((*bash)->built == -1 || (*bash)->re_dir)
 	{
 		(*bash)->proc = fork();
 		if ((*bash)->proc < 0)

@@ -6,7 +6,7 @@
 /*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 16:55:45 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/22 12:00:24 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/22 15:10:56 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	*find_it(char **envp, char *to_find)
 	index = (int *) malloc (sizeof(int) * 3);
 	while (i < 3)
 		index[i++] = 0;
-	while (envp[index[0]])
+	while (envp[index[0]++])
 	{
 		while (envp[index[0]][index[1]] == to_find[index[2]])
 		{
@@ -35,7 +35,6 @@ int	*find_it(char **envp, char *to_find)
 			}
 			index[2]++;
 		}
-		index[0]++;
 		index[1] = 0;
 		index[2] = 0;
 	}

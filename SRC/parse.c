@@ -69,8 +69,6 @@ char	*find_var_to_replace(char *line, char **envp, char re_dir)
 	int	i;
 
 	i = 0;
-	ft_find_tilde(line, envp, re_dir, '~');
-	ft_find_tilde(line, envp, re_dir, '*');
 	pos_dollar = ms_strchr(line, i, '$');
 	pos_apex[0] = 0;
 	pos_apex[1] = 1;
@@ -81,7 +79,8 @@ char	*find_var_to_replace(char *line, char **envp, char re_dir)
 			pos_apex[0] = ms_strchr(line, i, '\'');
 			pos_apex[1] = ms_strchr(line, (pos_apex[0] + 1), '\'');
 		}
-		if (!(pos_apex[0] < pos_dollar && pos_dollar < pos_apex[1]) && re_dir != '1')
+		if (!(pos_apex[0] < pos_dollar && pos_dollar < pos_apex[1])
+			&& re_dir != '1')
 			ft_replace(line, envp, pos_dollar, &i);
 		else if (pos_apex[0] < pos_dollar && pos_dollar < pos_apex[1])
 			i = pos_apex[1] + 1;
@@ -119,55 +118,6 @@ void	ft_init_node(t_bash **bash, char *line, int pos, int len)
 	i = 0;
 	while (i < 3)
 		sep[i++] = 0;
-}
-
-int	ft_syntax_err_b(char *line, int *def, int i)
-{
-	if (line[i] == '$' && line[i + 1] == '(')
-		return (fd_printf(2, "bash: syntax error: token `$()' has been disabled\n"));
-	else if ((line[i] == '|' || line[i] == '<' || line[i] == '>')
-		 && line[i + 1] == '&')
-		return (fd_printf(2, "bash: syntax error: token `&' has been disabled\n"));
-	else if ((line[i] == '&' && line[i + 1] != '&') || (line[i] == '&' && line[i + 1] == '\0'))
-		return (fd_printf(2, "bash: syntax error: token `&' has been disabled\n"));
-	else if ((line[i] == '>' || line[i] == '<') && (line[i + 1] == '\0'
-				|| line[i + 1] == '|' || line[i + 1] == '&'))
-		return (fd_printf(2, "bash: syntax error near unexpected token `newline'\n"));
-	else if ((line[i] == '|' || line[i] == '<' || line[i] == '>')
-		 && line[i + 1] == ' ')
-	{
-		while (line[++i] == ' ')
-		{
-			if (line[i + 1] == '|' || line[i + 1] == '<'
-				|| line[i + 1] == '>')
-				return (fd_printf(2, "bash: syntax error near unexpected token `%c'\n", line[i + 1]));
-			if (line[i + 1] == '\0')
-				*def = i + 1;
-		}
-	}
-	return (0);
-}
-
-/* -> Controlla gli errori di Sintassi sui separatori <- */
-int	ft_syntax_err(char *line, int i)
-{
-	if (line[i] == '|' && line[i + 1] != '|')
-		return (fd_printf(2, "bash: syntax error near unexpected token `|'\n"));
-	else if (line[i] == '&' && line[i + 1] != '&')
-		return (fd_printf(2, "bash: syntax error near unexpected token `&'\n"));
-	else if (line[i] == '|' && line[i + 1] == '|')
-		return (fd_printf(2, "bash: syntax error near unexpected token `||'\n"));
-	else if (line[i] == '&' && line[i + 1] == '&')
-		return (fd_printf(2, "bash: syntax error near unexpected token `&&'\n"));
-	else if ((line[i] == '<' && line[i + 1] != '<'))
-		return (fd_printf(2, "bash: syntax error near unexpected token `<'\n"));
-	else if ((line[i] == '>' && line[i + 1] != '>'))
-		return (fd_printf(2, "bash: syntax error near unexpected token `>'\n"));
-	else if ((line[i] == '<' && line[i + 1] == '<'))
-		return (fd_printf(2, "bash: syntax error near unexpected token `<<'\n"));
-	else if ((line[i] == '>' && line[i + 1] == '>'))
-		return (fd_printf(2, "bash: syntax error near unexpected token `>>'\n"));
-	return (0);
 }
 
 /* -> Controlla la presenza di quotes, separatori, pipes e re_directors,
@@ -268,7 +218,7 @@ int	ft_nbr_par(char **line)
 	while ((*line)[j] == ')')
 		j--;
 	if (ft_par_error(*line, i, j) != 0)
-			return (300);
+		return (300);
 	pos[0] = i;
 	pos[1] = ft_strlen((*line)) - 1 - j;
 	tmp = ft_substr((*line), i, j + 1);
@@ -343,10 +293,10 @@ int	ft_parse(t_bash **bash, char *line, char **envp)
 	tmp = *bash;
 	while (tmp != NULL)
 	{
+		ft_find_tilde(tmp->line, envp, tmp->re_dir, '~');
+		ft_find_tilde(tmp->line, envp, tmp->re_dir, '*');
 		line3 = find_var_to_replace(ft_strdup(tmp->line), envp, tmp->re_dir);
 		(tmp)->cmd = ms_split(line3);
-		// ft_print_cmd((tmp)->cmd, i);
-		// printf("Node: %d\t[%s]\tsep: %c\tpipe: %d\tre_dir: %c\tpar: %d\n", i, tmp->line, (tmp)->sep, (tmp)->pipe[0], (tmp)->re_dir, tmp->par);
 		tmp = (tmp)->next;
 		free(line3);
 		i++;
@@ -354,3 +304,6 @@ int	ft_parse(t_bash **bash, char *line, char **envp)
 	free(line2);
 	return (1);
 }
+	// ft_print_cmd((tmp)->cmd, i);
+	// printf("Node: %d\t[%s]\tsep: %c\tpipe: %d\tre_dir: %c\tpar: %d\n", i,
+	// tmp->line, (tmp)->sep, (tmp)->pipe[0], (tmp)->re_dir, tmp->par);

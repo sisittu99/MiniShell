@@ -102,6 +102,9 @@ void	nb_words_redir(char *s, int a, int *j);
 void	ms_wds_assign(char *s, char c, char **dest, int len);
 void	wds_assign_help(char *s, int *i, int len);
 void	wds_assign_help_b(char *s, int *i, char **dest, int *x);
+	//syntax_error//
+int		ft_syntax_err_b(char *line, int *def, int i);
+int		ft_syntax_err(char *line, int i);
 
 // * EXECUTE * //
 
@@ -111,7 +114,7 @@ int		ft_check_exec_help(t_bash **tmp, char **envp, char *line, int *def);
 void	ft_check_new_cmd(t_bash **bash, char **cpy, char **envp);
 int		ft_lonely_cmd(t_bash **bash, char **envp, char *line);
 void	ft_execve(t_bash **bash, char **envp, char *line, int def);
-char	**ft_delete_cmd(char **cmd, int pos);
+void	ft_delete_cmd(t_bash **bash, int pos);
 	//and_or//
 int		ft_and_or(t_bash **bash, char **envp, char *line, int *def);
 int		ft_and(t_bash **bash, int *def, int *par);

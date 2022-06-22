@@ -6,40 +6,40 @@
 /*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 15:24:31 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/22 12:57:27 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/22 15:04:34 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../INCL/minishell.h"
 
 /* -> Funzione Helper che elimina due stringhe all'interno di una matrice <- */
-char	**ft_delete_cmd(t_bash **bash, int pos)
+void	ft_delete_cmd(t_bash **bash, int pos)
 {
 	char	**tmp;
-	int		i;
-	int		j;
+	int		i[2];
 	int		len;
 
-	i = 0;
-	j = 0;
+	i[0] = 0;
+	i[1] = 0;
 	len = 0;
 	while ((*bash)->cmd[len])
 		len++;
-	tmp = (char **) malloc (sizeof(char *) * (len - 1));		//FINIRE SISTEMARE
-	while ((*bash)->cmd[j] != NULL)
+	tmp = (char **) malloc (sizeof(char *) * len - 1);
+	while ((*bash)->cmd[i[1]] != NULL)
 	{
-		if (pos == j)
-			j += 2;
-		if ((*bash)->cmd[j] != NULL)
+		if (pos == i[1])
+			i[1] += 2;
+		if ((*bash)->cmd[i[1]] != NULL)
 		{
-			tmp[i] = ft_strdup((*bash)->cmd[j]);
-			i++;
-			j++;
+			tmp[i[0]] = ft_strdup((*bash)->cmd[i[1]]);
+			i[0]++;
+			i[1]++;
 		}
 	}
 	tmp[len - 2] = 0;
-	ft_free(cmd);
-	return (tmp);
+	ft_free((*bash)->cmd);
+	(*bash)->cmd = ft_new_env(tmp, 0);
+	ft_free(tmp);
 }
 
 /* -> Funzione helper che crea il loop per il redirect dell'input <- */
@@ -77,7 +77,7 @@ int	ft_re_dir_help_b(t_bash **bash, int i, char *line)
 			exit(errno);
 		}
 		ft_re_dir_loop(bash, i, pip, line);
-		(*bash)->cmd = ft_delete_cmd((*bash)->cmd, i);
+		ft_delete_cmd(bash, i);
 		dup2(pip[0], STDIN_FILENO);
 		close(pip[0]);
 		close(pip[1]);
@@ -99,8 +99,7 @@ int	ft_re_dir_help(t_bash **bash, int i, int fd)
 			exit(errno);
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
-		exit(0);
-		(*bash)->cmd = ft_delete_cmd((*bash)->cmd, i);
+		ft_delete_cmd(bash, i);
 		return (1);
 	}
 	else if ((*bash)->cmd[i][0] == '<' && (*bash)->cmd[i][1] == '\0')
@@ -110,7 +109,7 @@ int	ft_re_dir_help(t_bash **bash, int i, int fd)
 			exit(errno);
 		dup2(fd, STDIN_FILENO);
 		close(fd);
-		(*bash)->cmd = ft_delete_cmd((*bash)->cmd, i);
+		ft_delete_cmd(bash, i);
 		return (1);
 	}
 	return (0);
