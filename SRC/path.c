@@ -49,6 +49,17 @@ int	ft_formatted_addr(char *cmd)
 	return (0);
 }
 
+char	*ft_access_join(char *s1, char *s2, char *s3)
+{
+	char	*tmp;
+	char	*dst;
+
+	tmp = ft_strjoin(s1, s2);
+	dst = ft_strjoin(tmp, s3);
+	free(tmp);
+	return (dst);
+}
+
 char	*ft_access(char *cmd, char **path)
 {
 	char	*address;
@@ -62,7 +73,7 @@ char	*ft_access(char *cmd, char **path)
 	}
 	while (path && *path)
 	{
-		address = ft_replace_join(*path, "/", cmd);
+		address = ft_access_join(*path, ft_strdup("/"), cmd);
 		if (access(address, F_OK) == 0)
 		{
 			if (access(address, X_OK) != 0)
