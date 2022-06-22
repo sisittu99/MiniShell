@@ -6,7 +6,7 @@
 /*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 16:55:45 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/22 15:10:56 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/22 16:49:44 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,11 @@ char	*ft_delete_char(char *s, int pos)
 	free(s1);
 	free(s2);
 	return (dst);
+}
+
+void	ft_init_replace(char **s1, char **s2, char **s3)
+{
+	(*s1) = NULL;
+	(*s2) = NULL;
+	(*s3) = NULL;
 }

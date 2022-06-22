@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/22 16:48:17 by fdrudi            #+#    #+#             */
+/*   Updated: 2022/06/22 16:51:59 by fdrudi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -86,13 +98,25 @@ void	rl_replace_line(const char *text, int clear_undo);
 // * PARSE * //
 
 int		ft_parse(t_bash **bash, char *line, char **envp);
+int		ft_parse_help(t_bash **bash, char **envp);
+char	*find_var_to_replace(char *line, char **envp, char re_dir);
+void	ft_find_tilde(char *line, char **envp, char re_dir, char c);
+void	ft_find_tilde_help(int *pos_apex, int *i, int pos);
+void	ft_find_tilde_help_b(int *pos_apex, int i, char *line);
+int		ft_check_var(char *s, int pos);
+int		ft_check_sep(t_bash **bash, char *line, int *i, int *j);
+void	ft_check_sep_help(char *line, int *i);
+void	ft_init_node(t_bash **bash, char *line, int pos, int len);
+int		ft_find_par(t_bash **bash);
+int		ft_nbr_par(char **line);
+	//replace//
 void	ft_replace(char *s, char **envp, int pos, int *ret_i);
 char	*ft_replace_help(char *s, char **envp, int pos, int *ret_i);
 char	*ft_replace_help_b(char *s, char **envp, int *ret_i, int *i);
 char	*ft_replace_tilde(char *s, char **envp, int pos, int *ret_i);
-int		ft_check_var(char *s, int pos);
 char	*ft_replace_join(char *s1, char *s2, char *s3);
 char	*ft_delete_char(char *s, int pos);
+void	ft_init_replace(char **s1, char **s2, char **s3);
 int		ms_strchr(char *s, int pos, char c);
 	//ms_split//
 char	**ms_split(char *s);
@@ -105,6 +129,8 @@ void	wds_assign_help_b(char *s, int *i, char **dest, int *x);
 	//syntax_error//
 int		ft_syntax_err_b(char *line, int *def, int i);
 int		ft_syntax_err(char *line, int i);
+int		ft_syntax_err_help(char *line, int *def, int i);
+int		ft_par_error(char *line, int i, int j);
 
 // * EXECUTE * //
 
@@ -151,7 +177,7 @@ int		ft_exit(char **cmd);
 	//export//
 int		ft_export(t_bash **bash, char **cmd, char **envp);
 void	ft_handle_env(char *cmd, t_bash **bash);
-void	ft_env_var_found(char *cmd, t_bash **bash, int index[3]);
+void	ft_env_var_found(char *cmd, t_bash **bash, int *index);
 char	**ft_sort_env(char **envp);
 
 // * PATH * //

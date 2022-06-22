@@ -81,9 +81,8 @@ int	ft_execute(t_bash **bash, char **envp, char **line)
 					return (0);
 			}
 		}
-		else
-			if (ft_check_exec(&tmp, envp, *line) == 0)
-				return (0);
+		else if (ft_check_exec(&tmp, envp, *line) == 0)
+			return (0);
 	}
 	return (1);
 }

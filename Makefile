@@ -6,7 +6,7 @@
 #    By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/22 15:36:33 by fdrudi            #+#    #+#              #
-#    Updated: 2022/06/22 11:51:07 by fdrudi           ###   ########.fr        #
+#    Updated: 2022/06/22 16:42:59 by fdrudi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,15 +20,17 @@ SRC			=	./SRC/main.c ./SRC/path.c ./SRC/ms_split.c \
 				./SRC/builtin/export.c ./SRC/builtin/export_one.c \
 				./SRC/builtin/export_two.c \
 				./SRC/builtin/unset.c ./SRC/signals.c \
-				./SRC/wd_split.c ./SRC/wildcard.c ./SRC/re_dir.c \
-				./SRC/ft_pipe.c ./SRC/ft_and_or.c ./SRC/execute_b.c \
-				./SRC/ft_replace_b.c \
+				./SRC/wd_split.c ./SRC/wildcard.c ./SRC/wildcard_help.c \
+				./SRC/re_dir.c ./SRC/ft_pipe.c ./SRC/ft_and_or.c \
+				./SRC/execute_b.c ./SRC/ft_replace_b.c ./SRC/syntax_error.c \
+				./SRC/ft_find.c ./SRC/ft_par.c\
 
 OBJ			=	$(SRC:.c=.o)
 
 LIBFT		=	libft/libft.a
 
-READLINE	=	-L/usr/include -lreadline -L$(HOME)/.brew/opt/readline/lib -I$(HOME)/.brew/opt/readline/include
+READLINE	=	-L/usr/include -lreadline -L$(HOME)/.brew/opt/readline/lib \
+				-I$(HOME)/.brew/opt/readline/include\
 
 CC			=	gcc #-fsanitize=address
 

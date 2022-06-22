@@ -90,10 +90,9 @@ char	*ft_replace_help(char *s, char **envp, int pos, int *ret_i)
 	char	*s3;
 	int		i[3];
 
+	ft_init_replace(&s1, &s2, &s3);
 	i[0] = 0;
 	i[2] = pos;
-	s2 = NULL;
-	s3 = NULL;
 	i[1] = ft_check_var(s, pos + 1);
 	if (i[1] > 0 || i[1] == -1)
 	{

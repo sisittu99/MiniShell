@@ -6,7 +6,7 @@
 /*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 15:30:53 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/22 11:29:55 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/22 16:52:30 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 	Gestisce il valore della variabile, a seconda che sia da riscriverne il
 	valore o da scrivere in append.
 */
-void	ft_env_var_found(char *cmd, t_bash **bash, int index[3])
+void	ft_env_var_found(char *cmd, t_bash **bash, int *index)
 {
 	char	*tmp;
 
@@ -36,21 +36,21 @@ void	ft_env_var_found(char *cmd, t_bash **bash, int index[3])
 	banalmente, il ciclo che non entrava nella funzione ft_handle_env().
 	Qualora trovi la variabile di cui a cmd, procede con ft_env_var_found().
 */
-int	ft_handle_env_cycle(t_bash **bash, int **index, char *cmd, char *to_find)
+int	ft_handle_env_cycle(t_bash **bash, int *index, char *cmd, char *to_find)
 {
-	while ((*bash)->envp[(*index)[0]])
+	while ((*bash)->envp[index[0]])
 	{
-		while ((*bash)->envp[(*index)[0]][(*index)[1]] == to_find[(*index)[2]])
+		while ((*bash)->envp[index[0]][index[1]] == to_find[index[2]])
 		{
-			if (!to_find[(*index)[2] + 1])
+			if (!to_find[index[2] + 1])
 			{
-				ft_env_var_found(cmd, bash, *index);
+				ft_env_var_found(cmd, bash, index);
 				return (1);
 			}
-			(*index)[1]++;
-			(*index)[2]++;
+			index[1]++;
+			index[2]++;
 		}
-		(*index)[0]++;
+		index[0]++;
 	}
 	return (0);
 }
@@ -66,7 +66,6 @@ void	ft_handle_env(char *cmd, t_bash **bash)
 	char	**tmp;
 
 	i = 0;
-	// index = ft_int_array(3);
 	while (i < 3)
 		index[i++] = 0;
 	to_find = cmd;
@@ -77,13 +76,12 @@ void	ft_handle_env(char *cmd, t_bash **bash)
 			;
 		to_find = ft_substr(cmd, 0, i);
 	}
-	if (ft_handle_env_cycle(bash, (int **)&index, cmd, to_find))
+	if (ft_handle_env_cycle(bash, index, cmd, to_find))
 		return ;
 	tmp = ft_new_env((*bash)->envp, 1);
 	tmp[index[0]] = ft_strdup(cmd);
 	tmp[index[0] + 1] = NULL;
 	ft_free((*bash)->envp);
 	(*bash)->envp = ft_new_env(tmp, 0);
-	// free(index);
 	return ;
 }

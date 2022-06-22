@@ -6,7 +6,7 @@
 /*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 12:09:55 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/22 12:09:56 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/22 16:06:05 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ void	ft_sig_default(int sig)
 }
 
 /*
-	Crea o modifica il file ~/.inputrc, nel quale si spegne la stampa dei caratteri di controllo.
+	Crea o modifica il file ~/.inputrc,
+	nel quale si spegne la stampa dei caratteri di controllo.
 */
 void	ft_rm_ctrl(char **envp)
 {
