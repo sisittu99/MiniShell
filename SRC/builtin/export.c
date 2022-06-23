@@ -86,11 +86,11 @@ int	ft_export_cycle(t_bash **bash, char *cmd)
 int	ft_export(t_bash **bash, char **cmd, char **envp)
 {
 	int		i;
-	int		j;
+	// int		j;
 	int		status;
 
 	i = 1;
-	j = 0;
+	// j = 0;
 	if (cmd[1] == NULL)
 		return (ft_lonely_export(envp));
 	if (ft_invalid_option(ft_new_env(cmd, 0)) == 1)

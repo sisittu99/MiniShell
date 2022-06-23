@@ -24,8 +24,8 @@ void	ft_delete_lst(t_bash **bash)
 		tmp = (*bash)->next;
 		if ((*bash)->cmd)
 			ft_free((*bash)->cmd);
-		if ((*bash)->envp)
-			ft_free((*bash)->envp);
+		// if ((*bash)->envp != NULL)
+		// 	ft_free((*bash)->envp);
 		free (*bash);
 		*bash = tmp;
 	}

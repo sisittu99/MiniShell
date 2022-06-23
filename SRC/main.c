@@ -79,11 +79,12 @@ void	ft_command(t_bash **bash, struct sigaction *sa, char **envp)
 			ft_execute(bash, env, line);
 		}
 		add_history(line);
-		exit (0);
-		if (*bash && (*bash)->envp)
-		{
-			ft_free(env);
+		if ((*bash) && (*bash)->envp)			////////////////////////////////////////////////////////
+		{									//VERIFICARE CONDIZIONE BASH->ENVP IN NODI SUCCESSIVI AL PRIMO//
+			ft_free(env);						////////////////////////////////////////////////////////
 			env = ft_new_env((*bash)->envp, 0);
+			ft_free((*bash)->envp);
+			// (*bash)->envp = NULL;
 		}
 		ft_delete_lst(bash);
 		free(line);
