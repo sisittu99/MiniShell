@@ -6,7 +6,7 @@
 /*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 16:24:28 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/21 16:24:29 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/23 18:01:07 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,31 +52,33 @@ char	**ft_unset_find_var(char **envp, char *to_find)
 		}
 		index[0]++;
 	}
-	return (envp);
+	return (ft_new_env(envp, 0));
 }
 
 /*Elimina le variabili all'interno dell'env.
   Restituisce 0 se le elimina tutte, >0 se almeno una fallisce.
-  Almeno, secondo il man di GNU... in realtà torna sempre 0.*/
-int	ft_unset(t_bash **bash, char **cmd, char **envp)
-{
+  Almeno, secondo il man di GNU... in realtà torna sempre 0.*/			///////
+int	ft_unset(t_bash **bash, char **cmd, char **envp)				//SISTEMARE//
+{																		//////
 	char	**new;
 	char	*to_find;
 	int		i;
 
 	if (cmd[1] == NULL)
 		return (0);
-	if (ft_invalid_option(cmd) == 1)
+	if (ft_invalid_option(ft_new_env(cmd, 0)) == 1)
 		return (1);
-	new = ft_new_env(envp, 0);
+	(*bash)->envp = ft_new_env(envp, 0);
 	i = 1;
 	while (cmd[i])
 	{
 		to_find = ft_strdup(cmd[i]);
-		new = ft_unset_find_var(new, to_find);
+		new = ft_new_env((*bash)->envp, 0);
+		ft_free((*bash)->envp);
+		(*bash)->envp = ft_unset_find_var(new, to_find);
+		ft_free(new);
+		free(to_find);
 		i++;
 	}
-	(*bash)->envp = ft_new_env(new, 0);
-	ft_free(new);
 	return (0);
 }

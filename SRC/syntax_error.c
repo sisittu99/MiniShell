@@ -6,7 +6,7 @@
 /*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 15:20:13 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/22 15:40:27 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/23 14:37:59 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,16 @@
 /* -> Controlla gli errori di Sintassi sulle parentesi <- */
 int	ft_par_error(char *line, int i, int j)
 {
-	int	pos;
-	int	pos2;
+	int		pos;
+	int		pos2;
+	char	*tmp;
 
-	pos = ms_strchr(ft_substr(line, i, j + 1), 0, '(');
+	tmp = ft_substr(line, i, j + 1);
+	pos = ms_strchr(tmp, 0, '(');
 	if (pos != -1 && j < (int)ft_strlen(line))
 		j += 1;
-	pos2 = ms_strchr(ft_substr(line, i, j + 1), 0, ')');
+	pos2 = ms_strchr(tmp, 0, ')');
+	free(tmp);
 	if (pos != -1 && pos2 != -1)
 	{
 		if (pos < pos2)

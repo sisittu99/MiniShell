@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_b.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 16:24:40 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/22 19:10:13 by mcerchi          ###   ########.fr       */
+/*   Updated: 2022/06/23 16:27:51 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,18 +66,19 @@ int	ft_lonely_cmd(t_bash **bash, char **envp, char *line)
 	return (1);
 }
 
-void	ft_check_new_cmd(t_bash **bash, char **cpy, char **envp)
+void	ft_check_new_cmd(t_bash **bash, char *cpy, char **envp)
 {
 	char	*line;
 	t_bash	*tmp;
 
 	tmp = *bash;
+	line = NULL;
 	while (tmp->next != NULL)
 		tmp = tmp->next;
 	if (((tmp->pipe[0] != 0 && tmp->pipe[1] != 0)
 			|| (tmp->sep == '|' || tmp->sep == '&')) && tmp->next == NULL)
 	{
-		add_history(*cpy);
+		add_history(cpy);
 		line = readline("> ");
 		if (!line)
 		{

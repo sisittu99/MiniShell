@@ -22,6 +22,7 @@ void	ft_init_node(t_bash **bash, char *line, int pos, int len)
 	int			i;
 
 	sep[0] = '0';
+	tmp = NULL;
 	if (line[pos + len] == '|' && line[pos + len + 1] != '|')
 		sep[0] = '1';
 	else if ((line[pos + len] == '|' && line[pos + len + 1] == '|')
@@ -32,7 +33,6 @@ void	ft_init_node(t_bash **bash, char *line, int pos, int len)
 		sep[2] = '1';
 		return ;
 	}
-	tmp = NULL;
 	tmp = ft_new_node(line, pos, len, sep);
 	ft_node_add_back(bash, tmp);
 	tmp = NULL;
@@ -96,6 +96,7 @@ int	ft_parse_help(t_bash **bash, char **envp)
 	t_bash	*tmp;
 	char	*line3;
 
+	line3 = NULL;
 	if (ft_find_par(bash) == 0)
 		return (0);
 	tmp = *bash;
@@ -105,8 +106,8 @@ int	ft_parse_help(t_bash **bash, char **envp)
 		ft_find_tilde(tmp->line, envp, tmp->re_dir, '*');
 		line3 = find_var_to_replace(tmp->line, envp, tmp->re_dir);
 		(tmp)->cmd = ms_split(line3);
-		tmp = (tmp)->next;
 		free(line3);
+		tmp = (tmp)->next;
 	}
 	return (1);
 }
@@ -117,26 +118,27 @@ int	ft_parse(t_bash **bash, char *line, char **envp)
 {
 	int		i;
 	int		j;
-	char	*line2;
 
 	i = -1;
 	j = 0;
-	line2 = ft_strdup(line);
-	while (line2[++i] != '\0')
+	while (line[++i] != '\0')
 	{
-		if (ft_syntax_err_b(line2, &j, i) != 0)
+		if (ft_syntax_err_b(line, &j, i) != 0)
 		{
+			free(line);
 			g_exit_status = 258;
 			return (0);
 		}
-		if (ft_check_sep(bash, line2, &i, &j) == 0)
+		if (ft_check_sep(bash, line, &i, &j) == 0)
 		{
+			free(line);
 			g_exit_status = 258;
 			return (0);
 		}
 	}
 	if (j < i)
-		ft_init_node(bash, line2, j, (i - j));
-	free(line2);
-	return (ft_parse_help(bash, envp));
+		ft_init_node(bash, line, j, (i - j));
+	free(line);
+	ft_parse_help(bash, envp);
+	return (1);
 }

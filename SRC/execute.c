@@ -61,7 +61,7 @@ int	ft_check_exec(t_bash **tmp, char **envp, char *line)
 
 /* -> Gestisce l'esecuzione dei comandi, facendo controlli sia sui separatori,
 	  che sui redirect, che sulle funzioni Builtin, ecc... <- */
-int	ft_execute(t_bash **bash, char **envp, char **line)
+int	ft_execute(t_bash **bash, char **envp, char *line)
 {
 	t_bash	*tmp;
 	int		lvl;
@@ -70,7 +70,7 @@ int	ft_execute(t_bash **bash, char **envp, char **line)
 	lvl = 0;
 	ft_check_new_cmd(&tmp, line, envp);
 	if ((*bash)->next == NULL)
-		return (ft_lonely_cmd(bash, envp, ft_strjoin(*line, "\n")));
+		return (ft_lonely_cmd(bash, envp, ft_strjoin(line, "\n")));
 	while (tmp)
 	{
 		if (tmp->par != 0)
@@ -80,11 +80,11 @@ int	ft_execute(t_bash **bash, char **envp, char **line)
 			{
 				if (tmp->par != lvl)
 					break ;
-				if (ft_check_exec(&tmp, envp, *line) == 0)
+				if (ft_check_exec(&tmp, envp, line) == 0)
 					return (0);
 			}
 		}
-		else if (ft_check_exec(&tmp, envp, *line) == 0)
+		else if (ft_check_exec(&tmp, envp, line) == 0)
 			return (0);
 	}
 	return (1);

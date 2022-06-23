@@ -84,5 +84,6 @@ char	**ms_split(char *s)
 	if (!dest)
 		return (NULL);
 	ms_wds_assign(tmp, c, dest, (int)len);
+	free(tmp);
 	return (dest);
 }

@@ -6,7 +6,7 @@
 /*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 16:48:17 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/22 16:51:59 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/23 16:43:42 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int		wd_strncmp(char **s1, char *s2, int *pos, int j);
 
 void	ft_sig_define(struct sigaction *sa, int def);
 void	ft_sig_handler(int sig);
-void	ft_control_d(char *line);
+void	ft_control_d(char *line, char **envp, t_bash **bash);
 void	ft_sig_default(int sig);
 void	ft_rm_ctrl(char **envp);
 
@@ -108,7 +108,7 @@ int		ft_check_sep(t_bash **bash, char *line, int *i, int *j);
 void	ft_check_sep_help(char *line, int *i);
 void	ft_init_node(t_bash **bash, char *line, int pos, int len);
 int		ft_find_par(t_bash **bash);
-int		ft_nbr_par(char **line);
+int		ft_nbr_par(char *line);
 	//replace//
 void	ft_replace(char *s, char **envp, int pos, int *ret_i);
 char	*ft_replace_help(char *s, char **envp, int pos, int *ret_i);
@@ -134,10 +134,10 @@ int		ft_par_error(char *line, int i, int j);
 
 // * EXECUTE * //
 
-int		ft_execute(t_bash **bash, char **envp, char **line);
+int		ft_execute(t_bash **bash, char **envp, char *line);
 int		ft_check_exec(t_bash **tmp, char **envp, char *line);
 int		ft_check_exec_help(t_bash **tmp, char **envp, char *line, int *def);
-void	ft_check_new_cmd(t_bash **bash, char **cpy, char **envp);
+void	ft_check_new_cmd(t_bash **bash, char *cpy, char **envp);
 int		ft_lonely_cmd(t_bash **bash, char **envp, char *line);
 void	ft_execve(t_bash **bash, char **envp, char *line, int def);
 void	ft_delete_cmd(t_bash **bash, int pos);
@@ -173,7 +173,7 @@ int		ft_env(char **cmd, char **envp);
 	//unset//
 int		ft_unset(t_bash **bash, char **cmd, char **envp);
 	//exit//
-int		ft_exit(char **cmd);
+int		ft_exit(char **cmd, char **envp);
 	//export//
 int		ft_export(t_bash **bash, char **cmd, char **envp);
 void	ft_handle_env(char *cmd, t_bash **bash);
@@ -189,7 +189,7 @@ int		*find_it(char **envp, char *to_find);
 // * UTILS * //
 
 char	**ft_new_env(char **mat, int def);
-char	*ft_prompt(void);
+char	*ft_prompt(t_bash **bash, char **envp);
 void	ft_free(char **dc);
 
 // * LIST UTILS * //

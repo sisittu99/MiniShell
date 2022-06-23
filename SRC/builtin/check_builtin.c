@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 16:24:20 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/22 18:03:21 by mcerchi          ###   ########.fr       */
+/*   Updated: 2022/06/23 17:43:13 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_exec_builtin(t_bash **bash, char **envp, int def)
 	else if ((*bash)->built == 5)
 		g_exit_status = ft_env((*bash)->cmd, envp);
 	else if ((*bash)->built == 6)
-		ft_exit((*bash)->cmd);
+		ft_exit((*bash)->cmd, envp);
 	if (def == 1)
 		exit(g_exit_status);
 	return ;
@@ -83,8 +83,10 @@ int	ft_invalid_option(char **cmd)
 		if (cmd[1][0] == '-')
 		{
 			fd_printf(2, "bash: %s: %s: invalid option\n", cmd[0], cmd[1]);
+			ft_free(cmd);
 			return (1);
 		}
 	}
+	ft_free(cmd);
 	return (0);
 }

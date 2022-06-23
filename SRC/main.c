@@ -49,7 +49,7 @@ char	**ft_new_env(char **mat, int def)
 	return (new);
 }
 
-char	*ft_prompt(void)
+char	*ft_prompt(t_bash **bash, char **envp)
 {
 	char	*line;
 
@@ -58,7 +58,7 @@ char	*ft_prompt(void)
 	else
 		line = readline(BOLDGREEN"bash-biutiful>$ "RESET);
 	if (!line)
-		ft_control_d(line);
+		ft_control_d(line, envp, bash);
 	return (line);
 }
 
@@ -71,14 +71,15 @@ void	ft_command(t_bash **bash, struct sigaction *sa, char **envp)
 	while (1)
 	{
 		ft_sig_define(sa, 0);
-		line = ft_prompt();
-		if (ft_parse(bash, line, env) == 1)
+		line = ft_prompt(bash, env);
+		if (ft_parse(bash, ft_strdup(line), env) == 1)
 		{
 			if ((*bash)->next != NULL || (*bash)->re_dir == '1')
 				ft_sig_define(sa, 1);
-			ft_execute(bash, env, &line);
+			ft_execute(bash, env, line);
 		}
 		add_history(line);
+		exit (0);
 		if (*bash && (*bash)->envp)
 		{
 			ft_free(env);

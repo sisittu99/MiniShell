@@ -61,7 +61,7 @@ int	ft_cd(t_bash **bash, char **cmd, char **envp)
 	int		res;
 
 	dir = NULL;
-	if (ft_invalid_option(cmd) == 1)
+	if (ft_invalid_option(ft_new_env(cmd, 0)) == 1)
 		return (1);
 	if (cmd[1] == NULL)
 		dir = ft_find_home(envp);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 12:09:55 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/22 18:15:48 by mcerchi          ###   ########.fr       */
+/*   Updated: 2022/06/23 12:54:19 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,10 @@ void	ft_sig_handler(int sig)
 	return ;
 }
 
-void	ft_control_d(char *line)
+void	ft_control_d(char *line, char **envp, t_bash **bash)
 {
+	ft_free(envp);
+	ft_delete_lst(bash);
 	printf("\nExit\n");
 	free(line);
 	exit (g_exit_status);
@@ -61,4 +63,3 @@ void	ft_sig_default(int sig)
 		exit(0);
 	}
 }
-

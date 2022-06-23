@@ -6,7 +6,7 @@
 /*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 15:56:04 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/23 11:45:04 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/23 16:54:05 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,9 @@ void	ft_swap(char **sort, int i)
 	char	*tmp;
 
 	tmp = ft_strdup(sort[i + 1]);
+	free(sort[i + 1]);
 	sort[i + 1] = ft_strdup(sort[i]);
+	free(sort[i]);
 	sort[i] = ft_strdup(tmp);
 	free(tmp);
 }

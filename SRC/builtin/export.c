@@ -50,6 +50,7 @@ int	ft_lonely_export(char **envp)
 		j = 0;
 		i++;
 	}
+	ft_free(tmp);
 	return (0);
 }
 
@@ -65,7 +66,7 @@ int	ft_export_cycle(t_bash **bash, char *cmd)
 	while (cmd[j])
 	{
 		if (!ft_isalpha(cmd[j]) && !ft_isdigit(cmd[j])
-			&& cmd[j] != '_')
+			&& cmd[j] != '_' && cmd[j] != '+')
 		{
 			fd_printf(2, "bash: export: `%s\': not a valid identifier\n", cmd);
 			return (1);
@@ -92,7 +93,7 @@ int	ft_export(t_bash **bash, char **cmd, char **envp)
 	j = 0;
 	if (cmd[1] == NULL)
 		return (ft_lonely_export(envp));
-	if (ft_invalid_option(cmd) == 1)
+	if (ft_invalid_option(ft_new_env(cmd, 0)) == 1)
 		return (1);
 	if (((*bash)->pipe[0] == 0 && (*bash)->pipe[1] == 0)
 		&& (*bash)->next == NULL)

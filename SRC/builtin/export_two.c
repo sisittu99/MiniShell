@@ -6,7 +6,7 @@
 /*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 15:30:53 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/23 11:13:12 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/23 16:59:38 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	ft_env_var_found(char *cmd, t_bash **bash, int *index)
 	else
 		(*bash)->envp[index[0]] = ft_strdup(cmd);
 	free(tmp);
+	free(cmd);
 	return ;
 }
 
@@ -44,7 +45,8 @@ int	ft_handle_env_cycle(t_bash **bash, int *index, char *cmd, char *to_find)
 		{
 			if (!to_find[index[2] + 1])
 			{
-				ft_env_var_found(cmd, bash, index);
+				ft_env_var_found(ft_strdup(cmd), bash, index);
+				free(to_find);
 				return (1);
 			}
 			index[1]++;
@@ -52,6 +54,7 @@ int	ft_handle_env_cycle(t_bash **bash, int *index, char *cmd, char *to_find)
 		}
 		index[0]++;
 	}
+	free(to_find);
 	return (0);
 }
 
@@ -83,5 +86,6 @@ void	ft_handle_env(char *cmd, t_bash **bash)
 	tmp[index[0] + 1] = NULL;
 	ft_free((*bash)->envp);
 	(*bash)->envp = ft_new_env(tmp, 0);
+	ft_free(tmp);
 	return ;
 }
