@@ -19,14 +19,12 @@ void	ft_delete_lst(t_bash **bash)
 	if (*bash == NULL)
 		return ;
 	tmp = *bash;
-	while (*bash != NULL)
+	while ((*bash) != NULL)
 	{
 		tmp = (*bash)->next;
-		if ((*bash)->line[0] != '\0')
-			free((*bash)->line);
-		if ((*bash)->cmd != NULL)
+		if ((*bash)->cmd)
 			ft_free((*bash)->cmd);
-		if ((*bash)->envp != NULL)
+		if ((*bash)->envp)
 			ft_free((*bash)->envp);
 		free (*bash);
 		*bash = tmp;

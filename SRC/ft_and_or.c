@@ -6,7 +6,7 @@
 /*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 16:11:03 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/21 16:32:04 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/23 12:18:28 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ int	ft_and_or(t_bash **bash, char **envp, char *line, int *def)
 	static int	par;
 
 	if ((*def) == 0)
-		ft_lonely_cmd(bash, envp, line);
+		ft_lonely_cmd(bash, envp, ft_strdup(line));
+	free(line);
 	if ((*bash)->sep == '&')
 		return (ft_and(bash, def, &par));
 	else if ((*bash)->sep == '|')

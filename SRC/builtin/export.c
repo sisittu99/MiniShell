@@ -17,39 +17,33 @@
 	tutta la riga reestante in mezzo alle virgolette.
 	Questo è il comportamento tipico di export senza argomenti.
 */
-int	ft_print_var_value(char *var, int j)
+void	ft_print_var_value(char **tmp, int *j, int i)
 {
-	if (var[j] == '=')
-	{
-		ft_putchar_fd(var[j++], 1);
-		write(1, "\"", 1);
-		while (var[j])
-			ft_putchar_fd(var[j++], 1);
-		write(1, "\"", 1);
-	}
-	return (j);
+	ft_putchar_fd(tmp[i][(*j)++], 1);
+	write(1, "\"", 1);
+	while (tmp[i][(*j)])
+		ft_putchar_fd(tmp[i][(*j)++], 1);
+	write(1, "\"", 1);
 }
 
-/*
-	Funzione di stampa di export senza argomenti.
-*/
 int	ft_lonely_export(char **envp)
 {
 	char	**tmp;
 	int		i;
 	int		j;
 
-	i = 1;
+	i = 0;
 	j = 0;
-	tmp = ft_new_env(envp, 0);
+	// tmp = ft_new_env(envp, 0);
 	tmp = ft_sort_env(envp);
 	while (tmp[i])
 	{
 		ft_putstr_fd("declare -x ", 1);
 		while (tmp[i][j])
 		{
-			j = ft_print_var_value(tmp[i], j);
-			if (tmp[i][j] != '=')
+			if (tmp[i][j] == '=')
+				ft_print_var_value(tmp, &j, i);
+			else
 				ft_putchar_fd(tmp[i][j++], 1);
 		}
 		ft_putchar_fd('\n', 1);

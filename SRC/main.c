@@ -86,7 +86,6 @@ void	ft_command(t_bash **bash, struct sigaction *sa, char **envp)
 		}
 		ft_delete_lst(bash);
 		free(line);
-		exit (0);
 	}
 }
 
@@ -106,4 +105,3 @@ int	main(int argc, char **argv, char **envp)
 	ft_command(&bash, &sa, envp);
 	return (g_exit_status);
 }
-/* 6) leaks */
