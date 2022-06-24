@@ -6,7 +6,7 @@
 /*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 17:44:38 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/22 11:53:48 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/24 17:20:51 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,8 @@ void	wds_assign_help(char *s, int *i, int len)
 	{
 		while (s[i[0]] != typequote)
 			i[0] += 1;
-		s = ft_delete_char(s, a);
-		s = ft_delete_char(s, i[0] - 1);
+		ft_delete_char(&s, a);
+		ft_delete_char(&s, i[0] - 1);
 		len -= 1;
 	}
 	if (i[1] < 0)

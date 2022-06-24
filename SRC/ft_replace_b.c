@@ -6,7 +6,7 @@
 /*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 16:55:45 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/24 15:44:00 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/24 17:23:43 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,26 +62,26 @@ char	*ft_replace_join(char *s1, char *s2, char *s3)
 
 /* -> Elimina un carattere in posizione 'pos' e
 	  ritorna la stringa modificata e riallocata <- */
-char	*ft_delete_char(char *s, int pos)
+void	ft_delete_char(char **s, int pos)
 {
 	char	*s1;
 	char	*s2;
-	char	*dst;
 
-	s1 = ft_substr(s, 0, pos);
-	if (s[pos + 1] == '\0')
+	s1 = ft_substr(*s, 0, pos);
+	if ((*s)[pos + 1] == '\0')
 	{
-		free (s);
+		free(*s);
 		s2 = NULL;
-		dst = NULL;
-		return (s1);
+		*s = ft_strdup(s1);
+		free(s1);
+		return ;
 	}
-	s2 = ft_substr(s, pos + 1, ((int) ft_strlen(s) - (pos)));
-	dst = ft_strjoin(s1, s2);
-	free(s);
+	s2 = ft_substr(*s, pos + 1, ((int) ft_strlen(*s) - (pos)));
+	free(*s);
+	*s = ft_strjoin(s1, s2);
 	free(s1);
 	free(s2);
-	return (dst);
+	return ;
 }
 
 void	ft_init_replace(char **s1, char **s2, char **s3)

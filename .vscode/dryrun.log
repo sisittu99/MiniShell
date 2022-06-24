@@ -1,5 +1,5 @@
 make --dry-run --always-make --keep-going --print-directory
-make: Entering directory `/goinfre/fdrudi/42_minishell'
+make: Entering directory `/Users/fdrudi/42_Cursus/42_minishell'
 make -C ./libft
 gcc  -g -Wall -Wextra -Werror -c SRC/main.c -o SRC/main.o
 gcc  -g -Wall -Wextra -Werror -c SRC/path.c -o SRC/path.o
@@ -31,5 +31,5 @@ gcc  -g -Wall -Wextra -Werror -c SRC/syntax_error.c -o SRC/syntax_error.o
 gcc  -g -Wall -Wextra -Werror -c SRC/ft_find.c -o SRC/ft_find.o
 gcc  -g -Wall -Wextra -Werror -c SRC/ft_par.c -o SRC/ft_par.o
 gcc  -Wall -Wextra -Werror ./SRC/main.o ./SRC/path.o ./SRC/ms_split.o ./SRC/ms_split_utils.o ./SRC/ft_replace.o ./SRC/parse.o ./SRC/list_utils.o ./SRC/execute.o ./SRC/builtin/check_builtin.o ./SRC/builtin/builtin.o ./SRC/builtin/echo.o ./SRC/builtin/chdir.o ./SRC/builtin/export.o ./SRC/builtin/export_one.o ./SRC/builtin/export_two.o ./SRC/builtin/unset.o ./SRC/signals.o ./SRC/rm_ctrl.o ./SRC/wd_split.o ./SRC/wildcard.o ./SRC/wildcard_help.o ./SRC/re_dir.o ./SRC/ft_pipe.o ./SRC/ft_and_or.o ./SRC/execute_b.o ./SRC/ft_replace_b.o ./SRC/syntax_error.o ./SRC/ft_find.o ./SRC/ft_par.o libft/libft.a -o minishell -L/usr/include -lreadline -L/Users/fdrudi/.brew/opt/readline/lib -I/Users/fdrudi/.brew/opt/readline/include 
-make: Leaving directory `/goinfre/fdrudi/42_minishell'
+make: Leaving directory `/Users/fdrudi/42_Cursus/42_minishell'
  

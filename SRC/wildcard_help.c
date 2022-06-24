@@ -6,7 +6,7 @@
 /*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 16:47:55 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/22 16:47:56 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/24 17:41:29 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,12 @@ int	wd_strncmp(char **s1, char *s2, int *pos, int j)
 	tutto ció che leggi qui doveva trovarsi all'interno del ciclo
 	a riga 62 di questo file. Maledetta norma!
 */
-int	wd_check(char **wild, char *name, int i, int *j)
+int	wd_check(char **wild, char *name, int *i, int *j)
 {
-	if (wild[i + 1] != NULL)
+	if (wild[(*i) + 1] != NULL)
 	{
-		i++;
-		while (wild[i][0] != name[(*j)])
+		(*i)++;
+		while (wild[(*i)][0] != name[(*j)])
 		{
 			if (name[(*j)] == '\0')
 				return (0);
@@ -71,7 +71,7 @@ int	ft_check_wildcard(char **wild, char *name)
 	{
 		while (wild[i][0] == '*')
 		{
-			check = wd_check(wild, name, i, &j);
+			check = wd_check(wild, name, &i, &j);
 			if (check != -1)
 				return (check);
 		}

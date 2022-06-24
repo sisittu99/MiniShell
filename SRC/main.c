@@ -38,13 +38,19 @@ char	**ft_new_env(char **mat, int def)
 char	*ft_prompt(t_bash **bash, char **envp)
 {
 	char	*line;
+	int		i;
 
+	i = 0;
 	if (g_exit_status != 0)
 		line = readline(BOLDRED"bash-st00pid>$ "RESET);
 	else
 		line = readline(BOLDGREEN"bash-biutiful>$ "RESET);
 	if (!line)
 		ft_control_d(line, envp, bash);
+	while (line[i] == ' ')
+		i++;
+	if (line[i] == '\0')
+		return (NULL);
 	return (line);
 }
 
@@ -79,7 +85,7 @@ void	ft_command(t_bash **bash, struct sigaction *sa, char **envp)
 	{
 		ft_sig_define(sa, 0);
 		line = ft_prompt(bash, env);
-		if (ft_parse(bash, ft_strdup(line), env) == 1)
+		if (line != NULL && ft_parse(bash, ft_strdup(line), env) == 1)
 		{
 			if ((*bash)->next != NULL || (*bash)->re_dir == '1')
 				ft_sig_define(sa, 1);
