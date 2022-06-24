@@ -34,7 +34,6 @@ int	ft_lonely_export(char **envp)
 
 	i = 0;
 	j = 0;
-	// tmp = ft_new_env(envp, 0);
 	tmp = ft_sort_env(envp);
 	while (tmp[i])
 	{

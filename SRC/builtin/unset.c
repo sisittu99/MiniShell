@@ -6,7 +6,7 @@
 /*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 16:24:28 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/24 13:15:17 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/24 15:10:19 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,26 @@ char	**ft_delete_env_var( char **envp, int index[3])
 {
 	char	**cpy;
 	int		i;
+	int		j;
 
 	i = 0;
-	while (envp[i++])
-		;
+	j = 0;
+	while (envp[i])
+		i++;
 	cpy = (char **) malloc (sizeof(char *) * i);
 	if (!cpy)
-		return (envp);
+		return (ft_new_env(envp, 0));
 	i = 0;
 	while (envp[i])
 	{
 		if (i != index[0])
-			cpy[i] = ft_strdup(envp[i]);
+		{
+			cpy[j] = ft_strdup(envp[i]);
+			j++;
+		}
 		i++;
 	}
+	cpy[j] = NULL;
 	return (cpy);
 }
 
@@ -74,10 +80,13 @@ int	ft_unset(t_bash **bash, char **cmd, char **envp)
 	{
 		to_find = ft_strdup(cmd[i]);
 		new = ft_new_env((*bash)->envp, 0);
-		ft_free((*bash)->envp);
+		if ((*bash)->envp)
+			ft_free((*bash)->envp);
 		(*bash)->envp = ft_unset_find_var(new, to_find);
-		ft_free(new);
-		free(to_find);
+		if (new)
+			ft_free(new);
+		if (to_find)
+			free(to_find);
 		i++;
 	}
 	return (0);

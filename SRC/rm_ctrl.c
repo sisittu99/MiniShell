@@ -6,11 +6,28 @@
 /*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 18:46:05 by mcerchi           #+#    #+#             */
-/*   Updated: 2022/06/24 12:58:16 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/24 15:07:00 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../INCL/minishell.h"
+
+void	ft_free(char **dc)
+{
+	int	i;
+
+	i = -1;
+	if (dc[0])
+	{
+		while (dc[++i])
+		{
+			free(dc[i]);
+		}
+	}
+	if (dc)
+		free(dc);
+	dc = NULL;
+}
 
 /*
 	inizializza le stringe per ft_rm_ctrl(), rispettando i free().

@@ -6,7 +6,7 @@
 /*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 15:30:53 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/24 13:15:09 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/24 15:18:27 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,18 @@ int	ft_handle_env_cycle(t_bash **bash, int *index, char *cmd, char *to_find)
 	return (0);
 }
 
+void	ft_var_not_found(t_bash **bash, int *index, char *cmd)
+{
+	char	**tmp;
+
+	tmp = ft_new_env((*bash)->envp, 1);
+	tmp[index[0]] = ft_strdup(cmd);
+	tmp[index[0] + 1] = NULL;
+	ft_free((*bash)->envp);
+	(*bash)->envp = ft_new_env(tmp, 0);
+	ft_free(tmp);
+}
+
 /*
 	gestisce la matrice di envp nel caso in cui export abbia argomenti.
 */
@@ -66,7 +78,6 @@ void	ft_handle_env(char *cmd, t_bash **bash)
 	int		index[3];
 	int		i;
 	char	*to_find;
-	char	**tmp;
 
 	i = 0;
 	while (i < 3)
@@ -77,15 +88,11 @@ void	ft_handle_env(char *cmd, t_bash **bash)
 		i = 0;
 		while (cmd[i] != '=')
 			i++;
+		free(to_find);
 		to_find = ft_substr(cmd, 0, i);
 	}
 	if (ft_handle_env_cycle(bash, index, cmd, to_find))
 		return ;
-	tmp = ft_new_env((*bash)->envp, 1);
-	tmp[index[0]] = ft_strdup(cmd);
-	tmp[index[0] + 1] = NULL;
-	ft_free((*bash)->envp);
-	(*bash)->envp = ft_new_env(tmp, 0);
-	ft_free(tmp);
+	ft_var_not_found(bash, index, cmd);
 	return ;
 }

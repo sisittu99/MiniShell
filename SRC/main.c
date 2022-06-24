@@ -12,21 +12,6 @@
 
 #include "../INCL/minishell.h"
 
-void	ft_free(char **dc)
-{
-	int	i;
-
-	i = -1;
-	if (dc[0])
-	{
-		while (dc[++i])
-			free(dc[i]);
-	}
-	if (dc)
-		free(dc);
-	dc = NULL;
-}
-
 char	**ft_new_env(char **mat, int def)
 {
 	char	**new;
@@ -63,11 +48,31 @@ char	*ft_prompt(t_bash **bash, char **envp)
 	return (line);
 }
 
+void	ft_check_env(t_bash **bash, char ***env)
+{
+	t_bash	*tmp;
+
+	tmp = *bash;
+	while (tmp)
+	{
+		if (tmp->envp != NULL)
+		{
+			if (*env)
+				ft_free(*env);
+			(*env) = ft_new_env(tmp->envp, 0);
+			if (tmp->envp)
+				ft_free(tmp->envp);
+			tmp->envp = NULL;
+		}
+		tmp = tmp->next;
+	}
+	tmp = NULL;
+}
+
 void	ft_command(t_bash **bash, struct sigaction *sa, char **envp)
 {
 	char	*line;
 	char	**env;
-	t_bash	*tmp;
 
 	env = ft_new_env(envp, 0);
 	while (1)
@@ -80,20 +85,9 @@ void	ft_command(t_bash **bash, struct sigaction *sa, char **envp)
 				ft_sig_define(sa, 1);
 			ft_execute(bash, env, line);
 		}
-		tmp = *bash;
 		add_history(line);
-		while (tmp)
-		{
-			if (tmp->envp != NULL)
-			{
-				ft_free(env);
-				env = ft_new_env(tmp->envp, 0);
-				ft_free(tmp->envp);
-			}
-			tmp = tmp->next;
-		}
+		ft_check_env(bash, &env);
 		ft_delete_lst(bash);
-		tmp = NULL;
 		free(line);
 	}
 }

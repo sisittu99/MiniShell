@@ -92,13 +92,11 @@ char	*ft_replace_help(char *s, char **envp, int pos, int *ret_i)
 	char	*s2;
 	char	*s3;
 	char	*tmp;
-	int		i[3];
+	int		*i;
 
 	ft_init_replace(&s1, &s2, &s3);
 	tmp = ft_strdup(s);
-	i[0] = 0;
-	i[2] = pos;
-	i[1] = ft_check_var(tmp, pos + 1);
+	ft_init_arr_replace(&i, pos, tmp);
 	if (i[1] > 0 || i[1] == -1)
 	{
 		s1 = ft_substr(tmp, 0, pos);

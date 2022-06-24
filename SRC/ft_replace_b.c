@@ -6,7 +6,7 @@
 /*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 16:55:45 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/24 12:44:41 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/24 14:21:53 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,4 +91,11 @@ void	ft_init_replace(char **s1, char **s2, char **s3)
 	(*s1) = NULL;
 	(*s2) = NULL;
 	(*s3) = NULL;
+}
+
+void	ft_init_arr_replace(int **i, int pos, char *tmp)
+{
+	(*i)[0] = 0;
+	(*i)[2] = pos;
+	(*i)[1] = ft_check_var(tmp, pos + 1);
 }
