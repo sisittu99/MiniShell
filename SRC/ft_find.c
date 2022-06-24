@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_find.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
+/*   By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 16:14:37 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/24 13:05:09 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/24 20:31:12 by mcerchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ char	*find_var_to_replace(char *line, char **envp, char re_dir)
 			pos_apex[0] = ms_strchr(line, i, '\'');
 			pos_apex[1] = ms_strchr(line, (pos_apex[0] + 1), '\'');
 		}
+		printf("%d %d %d\n", pos_apex[0], pos_apex[1], pos_dollar); fflush(stdout);
 		if (!(pos_apex[0] < pos_dollar && pos_dollar < pos_apex[1])
 			&& re_dir != '1')
 			ft_replace(&line, envp, pos_dollar, &i);

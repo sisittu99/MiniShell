@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
+/*   By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 16:01:31 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/23 16:43:55 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/24 19:37:13 by mcerchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_pwd(char **cmd, char **envp)
 	tmp = NULL;
 	if (index != NULL)
 	{
-		tmp = ft_substr(envp[index[0]], index[1] + 2,
+		tmp = ft_substr(envp[index[0]], index[1] + 1,
 				ft_strlen(envp[index[0]]) - index[1]);
 		printf("%s\n", tmp);
 		free(index);

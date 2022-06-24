@@ -125,6 +125,7 @@ void	ft_replace(char **s, char **envp, int pos, int *ret_i)
 	char	*tmp;
 	char	pwd[256];
 
+	printf("entered\n");
 	tmp = ft_strdup(*s);
 	free(*s);
 	if (tmp[pos] == '*')
