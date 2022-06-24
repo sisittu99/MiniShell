@@ -6,7 +6,7 @@
 /*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 16:55:45 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/24 14:21:53 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/24 15:44:00 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@ int	*find_it(char **envp, char *to_find)
 	int		i;
 
 	i = 0;
-	index = (int *) malloc (sizeof(int) * 3);
-	while (i < 3)
-		index[i++] = 0;
+	index = ft_int_bzero(3);
 	while (envp[index[0]])
 	{
 		while (envp[index[0]][index[1]] == to_find[index[2]])
@@ -93,9 +91,9 @@ void	ft_init_replace(char **s1, char **s2, char **s3)
 	(*s3) = NULL;
 }
 
-void	ft_init_arr_replace(int **i, int pos, char *tmp)
+void	ft_init_arr_replace(int *i, int pos, char *tmp)
 {
-	(*i)[0] = 0;
-	(*i)[2] = pos;
-	(*i)[1] = ft_check_var(tmp, pos + 1);
+	i[0] = 0;
+	i[2] = pos;
+	i[1] = ft_check_var(tmp, pos + 1);
 }

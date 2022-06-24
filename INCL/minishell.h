@@ -6,7 +6,7 @@
 /*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 16:48:17 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/24 14:25:55 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/24 15:42:09 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ char	*ft_replace_join(char *s1, char *s2, char *s3);
 char	*ft_delete_char(char *s, int pos);
 int		ft_check_var(char *s, int pos);
 void	ft_init_replace(char **s1, char **s2, char **s3);
-void	ft_init_arr_replace(int **i, int pos, char *tmp);
+void	ft_init_arr_replace(int *i, int pos, char *tmp);
 int		ms_strchr(char *s, int pos, char c);
 	//ms_split//
 char	**ms_split(char *s);
