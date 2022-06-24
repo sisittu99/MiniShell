@@ -6,7 +6,7 @@
 /*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 16:14:37 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/22 16:53:56 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/24 13:05:09 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	ft_find_tilde_help(int *pos_apex, int *i, int pos)
 
 /* -> Funzione che cerca un carattere passato facendo
 	  il replace col suo valore <- */
-void	ft_find_tilde(char *line, char **envp, char re_dir, char c)
+void	ft_find_tilde(char **line, char **envp, char re_dir, char c)
 {
 	int	pos;
 	int	pos_apex[4];
@@ -59,10 +59,10 @@ void	ft_find_tilde(char *line, char **envp, char re_dir, char c)
 	pos_apex[1] = 1;
 	pos_apex[2] = 0;
 	pos_apex[3] = 1;
-	pos = ms_strchr(line, i, c);
+	pos = ms_strchr(*line, i, c);
 	while (pos != -1)
 	{
-		ft_find_tilde_help_b(pos_apex, i, line);
+		ft_find_tilde_help_b(pos_apex, i, *line);
 		if (!(pos_apex[0] < pos && pos < pos_apex[1])
 			&& !(pos_apex[2] < pos && pos < pos_apex[3]) && re_dir != '1')
 		{
@@ -71,7 +71,7 @@ void	ft_find_tilde(char *line, char **envp, char re_dir, char c)
 		}
 		else
 			ft_find_tilde_help(pos_apex, &i, pos);
-		pos = ms_strchr(line, i, c);
+		pos = ms_strchr(*line, i, c);
 	}
 }
 
@@ -96,7 +96,7 @@ char	*find_var_to_replace(char *line, char **envp, char re_dir)
 		}
 		if (!(pos_apex[0] < pos_dollar && pos_dollar < pos_apex[1])
 			&& re_dir != '1')
-			ft_replace(line, envp, pos_dollar, &i);
+			ft_replace(&line, envp, pos_dollar, &i);
 		else if (pos_apex[0] < pos_dollar && pos_dollar < pos_apex[1])
 			i = pos_apex[1] + 1;
 		else

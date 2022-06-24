@@ -102,11 +102,12 @@ int	ft_parse_help(t_bash **bash, char **envp)
 	tmp = *bash;
 	while (tmp != NULL)
 	{
-		ft_find_tilde(tmp->line, envp, tmp->re_dir, '~');
-		ft_find_tilde(tmp->line, envp, tmp->re_dir, '*');
+		ft_find_tilde(&tmp->line, envp, tmp->re_dir, '~');
+		ft_find_tilde(&tmp->line, envp, tmp->re_dir, '*');
 		line3 = find_var_to_replace(tmp->line, envp, tmp->re_dir);
 		(tmp)->cmd = ms_split(line3);
-		free(line3);
+		if (line3)
+			free(line3);
 		tmp = (tmp)->next;
 	}
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 15:30:53 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/23 16:59:38 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/24 13:15:09 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,12 @@ void	ft_handle_env(char *cmd, t_bash **bash)
 	i = 0;
 	while (i < 3)
 		index[i++] = 0;
-	to_find = cmd;
+	to_find = ft_strdup(cmd);
 	if (ft_strchr(cmd, '=') != NULL)
 	{
 		i = 0;
-		while (cmd[i++] != '=')
-			;
+		while (cmd[i] != '=')
+			i++;
 		to_find = ft_substr(cmd, 0, i);
 	}
 	if (ft_handle_env_cycle(bash, index, cmd, to_find))

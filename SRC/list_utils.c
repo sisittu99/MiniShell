@@ -24,11 +24,10 @@ void	ft_delete_lst(t_bash **bash)
 		tmp = (*bash)->next;
 		if ((*bash)->cmd)
 			ft_free((*bash)->cmd);
-		// if ((*bash)->envp != NULL)
-		// 	ft_free((*bash)->envp);
 		free (*bash);
 		*bash = tmp;
 	}
+	*bash = NULL;
 }
 
 t_bash	*ft_last_node(t_bash *lst)

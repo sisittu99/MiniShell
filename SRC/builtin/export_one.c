@@ -6,7 +6,7 @@
 /*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 15:56:04 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/23 16:54:05 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/24 10:23:49 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	**ft_init_sort(char **envp, int *i)
 
 /*
 	Dai su, ci puoi arrivare!
-	(solo con (char*))
+	(solo tra array di (char **))
 */
 void	ft_swap(char **sort, int i)
 {

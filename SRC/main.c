@@ -24,6 +24,7 @@ void	ft_free(char **dc)
 	}
 	if (dc)
 		free(dc);
+	dc = NULL;
 }
 
 char	**ft_new_env(char **mat, int def)
@@ -45,7 +46,7 @@ char	**ft_new_env(char **mat, int def)
 		new[i] = ft_strdup(mat[i]);
 		i++;
 	}
-	new[i] = 0;
+	new[i] = NULL;
 	return (new);
 }
 
@@ -66,6 +67,7 @@ void	ft_command(t_bash **bash, struct sigaction *sa, char **envp)
 {
 	char	*line;
 	char	**env;
+	t_bash	*tmp;
 
 	env = ft_new_env(envp, 0);
 	while (1)
@@ -78,15 +80,20 @@ void	ft_command(t_bash **bash, struct sigaction *sa, char **envp)
 				ft_sig_define(sa, 1);
 			ft_execute(bash, env, line);
 		}
+		tmp = *bash;
 		add_history(line);
-		if ((*bash) && (*bash)->envp)			////////////////////////////////////////////////////////
-		{									//VERIFICARE CONDIZIONE BASH->ENVP IN NODI SUCCESSIVI AL PRIMO//
-			ft_free(env);						////////////////////////////////////////////////////////
-			env = ft_new_env((*bash)->envp, 0);
-			ft_free((*bash)->envp);
-			// (*bash)->envp = NULL;
+		while (tmp)
+		{
+			if (tmp->envp != NULL)
+			{
+				ft_free(env);
+				env = ft_new_env(tmp->envp, 0);
+				ft_free(tmp->envp);
+			}
+			tmp = tmp->next;
 		}
 		ft_delete_lst(bash);
+		tmp = NULL;
 		free(line);
 	}
 }

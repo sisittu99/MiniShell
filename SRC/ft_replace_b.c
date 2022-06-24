@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_replace_b.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 16:55:45 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/22 17:48:24 by mcerchi          ###   ########.fr       */
+/*   Updated: 2022/06/24 12:44:41 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	*find_it(char **envp, char *to_find)
 	index = (int *) malloc (sizeof(int) * 3);
 	while (i < 3)
 		index[i++] = 0;
-	while (envp[index[0]++])
+	while (envp[index[0]])
 	{
 		while (envp[index[0]][index[1]] == to_find[index[2]])
 		{
@@ -37,6 +37,7 @@ int	*find_it(char **envp, char *to_find)
 		}
 		index[1] = 0;
 		index[2] = 0;
+		index[0]++;
 	}
 	free(index);
 	return (NULL);
@@ -49,12 +50,15 @@ char	*ft_replace_join(char *s1, char *s2, char *s3)
 	char	*dst;
 
 	tmp = ft_strjoin(s1, s2);
-	free(s1);
-	if (*s2 != '\0')
+	if (s1)
+		free(s1);
+	if (s2)
 		free(s2);
 	dst = ft_strjoin(tmp, s3);
-	free(tmp);
-	free(s3);
+	if (tmp)
+		free(tmp);
+	if (s3)
+		free(s3);
 	return (dst);
 }
 

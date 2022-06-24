@@ -6,7 +6,7 @@
 /*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 16:48:17 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/23 16:43:42 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/24 12:58:30 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	rl_replace_line(const char *text, int clear_undo);
 int		ft_parse(t_bash **bash, char *line, char **envp);
 int		ft_parse_help(t_bash **bash, char **envp);
 char	*find_var_to_replace(char *line, char **envp, char re_dir);
-void	ft_find_tilde(char *line, char **envp, char re_dir, char c);
+void	ft_find_tilde(char **line, char **envp, char re_dir, char c);
 void	ft_find_tilde_help(int *pos_apex, int *i, int pos);
 void	ft_find_tilde_help_b(int *pos_apex, int i, char *line);
 int		ft_check_var(char *s, int pos);
@@ -110,7 +110,7 @@ void	ft_init_node(t_bash **bash, char *line, int pos, int len);
 int		ft_find_par(t_bash **bash);
 int		ft_nbr_par(char *line);
 	//replace//
-void	ft_replace(char *s, char **envp, int pos, int *ret_i);
+void	ft_replace(char **s, char **envp, int pos, int *ret_i);
 char	*ft_replace_help(char *s, char **envp, int pos, int *ret_i);
 char	*ft_replace_help_b(char *s, char **envp, int *ret_i, int *i);
 char	*ft_replace_tilde(char *s, char **envp, int pos, int *ret_i);

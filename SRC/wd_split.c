@@ -6,7 +6,7 @@
 /*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 12:10:23 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/22 12:10:24 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/24 13:10:09 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	nb_words(const char *s, char c)
 	return (i);
 }
 
-static char	**wds_assign(const char *s, char c, char **dest, size_t len)
+static void	wds_assign(const char *s, char c, char **dest, size_t len)
 {
 	size_t	i;
 	size_t	x;
@@ -61,7 +61,6 @@ static char	**wds_assign(const char *s, char c, char **dest, size_t len)
 		i++;
 	}
 	dest[x] = NULL;
-	return (dest);
 }
 
 /* -> Funzione split modificata per la wildcard.

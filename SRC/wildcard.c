@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 16:47:37 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/22 19:20:36 by mcerchi          ###   ########.fr       */
+/*   Updated: 2022/06/24 12:50:55 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*ft_find_wildcard(char *s, int *pos)
 /*
 	Legge la cartella e manda a controllare la wildcard.
 */
-int	ft_read_dir(char *pwd, char **wild, char *s1, char *s2)
+int	ft_read_dir(char *pwd, char **wild, char **s1, char **s2)
 {
 	struct dirent	*rdir;
 	DIR				*dir;
@@ -52,10 +52,10 @@ int	ft_read_dir(char *pwd, char **wild, char *s1, char *s2)
 	{
 		if (ft_check_wildcard(wild, rdir->d_name) == 1)
 		{
-			s2 = ft_strjoin(s1, rdir->d_name);
-			free(s1);
-			s1 = ft_strjoin(s2, " ");
-			free(s2);
+			(*s2) = ft_strjoin(*s1, rdir->d_name);
+			free(*s1);
+			*s1 = ft_strjoin(*s2, " ");
+			free(*s2);
 		}
 		rdir = readdir(dir);
 	}
@@ -75,7 +75,7 @@ char	*ft_wildcard(char *s, char *pwd, int pos, int *ret_i)
 	ft_init_replace(&s1, &s2, &s3);
 	wild = wd_split(ft_find_wildcard(s, &pos), '*');
 	s1 = ft_substr(s, 0, pos);
-	if (ft_read_dir(pwd, wild, s1, s2) == 0)
+	if (ft_read_dir(pwd, wild, &s1, &s2) == 0)
 		return (NULL);
 	*ret_i = ft_strlen(s1);
 	while (s[pos] != ' ' && s[pos] != '\0')

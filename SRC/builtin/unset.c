@@ -6,7 +6,7 @@
 /*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 16:24:28 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/23 18:01:07 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/24 13:15:17 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ char	**ft_unset_find_var(char **envp, char *to_find)
 
 /*Elimina le variabili all'interno dell'env.
   Restituisce 0 se le elimina tutte, >0 se almeno una fallisce.
-  Almeno, secondo il man di GNU... in realtà torna sempre 0.*/			///////
-int	ft_unset(t_bash **bash, char **cmd, char **envp)				//SISTEMARE//
-{																		//////
+  Almeno, secondo il man di GNU... in realtà torna sempre 0.*/
+int	ft_unset(t_bash **bash, char **cmd, char **envp)
+{
 	char	**new;
 	char	*to_find;
 	int		i;

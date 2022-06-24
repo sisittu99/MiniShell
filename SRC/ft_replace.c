@@ -78,8 +78,10 @@ char	*ft_replace_help_b(char *s, char **envp, int *ret_i, int *i)
 		s2 = ft_strjoin("$", var);
 	free(var);
 	*ret_i = i[2] + ft_strlen(s2);
+	var = ft_substr(s, i[0], (ft_strlen(s) - i[0]));
+	s3 = ft_strjoin(s2, var);
+	free(var);
 	free(s2);
-	s3 = ft_substr(s, i[0], (ft_strlen(s) - i[0]));
 	return (s3);
 }
 
@@ -89,28 +91,30 @@ char	*ft_replace_help(char *s, char **envp, int pos, int *ret_i)
 	char	*s1;
 	char	*s2;
 	char	*s3;
+	char	*tmp;
 	int		i[3];
 
 	ft_init_replace(&s1, &s2, &s3);
+	tmp = ft_strdup(s);
 	i[0] = 0;
 	i[2] = pos;
-	i[1] = ft_check_var(s, pos + 1);
+	i[1] = ft_check_var(tmp, pos + 1);
 	if (i[1] > 0 || i[1] == -1)
 	{
-		s1 = ft_substr(s, 0, pos);
+		s1 = ft_substr(tmp, 0, pos);
 		if (i[1] == -1)
 		{
 			s2 = ft_itoa(g_exit_status);
 			i[0] = pos + 1 + 1;
 			*ret_i = pos + ft_strlen(s2);
-			s3 = ft_substr(s, i[0], (ft_strlen(s) - i[0]));
+			s3 = ft_substr(s, i[0], (ft_strlen(tmp) - i[0]));
 		}
 		else if (i[1] > 0)
-			s3 = (ft_replace_help_b(s, envp, ret_i, i));
-		free(s);
-		s = ft_replace_join(s1, s2, s3);
+			s3 = ft_replace_help_b(tmp, envp, ret_i, i);
+		free(tmp);
+		tmp = ft_replace_join(s1, s2, s3);
 	}
-	return (s);
+	return (tmp);
 }
 
 /* -> Controllo e ricerca della variabile all'interno della srtinga.
@@ -118,28 +122,28 @@ char	*ft_replace_help(char *s, char **envp, int pos, int *ret_i)
 	  sostituzione della variabile con il suo valore.
 	  || ** Questa funzione dev'essere chiamata dopo il controllo e la
 	  conferma che la variabile dev'essere sostituita col valore ** || <- */
-void	ft_replace(char *s, char **envp, int pos, int *ret_i)
+void	ft_replace(char **s, char **envp, int pos, int *ret_i)
 {
 	char	*tmp;
 	char	pwd[256];
 
-	tmp = ft_strdup(s);
-	free(s);
+	tmp = ft_strdup(*s);
+	free(*s);
 	if (tmp[pos] == '*')
 	{
 		getcwd(pwd, sizeof(pwd));
-		s = ft_wildcard(tmp, pwd, pos, ret_i);
+		(*s) = ft_wildcard(tmp, pwd, pos, ret_i);
 	}
 	else if (tmp[pos] == '~')
-		s = ft_replace_tilde(tmp, envp, pos, ret_i);
+		(*s) = ft_replace_tilde(ft_strdup(tmp), envp, pos, ret_i);
 	else if (tmp[pos + 1] == '\0')
 	{
-		s = ft_strdup(tmp);
+		(*s) = ft_strdup(tmp);
 		free(tmp);
 		return ;
 	}
-	else if (tmp[pos] == '$' && (s[pos + 1] != '\"'))
-		s = ft_replace_help(tmp, envp, pos, ret_i);
+	else if (tmp[pos] == '$' && ((*s)[pos + 1] != '\"'))
+		(*s) = ft_replace_help(tmp, envp, pos, ret_i);
 	if (tmp != NULL)
 		free(tmp);
 	return ;
