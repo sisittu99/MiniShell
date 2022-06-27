@@ -75,13 +75,14 @@ char	*ft_replace_help_b(char *s, char **envp, int *ret_i, int *i)
 				ft_strlen(envp[index[0]]));
 	}
 	else
-		s2 = ft_strjoin("$", var);
+		s2 = /*ft_strjoin("$", var);*/ "\0";
 	free(var);
 	*ret_i = i[2] + ft_strlen(s2);
 	var = ft_substr(s, i[0], (ft_strlen(s) - i[0]));
 	s3 = ft_strjoin(s2, var);
 	free(var);
-	free(s2);
+	if (s2[0] != '\0')
+		free(s2);
 	return (s3);
 }
 
@@ -99,6 +100,7 @@ char	*ft_replace_help(char *s, char **envp, int pos, int *ret_i)
 	ft_init_arr_replace(i, pos, tmp);
 	if (i[1] > 0 || i[1] == -1)
 	{
+		printf("Hello world\n");
 		s1 = ft_substr(tmp, 0, pos);
 		if (i[1] == -1)
 		{
@@ -129,6 +131,7 @@ void	ft_replace(char **s, char **envp, int pos, int *ret_i)
 	printf("entered\n");
 	tmp = ft_strdup(*s);
 	free(*s);
+	// exit(0);
 	if (tmp[pos] == '*')
 	{
 		getcwd(pwd, sizeof(pwd));
