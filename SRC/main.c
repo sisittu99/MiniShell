@@ -92,6 +92,12 @@ void	ft_command(t_bash **bash, struct sigaction *sa, char **envp)
 			ft_execute(bash, env, line);
 		}
 		add_history(line);
+		/*
+			ATTENZIONE!
+				non funziona quando si scrive una riga,
+				si manda a capo più di una volta e si preme FRECCIA SU.
+				SegFault.
+		*/
 		ft_check_env(bash, &env);
 		ft_delete_lst(bash);
 		free(line);

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+         #
+#    By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/22 15:36:33 by fdrudi            #+#    #+#              #
-#    Updated: 2022/06/23 14:27:36 by fdrudi           ###   ########.fr        #
+#    Updated: 2022/06/27 11:48:36 by mcerchi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ SRC			=	./SRC/main.c ./SRC/path.c ./SRC/ms_split.c \
 				./SRC/wd_split.c ./SRC/wildcard.c ./SRC/wildcard_help.c \
 				./SRC/re_dir.c ./SRC/ft_pipe.c ./SRC/ft_and_or.c \
 				./SRC/execute_b.c ./SRC/ft_replace_b.c ./SRC/syntax_error.c \
-				./SRC/ft_find.c ./SRC/ft_par.c\
+				./SRC/ft_find.c ./SRC/ft_find_utils.c ./SRC/ft_par.c\
 
 OBJ			=	$(SRC:.c=.o)
 
