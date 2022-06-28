@@ -100,7 +100,6 @@ char	*ft_replace_help(char *s, char **envp, int pos, int *ret_i)
 	ft_init_arr_replace(i, pos, tmp);
 	if (i[1] > 0 || i[1] == -1)
 	{
-		printf("Hello world\n");
 		s1 = ft_substr(tmp, 0, pos);
 		if (i[1] == -1)
 		{
@@ -128,7 +127,6 @@ void	ft_replace(char **s, char **envp, int pos, int *ret_i)
 	char	pwd[256];
 
 	/*	DOUBLE FREE DETECHED	*/
-	printf("entered\n");
 	tmp = ft_strdup(*s);
 	free(*s);
 	// exit(0);

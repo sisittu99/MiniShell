@@ -6,7 +6,7 @@
 /*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 15:20:13 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/23 14:37:59 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/28 19:18:49 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_par_error(char *line, int i, int j)
 	int		pos2;
 	char	*tmp;
 
-	tmp = ft_substr(line, i, j + 1);
+	tmp = ft_substr(line, i, j);
 	pos = ms_strchr(tmp, 0, '(');
 	if (pos != -1 && j < (int)ft_strlen(line))
 		j += 1;
@@ -28,9 +28,12 @@ int	ft_par_error(char *line, int i, int j)
 	if (pos != -1 && pos2 != -1)
 	{
 		if (pos < pos2)
+		{
+			printf("HERE\n");
 			return (fd_printf(2,
 					"bash: syntax error near unexpected token `%s'\n",
 					ft_substr(line, pos + 1, pos2 - pos - 1)));
+		}
 		else
 			return (fd_printf(2,
 					"bash: syntax error near unexpected token `)'\n"));
@@ -38,7 +41,14 @@ int	ft_par_error(char *line, int i, int j)
 	else if (pos2 != -1)
 		return (fd_printf(2, "bash: syntax error near unexpected token `)'\n"));
 	else if (pos != -1)
-		return (fd_printf(2, "bash: syntax error near unexpected token `('\n"));
+	{
+		if (ms_strchr(line, i, ')') != -1 && line[i + pos - 1] == ' ')
+			return (fd_printf(2,
+					"bash: syntax error near unexpected token `%s'\n",
+					ft_substr(line, i + pos + 1, j - pos - 1)));
+		else
+			return (fd_printf(2, "bash: syntax error near unexpected token `('\n"));
+	}
 	return (0);
 }
 

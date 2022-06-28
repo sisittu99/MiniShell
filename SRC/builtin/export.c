@@ -64,18 +64,18 @@ int	ft_export_cycle(t_bash **bash, char *cmd)
 	j = 0;
 	while (cmd[j])
 	{
-		if (!ft_isalpha(cmd[j]) && !ft_isdigit(cmd[j])
-			&& cmd[j] != '_' && cmd[j] != '+')
-		{
-			fd_printf(2, "bash: export: `%s\': not a valid identifier\n", cmd);
-			return (1);
-		}
-		else if ((cmd[j + 1] == '\0' || cmd[j + 1] == '=')
+		if ((cmd[j + 1] == '\0' || cmd[j] == '=' || (cmd[j + 1] == '=' && cmd[j] == '+'))
 			&& ((*bash)->pipe[0] == 0 && (*bash)->pipe[1] == 0)
 			&& (*bash)->next == NULL)
 		{
 			ft_handle_env(cmd, bash);
 			break ;
+		}
+		if (!ft_isalpha(cmd[j]) && !ft_isdigit(cmd[j])
+			&& cmd[j] != '_')
+		{
+			fd_printf(2, "bash: export: `%s\': not a valid identifier\n", cmd);
+			return (1);
 		}
 		j++;
 	}

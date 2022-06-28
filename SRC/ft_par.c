@@ -6,7 +6,7 @@
 /*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 16:37:31 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/23 16:21:55 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/28 19:21:40 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	ft_nbr_par(char *line)
 		return (300);
 	pos[0] = i;
 	pos[1] = ft_strlen(line) - 1 - j;
-	tmp = ft_substr(line, i, j + 1);
+	tmp = ft_substr(line, i, j);
 	free(line);
 	line = ft_strdup(tmp);
 	free(tmp);

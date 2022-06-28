@@ -13,9 +13,8 @@ int	ft_check_apex(int *pos_apex, int pos_dollar, char *line)
 	}
 	if (pos_apex[0] < pos_dollar && pos_dollar < pos_apex[1]) //'$USER'
 	{
-		printf("here\n");
 		if (pos_apex[2] < pos_apex[0] && pos_apex[1] < pos_apex[3]) // "'$USER'"
-			return (printf("here2\n"));
+			return (1);
 		if (pos_apex[2] == -1 || pos_apex[3] == -1)
 			return (0);
 		while (pos_apex[3] < pos_apex[0]) //	""...'$USER'
@@ -26,10 +25,10 @@ int	ft_check_apex(int *pos_apex, int pos_dollar, char *line)
 				return (0);
 		}
 		if (pos_apex[2] < pos_apex[0] && pos_apex[1] < pos_apex[3])
-			return (printf("here3\n"));
+			return (1);
 		else if (pos_apex[2] < pos_apex[0] && pos_apex[0] < pos_apex[3]
 					&& pos_apex[2] < pos_dollar && pos_dollar < pos_apex[3])
-			return (printf("here4\n"));
+			return (1);
 		return (0);
 	}
 	return (1);
@@ -51,7 +50,6 @@ char	*find_var_to_replace(char *line, char **envp, char re_dir)
 		pos_apex[1] = ms_strchr(line, (pos_apex[0] + 1), '\'');
 		pos_apex[2] = ms_strchr(line, i, '\"');
 		pos_apex[3] = ms_strchr(line, (pos_apex[2] + 1), '\"');
-		printf("%d %d %d\n", pos_apex[2], pos_apex[3], pos_dollar); fflush(stdout);
 		if (ft_check_apex(pos_apex, pos_dollar, line) != 0)
 			ft_replace(&line, envp, pos_dollar, &i);
 		else if (pos_apex[0] < pos_dollar && pos_dollar < pos_apex[1])

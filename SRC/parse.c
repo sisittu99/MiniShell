@@ -140,6 +140,5 @@ int	ft_parse(t_bash **bash, char *line, char **envp)
 	if (j < i)
 		ft_init_node(bash, line, j, (i - j));
 	free(line);
-	ft_parse_help(bash, envp);
-	return (1);
+	return (ft_parse_help(bash, envp));
 }

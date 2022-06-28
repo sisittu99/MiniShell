@@ -6,7 +6,7 @@
 /*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 16:48:17 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/24 17:23:33 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/28 16:41:59 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,8 +125,8 @@ char	**ms_split(char *s);
 int		ms_nb_words(char *s, char c);
 void	nb_words_help(char *s, int a, int *i, int *j);
 void	nb_words_redir(char *s, int a, int *j);
-void	ms_wds_assign(char *s, char c, char **dest, int len);
-void	wds_assign_help(char *s, int *i, int len);
+void	ms_wds_assign(char **s, char c, char **dest, int len);
+void	wds_assign_help(char **s, int *i, int len);
 void	wds_assign_help_b(char *s, int *i, char **dest, int *x);
 	//syntax_error//
 int		ft_syntax_err_b(char *line, int *def, int i);

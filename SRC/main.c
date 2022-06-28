@@ -85,19 +85,16 @@ void	ft_command(t_bash **bash, struct sigaction *sa, char **envp)
 	{
 		ft_sig_define(sa, 0);
 		line = ft_prompt(bash, env);
-		if (line != NULL && ft_parse(bash, ft_strdup(line), env) == 1)
+		if (line != NULL)
 		{
-			if ((*bash)->next != NULL || (*bash)->re_dir == '1')
-				ft_sig_define(sa, 1);
-			ft_execute(bash, env, line);
+			if (ft_parse(bash, ft_strdup(line), env) == 1)
+			{
+				if ((*bash)->next != NULL || (*bash)->re_dir == '1')
+					ft_sig_define(sa, 1);
+				ft_execute(bash, env, line);
+			}
+			add_history(line);
 		}
-		add_history(line);
-		/*
-			ATTENZIONE!
-				non funziona quando si scrive una riga,
-				si manda a capo più di una volta e si preme FRECCIA SU.
-				SegFault.
-		*/
 		ft_check_env(bash, &env);
 		ft_delete_lst(bash);
 		free(line);
