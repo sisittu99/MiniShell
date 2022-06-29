@@ -6,11 +6,20 @@
 /*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 15:20:13 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/28 19:18:49 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/29 16:56:11 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../INCL/minishell.h"
+
+int	ft_par_error_b(int i, int j)
+{
+	if (i > j || i < j)
+		fd_printf(2, "bash: syntax error near unexpected token `)'\n");
+	else
+		fd_printf(2, "bash: syntax error near unexpected token `('\n");
+	return (0);
+}
 
 /* -> Controlla gli errori di Sintassi sulle parentesi <- */
 int	ft_par_error(char *line, int i, int j)
@@ -28,12 +37,9 @@ int	ft_par_error(char *line, int i, int j)
 	if (pos != -1 && pos2 != -1)
 	{
 		if (pos < pos2)
-		{
-			printf("HERE\n");
 			return (fd_printf(2,
 					"bash: syntax error near unexpected token `%s'\n",
 					ft_substr(line, pos + 1, pos2 - pos - 1)));
-		}
 		else
 			return (fd_printf(2,
 					"bash: syntax error near unexpected token `)'\n"));
@@ -47,7 +53,8 @@ int	ft_par_error(char *line, int i, int j)
 					"bash: syntax error near unexpected token `%s'\n",
 					ft_substr(line, i + pos + 1, j - pos - 1)));
 		else
-			return (fd_printf(2, "bash: syntax error near unexpected token `('\n"));
+			return (fd_printf(2,
+					"bash: syntax error near unexpected token `('\n"));
 	}
 	return (0);
 }

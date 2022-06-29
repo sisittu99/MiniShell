@@ -6,7 +6,7 @@
 /*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 16:37:31 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/28 19:21:40 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/29 17:04:07 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ int	ft_nbr_par(char *line)
 		return (300);
 	pos[0] = i;
 	pos[1] = ft_strlen(line) - 1 - j;
-	tmp = ft_substr(line, i, j);
+	if (i > 0 && j < ((int) ft_strlen(line) - 1))
+		tmp = ft_substr(line, i, j);
+	else
+		tmp = ft_substr(line, i, j + 1);
 	free(line);
 	line = ft_strdup(tmp);
 	free(tmp);
@@ -44,7 +47,9 @@ int	ft_find_par(t_bash **bash)
 
 	tmp = *bash;
 	lvl[0] = ft_nbr_par(tmp->line);
-	if (lvl[0] < 0 || lvl[0] == 300)
+	if (lvl[0] < 0)
+		return (ft_par_error_b(tmp->par, lvl[0]));
+	else if (lvl[0] == 300)
 		return (0);
 	tmp->par = lvl[0];
 	while (tmp->next != NULL)
@@ -62,6 +67,6 @@ int	ft_find_par(t_bash **bash)
 		lvl[0] = lvl[1];
 	}
 	if (tmp->par + lvl[0] != 0)
-		return (0);
+		return (ft_par_error_b(tmp->par, lvl[0]));
 	return (1);
 }

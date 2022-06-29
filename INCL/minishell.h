@@ -6,7 +6,7 @@
 /*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 16:48:17 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/28 16:41:59 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/29 16:44:55 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ int		ft_syntax_err_b(char *line, int *def, int i);
 int		ft_syntax_err(char *line, int i);
 int		ft_syntax_err_help(char *line, int *def, int i);
 int		ft_par_error(char *line, int i, int j);
+int		ft_par_error_b(int i, int j);
 
 // * EXECUTE * //
 
