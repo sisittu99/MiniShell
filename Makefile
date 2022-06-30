@@ -6,7 +6,7 @@
 #    By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/22 15:36:33 by fdrudi            #+#    #+#              #
-#    Updated: 2022/06/27 11:48:36 by mcerchi          ###   ########.fr        #
+#    Updated: 2022/06/30 19:13:25 by mcerchi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ SRC			=	./SRC/main.c ./SRC/path.c ./SRC/ms_split.c \
 				./SRC/builtin/check_builtin.c ./SRC/builtin/builtin.c \
 				./SRC/builtin/echo.c ./SRC/builtin/chdir.c \
 				./SRC/builtin/export.c ./SRC/builtin/export_one.c \
-				./SRC/builtin/export_two.c \
+				./SRC/builtin/export_two.c ./SRC/syntax_error_par.c \
 				./SRC/builtin/unset.c ./SRC/signals.c ./SRC/rm_ctrl.c\
 				./SRC/wd_split.c ./SRC/wildcard.c ./SRC/wildcard_help.c \
 				./SRC/re_dir.c ./SRC/ft_pipe.c ./SRC/ft_and_or.c \

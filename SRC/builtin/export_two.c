@@ -6,7 +6,7 @@
 /*   By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 15:30:53 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/30 18:43:09 by mcerchi          ###   ########.fr       */
+/*   Updated: 2022/06/30 19:10:20 by mcerchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ int	ft_handle_env_cycle(t_bash **bash, int *index, char *cmd, char *to_find)
 		while ((*bash)->envp[index[0]][index[1]] == to_find[index[2]])
 		{
 			if ((!to_find[index[2] + 1] || to_find[index[2] + 1] == '+')
-				&& ((*bash)->envp[index[0]][index[1] + 1] == '=' || (*bash)->envp[index[0]][index[1] + 1] == '\0'))
+				&& ((*bash)->envp[index[0]][index[1] + 1] == '='
+				|| (*bash)->envp[index[0]][index[1] + 1] == '\0'))
 			{
 				ft_env_var_found(ft_strdup(cmd), bash, index);
 				free(to_find);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_par.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
+/*   By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 16:37:31 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/29 17:04:07 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/30 19:01:53 by mcerchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,25 @@ int	ft_nbr_par(char *line)
 	return (pos[0] - pos[1]);
 }
 
+int	ft_find_par_help(t_bash **tmp, int *lvl)
+{
+	while ((*tmp)->next != NULL)
+	{
+		lvl[1] = ft_nbr_par((*tmp)->next->line);
+		if (lvl[1] == 300)
+			return (0);
+		if (lvl[1] >= 0)
+			(*tmp)->next->par = (*tmp)->par + lvl[1];
+		else
+			(*tmp)->next->par = (*tmp)->par;
+		if (lvl[0] < 0)
+			(*tmp)->next->par += lvl[0];
+		(*tmp) = (*tmp)->next;
+		lvl[0] = lvl[1];
+	}
+	return (1);
+}
+
 int	ft_find_par(t_bash **bash)
 {
 	t_bash	*tmp;
@@ -52,20 +71,8 @@ int	ft_find_par(t_bash **bash)
 	else if (lvl[0] == 300)
 		return (0);
 	tmp->par = lvl[0];
-	while (tmp->next != NULL)
-	{
-		lvl[1] = ft_nbr_par(tmp->next->line);
-		if (lvl[1] == 300)
-			return (0);
-		if (lvl[1] >= 0)
-			tmp->next->par = tmp->par + lvl[1];
-		else
-			tmp->next->par = tmp->par;
-		if (lvl[0] < 0)
-			tmp->next->par += lvl[0];
-		tmp = tmp->next;
-		lvl[0] = lvl[1];
-	}
+	if (ft_find_par_help(&tmp, lvl) == 0)
+		return (0);
 	if (tmp->par + lvl[0] != 0)
 		return (ft_par_error_b(tmp->par, lvl[0]));
 	return (1);

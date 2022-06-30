@@ -6,7 +6,7 @@
 /*   By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 16:48:17 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/30 18:42:05 by mcerchi          ###   ########.fr       */
+/*   Updated: 2022/06/30 19:01:59 by mcerchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ int		ft_check_sep(t_bash **bash, char *line, int *i, int *j);
 void	ft_check_sep_help(char *line, int *i);
 void	ft_init_node(t_bash **bash, char *line, int pos, int len);
 int		ft_find_par(t_bash **bash);
+int		ft_find_par_help(t_bash **tmp, int *lvl);
 int		ft_nbr_par(char *line);
 	//replace//
 void	ft_replace(char **s, char **envp, int pos, int *ret_i);

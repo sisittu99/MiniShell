@@ -79,6 +79,15 @@ int	ft_read_dir(char *pwd, char **wild, char **s1, char **s2)
 	return (1);
 }
 
+char	*ft_join_n_return(char **s1, char **s2, char **s3, char ***wild)
+{
+	*s2 = ft_strjoin(*s1, *s3);
+	free(*s1);
+	free(*s3);
+	ft_free(*wild);
+	return (*s2);
+}
+
 /* -> Funzione che sostituisce la wildcard con
 	  tutti i file corrispondenti alle caratteristiche <- */
 char	*ft_wildcard(char *s, char *pwd, int pos, int *ret_i)
@@ -103,11 +112,7 @@ char	*ft_wildcard(char *s, char *pwd, int pos, int *ret_i)
 	if (s[pos] != '\0')
 	{
 		s3 = ft_substr(s, pos, (ft_strlen(s) - pos));
-		s2 = ft_strjoin(s1, s3);
-		free(s1);
-		free(s3);
-		ft_free(wild);
-		return (s2);
+		return (ft_join_n_return(&s1, &s2, &s3, &wild));
 	}
 	ft_free(wild);
 	return (s1);

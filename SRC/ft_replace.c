@@ -137,12 +137,9 @@ void	ft_replace(char **s, char **envp, int pos, int *ret_i)
 	else if (tmp[pos] == '~')
 		(*s) = ft_replace_tilde(ft_strdup(tmp), envp, pos, ret_i);
 	else if (tmp[pos + 1] == '\0')
-	{
 		(*s) = ft_strdup(tmp);
-		free(tmp);
-		return ;
-	}
-	else if (tmp[pos] == '$' && (((*s)[pos + 1] != '\"') && ((*s)[pos + 1] != '\'')))
+	else if (tmp[pos] == '$' && (((*s)[pos + 1] != '\"')
+		&& ((*s)[pos + 1] != '\'')))
 		(*s) = ft_replace_help(tmp, envp, pos, ret_i);
 	else
 	{

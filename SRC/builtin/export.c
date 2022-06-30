@@ -64,7 +64,8 @@ int	ft_export_cycle(t_bash **bash, char *cmd)
 	j = 0;
 	while (cmd[j])
 	{
-		if ((cmd[j + 1] == '\0' || cmd[j] == '=' || (cmd[j + 1] == '=' && cmd[j] == '+'))
+		if ((cmd[j + 1] == '\0' || cmd[j] == '='
+				|| (cmd[j + 1] == '=' && cmd[j] == '+'))
 			&& ((*bash)->pipe[0] == 0 && (*bash)->pipe[1] == 0)
 			&& (*bash)->next == NULL)
 		{
