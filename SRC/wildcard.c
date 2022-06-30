@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
+/*   By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 16:47:37 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/28 18:24:38 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/30 15:18:37 by mcerchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,16 @@ int	ft_read_dir(char *pwd, char **wild, char **s1, char **s2)
 	{
 		if (ft_check_wildcard(wild, rdir->d_name) == 1)
 		{
-			(*s2) = ft_strjoin(*s1, rdir->d_name);
+			if (ft_strchr(rdir->d_name, ' ') != NULL)
+			{
+				(*s2) = ft_strjoin(*s1, "\'");
+				free(*s1);
+				(*s1) = ft_strjoin(*s2, rdir->d_name);
+				free(*s2);
+				(*s2) = ft_strjoin(*s1, "\'");
+			}
+			else
+				(*s2) = ft_strjoin(*s1, rdir->d_name);
 			free(*s1);
 			*s1 = ft_strjoin(*s2, " ");
 			free(*s2);

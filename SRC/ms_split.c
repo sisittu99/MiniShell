@@ -59,13 +59,15 @@ void	ms_wds_assign(char **s, char c, char **dest, int len)
 		else if (((*s)[i[0]] == c || i[0] == len) && i[1] >= 0)
 		{
 			dest[x++] = ft_substr(*s, i[1], (i[0] - i[1]));
+			if (dest[x - 1][0] == '\0')
+				x--;
 			i[1] = -1;
 		}
 		if (i[0] > 0)
 			wds_assign_help_b(*s, i, dest, &x);
 		i[0]++;
 	}
-	dest[x] = 0;
+	dest[x] = NULL;
 }
 
 char	**ms_split(char *s)
