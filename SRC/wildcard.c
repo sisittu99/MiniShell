@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 16:47:37 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/30 15:18:37 by mcerchi          ###   ########.fr       */
+/*   Updated: 2022/06/30 17:58:8 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,23 @@ char	*ft_find_wildcard(char *s, int *pos)
 	return (tmp);
 }
 
+void	wd_join(char **s1, char **s2, struct dirent *rdir)
+{
+	if (ft_strchr(rdir->d_name, ' ') != NULL)
+	{
+		(*s2) = ft_strjoin(*s1, "\'");
+		free(*s1);
+		(*s1) = ft_strjoin(*s2, rdir->d_name);
+		free(*s2);
+		(*s2) = ft_strjoin(*s1, "\'");
+	}
+	else
+		(*s2) = ft_strjoin(*s1, rdir->d_name);
+	free(*s1);
+	*s1 = ft_strjoin(*s2, " ");
+	free(*s2);
+}
+
 /*
 	Legge la cartella e manda a controllare la wildcard.
 */
@@ -51,24 +68,14 @@ int	ft_read_dir(char *pwd, char **wild, char **s1, char **s2)
 	while (rdir != NULL)
 	{
 		if (ft_check_wildcard(wild, rdir->d_name) == 1)
-		{
-			if (ft_strchr(rdir->d_name, ' ') != NULL)
-			{
-				(*s2) = ft_strjoin(*s1, "\'");
-				free(*s1);
-				(*s1) = ft_strjoin(*s2, rdir->d_name);
-				free(*s2);
-				(*s2) = ft_strjoin(*s1, "\'");
-			}
-			else
-				(*s2) = ft_strjoin(*s1, rdir->d_name);
-			free(*s1);
-			*s1 = ft_strjoin(*s2, " ");
-			free(*s2);
-		}
+			wd_join(s1, s2, rdir);
 		rdir = readdir(dir);
 	}
 	closedir(dir);
+	*s2 = ft_strtrim(*s1, " ");
+	free(*s1);
+	*s1 = ft_strdup(*s2);
+	free(*s2);
 	return (1);
 }
 
@@ -85,7 +92,11 @@ char	*ft_wildcard(char *s, char *pwd, int pos, int *ret_i)
 	wild = wd_split(ft_find_wildcard(s, &pos), '*');
 	s1 = ft_substr(s, 0, pos);
 	if (ft_read_dir(pwd, wild, &s1, &s2) == 0)
+	{
+		ft_free(wild);
+		free(s1);
 		return (NULL);
+	}
 	*ret_i = ft_strlen(s1);
 	while (s[pos] != ' ' && s[pos] != '\0')
 		pos++;
@@ -95,6 +106,7 @@ char	*ft_wildcard(char *s, char *pwd, int pos, int *ret_i)
 		s2 = ft_strjoin(s1, s3);
 		free(s1);
 		free(s3);
+		ft_free(wild);
 		return (s2);
 	}
 	ft_free(wild);

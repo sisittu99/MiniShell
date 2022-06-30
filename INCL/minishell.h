@@ -6,7 +6,7 @@
 /*   By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 16:48:17 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/30 13:19:14 by mcerchi          ###   ########.fr       */
+/*   Updated: 2022/06/30 18:42:05 by mcerchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int		g_exit_status;
 char	*ft_wildcard(char *s, char *pwd, int pos, int *ret_i);
 char	*ft_find_wildcard(char *s, int *pos);
 int		ft_check_wildcard(char **wild, char *name);
-char	**wd_split(const char *s, char c);
+char	**wd_split(char *s, char c);
 int		wd_strncmp(char **s1, char *s2, int *pos, int j);
 
 // * SIGNALS * //
@@ -99,7 +99,7 @@ void	rl_replace_line(const char *text, int clear_undo);
 
 int		ft_parse(t_bash **bash, char *line, char **envp);
 int		ft_parse_help(t_bash **bash, char **envp);
-char	*find_var_to_replace(char *line, char **envp, char re_dir);
+char	*find_var_to_replace(char **line, char **envp, char re_dir);
 void	ft_find_tilde(char **line, char **envp, char re_dir, char c);
 void	ft_find_tilde_help(int *pos_apex, int *i, int pos);
 void	ft_find_tilde_help_b(int *pos_apex, int i, char *line);
@@ -126,7 +126,7 @@ int		ms_nb_words(char *s, char c);
 void	nb_words_help(char *s, int a, int *i, int *j);
 void	nb_words_redir(char *s, int a, int *j);
 void	ms_wds_assign(char **s, char c, char **dest, int len);
-void	wds_assign_help(char **s, int *i, int len);
+void	wds_assign_help(char **s, int *i, int *len);
 void	wds_assign_help_b(char *s, int *i, char **dest, int *x);
 	//syntax_error//
 int		ft_syntax_err_b(char *line, int *def, int i);

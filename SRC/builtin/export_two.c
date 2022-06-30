@@ -6,7 +6,7 @@
 /*   By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 15:30:53 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/30 13:18:20 by mcerchi          ###   ########.fr       */
+/*   Updated: 2022/06/30 18:43:09 by mcerchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,23 +18,24 @@
 void	ft_env_var_found(char *cmd, t_bash **bash, int *index)
 {
 	char	*tmp;
+	char	*dst;
 
 	if (!ft_strchr(cmd, '='))
 		return ;
 	tmp = ft_strdup((*bash)->envp[index[0]]);
+	dst = ft_substr(cmd, index[2] + 3, ft_strlen(cmd) - index[2] - 1);
 	free((*bash)->envp[index[0]]);
 	if (cmd[index[2] + 1] == '+' && tmp[index[1] + 1] == '=')
 	{
-		(*bash)->envp[index[0]] = ft_strjoin(tmp, ft_substr(cmd, index[2] + 3,
-					ft_strlen(cmd) - index[2] - 1));
+		(*bash)->envp[index[0]] = ft_strjoin(tmp, dst);
 	}
 	else if (cmd[index[2] + 1] == '+' && tmp[index[1] + 1] == '\0')
-		(*bash)->envp[index[0]] = ft_access_join(tmp, ft_strdup("="), ft_substr(cmd, index[2] + 3,
-					ft_strlen(cmd) - index[2] - 1));
+		(*bash)->envp[index[0]] = ft_access_join(tmp, "=", dst);
 	else if (cmd[index[2] + 1] != '+')
 		(*bash)->envp[index[0]] = ft_strdup(cmd);
 	free(tmp);
 	free(cmd);
+	free(dst);
 	return ;
 }
 

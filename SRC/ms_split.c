@@ -53,14 +53,12 @@ void	ms_wds_assign(char **s, char c, char **dest, int len)
 	while (i[0] <= len)
 	{
 		if (((*s)[i[0]] == '\'' || (*s)[i[0]] == '\"'))
-			wds_assign_help(s, i, len);
+			wds_assign_help(s, i, &len);
 		if ((*s)[i[0]] != c && i[1] < 0)
 			i[1] = i[0];
 		else if (((*s)[i[0]] == c || i[0] == len) && i[1] >= 0)
 		{
 			dest[x++] = ft_substr(*s, i[1], (i[0] - i[1]));
-			if (dest[x - 1][0] == '\0')
-				x--;
 			i[1] = -1;
 		}
 		if (i[0] > 0)

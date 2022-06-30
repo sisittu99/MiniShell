@@ -6,7 +6,7 @@
 /*   By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 16:14:37 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/27 11:48:00 by mcerchi          ###   ########.fr       */
+/*   Updated: 2022/06/30 18:42:07 by mcerchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,35 +74,3 @@ void	ft_find_tilde(char **line, char **envp, char re_dir, char c)
 		pos = ms_strchr(*line, i, c);
 	}
 }
-
-/* -> Analizza la stringa e cambia le Variabili col rispettivo valore.
-	  Controlla inoltre che la Variabile non sia dentro agli '\'' <- */
-// char	*find_var_to_replace(char *line, char **envp, char re_dir)
-// {
-// 	int	pos_dollar;
-// 	int	pos_apex[2];
-// 	int	i;
-
-// 	i = 0;
-// 	pos_dollar = ms_strchr(line, i, '$');
-// 	pos_apex[0] = 0;
-// 	pos_apex[1] = 1;
-// 	while (pos_dollar != -1)
-// 	{
-// 		if (pos_apex[0] < pos_apex[1])
-// 		{
-// 			pos_apex[0] = ms_strchr(line, i, '\'');
-// 			pos_apex[1] = ms_strchr(line, (pos_apex[0] + 1), '\'');
-// 		}
-// 		printf("%d %d %d\n", pos_apex[0], pos_apex[1], pos_dollar); fflush(stdout);
-// 		if (!(pos_apex[0] < pos_dollar && pos_dollar < pos_apex[1])
-// 			&& re_dir != '1')
-// 			ft_replace(&line, envp, pos_dollar, &i);
-// 		else if (pos_apex[0] < pos_dollar && pos_dollar < pos_apex[1])
-// 			i = pos_apex[1] + 1;
-// 		else
-// 			i++;
-// 		pos_dollar = ms_strchr(line, i, '$');
-// 	}
-// 	return (line);
-// }

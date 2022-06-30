@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_split_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
+/*   By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 17:44:38 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/28 16:46:50 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/30 18:41:49 by mcerchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	wds_assign_help_b(char *s, int *i, char **dest, int *x)
 
 /* -> Controlla che nell'assegnazione delle parole, se presenti,
 	  le '\'' e le '\"' siano contate come parola singola <- */
-void	wds_assign_help(char **s, int *i, int len)
+void	wds_assign_help(char **s, int *i, int *len)
 {
 	int		a;
 	char	typequote;
@@ -95,7 +95,7 @@ void	wds_assign_help(char **s, int *i, int len)
 			i[0] += 1;
 		ft_delete_char(s, a);
 		ft_delete_char(s, i[0] - 1);
-		len -= 1;
+		*len -= 2;
 	}
 	if (i[1] < 0)
 		i[1] = a;

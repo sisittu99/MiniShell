@@ -34,37 +34,37 @@ int	ft_check_apex(int *pos_apex, int pos_dollar, char *line)
 	return (1);
 }
 
-char	*find_var_to_replace(char *line, char **envp, char re_dir)
+char	*find_var_to_replace(char **line, char **envp, char re_dir)
 {
 	int	pos_dollar;
 	int	pos_apex[4];
 	int	i;
 
 	i = 0;
-	pos_dollar = ms_strchr(line, i, '$');
+	pos_dollar = ms_strchr(*line, i, '$');
 	pos_apex[0] = 0;
 	pos_apex[1] = 1;
 	while (pos_dollar != -1 && pos_apex[0] < pos_apex[1] && re_dir != '1')
 	{
-		pos_apex[0] = ms_strchr(line, i, '\'');
-		pos_apex[1] = ms_strchr(line, (pos_apex[0] + 1), '\'');
-		pos_apex[2] = ms_strchr(line, i, '\"');
-		pos_apex[3] = ms_strchr(line, (pos_apex[2] + 1), '\"');
-		if (ft_check_apex(pos_apex, pos_dollar, line) != 0)
-			ft_replace(&line, envp, pos_dollar, &i);
+		pos_apex[0] = ms_strchr(*line, i, '\'');
+		pos_apex[1] = ms_strchr(*line, (pos_apex[0] + 1), '\'');
+		pos_apex[2] = ms_strchr(*line, i, '\"');
+		pos_apex[3] = ms_strchr(*line, (pos_apex[2] + 1), '\"');
+		if (ft_check_apex(pos_apex, pos_dollar, *line) != 0)
+			ft_replace(line, envp, pos_dollar, &i);
 		else if (pos_apex[0] < pos_dollar && pos_dollar < pos_apex[1])
 			i = pos_apex[1] + 1;
 		else
 			i = pos_dollar + 1;
-		pos_dollar = ms_strchr(line, i, '$');
+		pos_dollar = ms_strchr(*line, i, '$');
 	}
 	while (pos_dollar != -1 && re_dir != '1')
 	{
-		ft_replace(&line, envp, pos_dollar, &i);
+		ft_replace(line, envp, pos_dollar, &i);
 		i++;
-		pos_dollar = ms_strchr(line, i, '$');
+		pos_dollar = ms_strchr(*line, i, '$');
 	}
-	return (line);
+	return (*line);
 }
 
 /*

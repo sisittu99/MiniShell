@@ -73,9 +73,10 @@ char	*ft_replace_help_b(char *s, char **envp, int *ret_i, int *i)
 	{
 		s2 = ft_substr(envp[index[0]], index[1] + 1,
 				ft_strlen(envp[index[0]]));
+		free(index);
 	}
 	else
-		s2 = /*ft_strjoin("$", var);*/ "\0";
+		s2 = "\0";
 	free(var);
 	*ret_i = i[2] + ft_strlen(s2);
 	var = ft_substr(s, i[0], (ft_strlen(s) - i[0]));
@@ -126,10 +127,8 @@ void	ft_replace(char **s, char **envp, int pos, int *ret_i)
 	char	*tmp;
 	char	pwd[256];
 
-	/*	DOUBLE FREE DETECHED	*/
 	tmp = ft_strdup(*s);
 	free(*s);
-	// exit(0);
 	if (tmp[pos] == '*')
 	{
 		getcwd(pwd, sizeof(pwd));
@@ -143,8 +142,13 @@ void	ft_replace(char **s, char **envp, int pos, int *ret_i)
 		free(tmp);
 		return ;
 	}
-	else if (tmp[pos] == '$' && ((*s)[pos + 1] != '\"'))
+	else if (tmp[pos] == '$' && (((*s)[pos + 1] != '\"') && ((*s)[pos + 1] != '\'')))
 		(*s) = ft_replace_help(tmp, envp, pos, ret_i);
+	else
+	{
+		(*s) = ft_strdup(tmp);
+		*ret_i = pos + 1;
+	}
 	if (tmp != NULL)
 		free(tmp);
 	return ;

@@ -3,40 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   wd_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
+/*   By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 12:10:23 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/24 13:10:09 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/30 18:41:51 by mcerchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../INCL/minishell.h"
 
-static int	nb_words(const char *s, char c)
+int	wd_words(char *s, char c)
 {
 	int	i;
 	int	j;
+	int	a;
 
 	i = 0;
 	j = 0;
-	while (*s != '\0')
+	a = 0;
+	while (s[a] != '\0')
 	{
-		if ((*s != c) && (j == 0))
+		if ((s[a] != c) && (j == 0))
 		{
 			j = 1;
 			i++;
 		}
-		if (*s == c)
+		if (s[a] == c)
 		{
 			j = 0;
 			i++;
 		}
-		s++;
+		a++;
 	}
 	return (i);
 }
 
-static void	wds_assign(const char *s, char c, char **dest, size_t len)
+void	wd_wds_assign(char *s, char c, char **dest, size_t len)
 {
 	size_t	i;
 	size_t	x;
@@ -67,7 +69,7 @@ static void	wds_assign(const char *s, char c, char **dest, size_t len)
 	  Suddivide tutte le componenti della wildcard
 	  mantenendo anche il carattere passatole
 	  in una stringa separata dalle altre <- */
-char	**wd_split(const char *s, char c)
+char	**wd_split(char *s, char c)
 {
 	char	**dest;
 	size_t	len;
@@ -75,9 +77,10 @@ char	**wd_split(const char *s, char c)
 	if (!s)
 		return (NULL);
 	len = (ft_strlen(s));
-	dest = (char **) malloc (sizeof(char *) * (nb_words(s, c) + 1));
+	dest = (char **) malloc (sizeof(char *) * (wd_words(s, c) + 1));
 	if (!dest)
 		return (NULL);
-	wds_assign(s, c, dest, len);
+	wd_wds_assign(s, c, dest, len);
+	free(s);
 	return (dest);
 }
