@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
+/*   By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 16:48:17 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/29 16:44:55 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/06/30 13:19:14 by mcerchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,7 @@ char	**ft_sort_env(char **envp);
 
 // * PATH * //
 
+char	*ft_access_join(char *s1, char *s2, char *s3);
 char	**ft_path(char **envp);
 char	*ft_access(char *cmd, char **path);
 int		*find_it(char **envp, char *to_find);
