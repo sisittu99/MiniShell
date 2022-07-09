@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_b.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
+/*   By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 16:24:40 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/24 13:15:04 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/07/09 16:51:17 by mcerchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,28 +66,44 @@ int	ft_lonely_cmd(t_bash **bash, char **envp, char *line)
 	return (1);
 }
 
-void	ft_check_new_cmd(t_bash **bash, char *cpy, char **envp)
+char	*ft_check_new_cmd_help(char *cpy)
 {
 	char	*line;
-	t_bash	*tmp;
 
-	tmp = *bash;
-	line = NULL;
-	while (tmp->next != NULL)
-		tmp = tmp->next;
-	if (((tmp->pipe[0] != 0 && tmp->pipe[1] != 0)
-			|| (tmp->sep == '|' || tmp->sep == '&')) && tmp->next == NULL)
+	add_history(cpy);
+	line = readline("> ");
+	if (!line)
 	{
-		add_history(cpy);
-		line = readline("> ");
-		if (!line)
-		{
-			fd_printf(2, "bash: syntax error: unexpected end of file\n");
-			fd_printf(1, "\nExit\n");
-			exit(2);
-		}
-		ft_parse(bash, line, envp);
-		free(line);
+		fd_printf(2, "bash: syntax error: unexpected end of file\n");
+		fd_printf(1, "\nExit\n");
+		exit(2);
 	}
+	return (line);
+}
+
+void	ft_check_new_cmd(char **cpy)
+{
+	char	*line;
+	char	*tmp;
+	char	*tmp2;
+	int		i;
+
+	line = NULL;
+	tmp2 = NULL;
+	tmp = ft_strtrim(*cpy, " ");
+	i = ft_strlen(tmp) - 1;
+	while (tmp[i] == '|'
+		|| (tmp[i] == '&' && tmp[i - 1] == '&' && tmp[i - 2] != '&')
+		|| (tmp[i] == '|' && tmp[i - 1] == '|' && tmp[i - 2] != '|'))
+	{
+		line = ft_check_new_cmd_help(*cpy);
+		tmp2 = ft_strdup(*cpy);
+		free(*cpy);
+		*cpy = ft_replace_join(tmp2, ft_strdup(" "), line);
+		free(tmp);
+		tmp = ft_strtrim(*cpy, " ");
+		i = ft_strlen(tmp) - 1;
+	}
+	free(tmp);
 	return ;
 }

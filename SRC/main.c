@@ -93,7 +93,10 @@ void	ft_command(t_bash **bash, struct sigaction *sa, char **envp)
 					ft_sig_define(sa, 1);
 				ft_execute(bash, env, line);
 			}
-			add_history(line);
+			if (*bash)
+				add_history((*bash)->new_line);
+			else
+				add_history(line);
 		}
 		ft_check_env(bash, &env);
 		ft_delete_lst(bash);

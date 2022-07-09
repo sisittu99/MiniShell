@@ -91,11 +91,14 @@ int	ft_check_sep(t_bash **bash, char *line, int *i, int *j)
 }
 
 /* -> Funzione helper per il parser <- */
-int	ft_parse_help(t_bash **bash, char **envp)
+int	ft_parse_help(t_bash **bash, char **envp, char **line)
 {
 	t_bash	*tmp;
 	char	*line3;
 
+	(*bash)->new_line = ft_strdup(*line);
+	if (*line)
+		free(*line);
 	line3 = NULL;
 	if (ft_find_par(bash) == 0)
 		return (0);
@@ -122,6 +125,7 @@ int	ft_parse(t_bash **bash, char *line, char **envp)
 
 	i = -1;
 	j = 0;
+	ft_check_new_cmd(&line);
 	while (line[++i] != '\0')
 	{
 		if (ft_syntax_err_b(line, &j, i) != 0)
@@ -139,6 +143,5 @@ int	ft_parse(t_bash **bash, char *line, char **envp)
 	}
 	if (j < i)
 		ft_init_node(bash, line, j, (i - j));
-	free(line);
-	return (ft_parse_help(bash, envp));
+	return (ft_parse_help(bash, envp, &line));
 }

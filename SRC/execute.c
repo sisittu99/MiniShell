@@ -66,9 +66,8 @@ int	ft_execute(t_bash **bash, char **envp, char *line)
 	t_bash	*tmp;
 	int		lvl;
 
-	tmp = *bash;
 	lvl = 0;
-	ft_check_new_cmd(&tmp, line, envp);
+	tmp = *bash;
 	if ((*bash)->next == NULL)
 		return (ft_lonely_cmd(bash, envp, ft_strjoin(line, "\n")));
 	while (tmp)

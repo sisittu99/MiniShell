@@ -64,6 +64,7 @@ t_bash	*ms_init_node(t_bash **tmp)
 	new->par = 0;
 	new->envp = NULL;
 	new->next = NULL;
+	new->new_line = NULL;
 	return (new);
 }
 

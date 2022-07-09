@@ -42,7 +42,6 @@ int	ft_formatted_addr(char *cmd)
 				fd_printf(2, "bash: %s: is a directory\n", cmd);
 				exit(126);
 			}
-			closedir(t);
 		}
 		return (1);
 	}
