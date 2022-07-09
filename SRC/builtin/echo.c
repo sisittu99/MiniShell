@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
+/*   By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 16:24:22 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/24 11:50:11 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/07/09 18:02:51 by mcerchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_flag_echo(char **cmd)
 
 	i = 1;
 	flag = 0;
-	while (cmd[i] && cmd[i][0] == '-')
+	while (cmd[i] && cmd[i][0] == '-' && cmd[i][1] == 'n')
 	{
 		j = 1;
 		while (cmd[i][j])

@@ -6,7 +6,7 @@
 /*   By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 12:09:55 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/07/09 16:51:17 by mcerchi          ###   ########.fr       */
+/*   Updated: 2022/07/09 17:44:53 by mcerchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	ft_sig_handler(int sig)
 	if (sig == SIGINT)
 	{
 		printf("\n");
-		rl_replace_line("", 0);
+		// rl_replace_line("", 0);
 	}
 	rl_on_new_line();
 	rl_redisplay();
@@ -53,7 +53,7 @@ void	ft_sig_default(int sig)
 {
 	if (sig == SIGINT)
 	{
-		rl_replace_line("", 0);
+		// rl_replace_line("", 0);
 	}
 	rl_on_new_line();
 	rl_redisplay();

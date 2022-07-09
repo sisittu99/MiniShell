@@ -6,7 +6,7 @@
 /*   By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 16:48:17 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/30 19:01:59 by mcerchi          ###   ########.fr       */
+/*   Updated: 2022/07/09 19:01:46 by mcerchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct s_bash
 	int				par;
 	int				id;
 	char			**envp;
+	char			*new_line;
 	struct s_bash	*next;
 }				t_bash;
 
@@ -98,7 +99,7 @@ void	rl_replace_line(const char *text, int clear_undo);
 // * PARSE * //
 
 int		ft_parse(t_bash **bash, char *line, char **envp);
-int		ft_parse_help(t_bash **bash, char **envp);
+int		ft_parse_help(t_bash **bash, char **envp, char **line);
 char	*find_var_to_replace(char **line, char **envp, char re_dir);
 void	ft_find_tilde(char **line, char **envp, char re_dir, char c);
 void	ft_find_tilde_help(int *pos_apex, int *i, int pos);
@@ -141,7 +142,7 @@ int		ft_par_error_b(int i, int j);
 int		ft_execute(t_bash **bash, char **envp, char *line);
 int		ft_check_exec(t_bash **tmp, char **envp, char *line);
 int		ft_check_exec_help(t_bash **tmp, char **envp, char *line, int *def);
-void	ft_check_new_cmd(t_bash **bash, char *cpy, char **envp);
+void	ft_check_new_cmd(char **cpy);
 int		ft_lonely_cmd(t_bash **bash, char **envp, char *line);
 void	ft_execve(t_bash **bash, char **envp, char *line, int def);
 void	ft_delete_cmd(t_bash **bash, int pos);
@@ -183,6 +184,7 @@ int		ft_export(t_bash **bash, char **cmd, char **envp);
 void	ft_handle_env(char *cmd, t_bash **bash);
 void	ft_env_var_found(char *cmd, t_bash **bash, int *index);
 char	**ft_sort_env(char **envp);
+int		ft_export_cycle(t_bash **bash, char *cmd);
 
 // * PATH * //
 

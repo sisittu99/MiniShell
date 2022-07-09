@@ -69,6 +69,16 @@ void	ft_find_apex(int *pos_apex, char **line, int i)
 }
 
 /*
+	Se la variabile prossima non è attaccata all'altra, allora avanza la posizione.
+*/
+void	ft_isvar(char **line, int *i)
+{
+	if (!((*line)[*i] == '$' && (ft_isalpha((*line)[*i + 1])
+		|| ft_isdigit((*line)[*i + 1]) || (*line)[*i + 1] == '_')))
+		(*i)++;
+}
+
+/*
 	Cerca la variabile da cambiare, soprattutto cerca di capire
 	se la variabile non si trovi dentro a coppie di apici debilitanti.
 */
@@ -95,7 +105,7 @@ char	*find_var_to_replace(char **line, char **envp, char re_dir)
 	while (pos_dollar != -1 && re_dir != '1')
 	{
 		ft_replace(line, envp, pos_dollar, &i);
-		i++;
+		ft_isvar(line, &i);
 		pos_dollar = ms_strchr(*line, i, '$');
 	}
 	return (*line);

@@ -18,14 +18,22 @@
 void	ft_handle_pwd_var(t_bash **bash, char **envp, int casus)
 {
 	char	*new_pwd;
+	char	*join;
 	int		*index;
 
 	new_pwd = (char *) malloc (sizeof(char) * 256);
+	join = NULL;
 	getcwd(new_pwd, 256);
 	if (casus == 0)
 	{
 		index = find_it(envp, "OLDPWD");
-		ft_env_var_found(ft_strjoin("OLDPWD=", new_pwd), bash, index);
+		join = ft_strjoin("OLDPWD=", new_pwd);
+		if (index)
+			ft_env_var_found(join, bash, index);
+		else
+			ft_export_cycle(bash, join);
+		if (join[0])
+			free(join);
 	}
 	else
 	{
