@@ -111,11 +111,14 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_bash				*bash;
 	struct sigaction	sa;
+	int					i;
 
-	(void)argv;
+	i = 0;
 	if (argc != 1)
 	{
-		write(2, "error: no argument allowed\n", 28);
+		fd_printf(2, "error: no arguments allowed:\n");
+		while (++i < argc)
+			fd_printf(2, "\"%s\"\n", argv[i]);
 		return (1);
 	}
 	bash = NULL;

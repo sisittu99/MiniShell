@@ -6,7 +6,7 @@
 #    By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/22 15:36:33 by fdrudi            #+#    #+#              #
-#    Updated: 2022/07/10 11:53:46 by fdrudi           ###   ########.fr        #
+#    Updated: 2022/07/10 16:24:01 by fdrudi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ LIBFT		=	libft/libft.a
 READLINE	=	-L/usr/include -lreadline -L$(HOME)/.brew/opt/readline/lib \
 				-I$(HOME)/.brew/opt/readline/include \
 
-CC			=	gcc #-fsanitize=address
+CC			=	gcc
 
 RM			=	rm -f
 
