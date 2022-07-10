@@ -1,35 +1,54 @@
-make --dry-run --always-make --keep-going --print-directory
-make: Entering directory `/Users/fdrudi/42_Cursus/42_minishell'
-make -C ./libft
+make --dry-run --keep-going --print-directory
+make: Entering directory `/Users/evento/Desktop/42_minishell'
 gcc  -g -Wall -Wextra -Werror -c SRC/main.c -o SRC/main.o
+ 
 gcc  -g -Wall -Wextra -Werror -c SRC/path.c -o SRC/path.o
 gcc  -g -Wall -Wextra -Werror -c SRC/ms_split.c -o SRC/ms_split.o
 gcc  -g -Wall -Wextra -Werror -c SRC/ms_split_utils.c -o SRC/ms_split_utils.o
 gcc  -g -Wall -Wextra -Werror -c SRC/ft_replace.c -o SRC/ft_replace.o
 gcc  -g -Wall -Wextra -Werror -c SRC/parse.c -o SRC/parse.o
+ 
 gcc  -g -Wall -Wextra -Werror -c SRC/list_utils.c -o SRC/list_utils.o
 gcc  -g -Wall -Wextra -Werror -c SRC/execute.c -o SRC/execute.o
+ 
 gcc  -g -Wall -Wextra -Werror -c SRC/builtin/check_builtin.c -o SRC/builtin/check_builtin.o
 gcc  -g -Wall -Wextra -Werror -c SRC/builtin/builtin.c -o SRC/builtin/builtin.o
 gcc  -g -Wall -Wextra -Werror -c SRC/builtin/echo.c -o SRC/builtin/echo.o
+ 
 gcc  -g -Wall -Wextra -Werror -c SRC/builtin/chdir.c -o SRC/builtin/chdir.o
 gcc  -g -Wall -Wextra -Werror -c SRC/builtin/export.c -o SRC/builtin/export.o
+ 
 gcc  -g -Wall -Wextra -Werror -c SRC/builtin/export_one.c -o SRC/builtin/export_one.o
+ 
 gcc  -g -Wall -Wextra -Werror -c SRC/builtin/export_two.c -o SRC/builtin/export_two.o
+gcc  -g -Wall -Wextra -Werror -c SRC/syntax_error_par.c -o SRC/syntax_error_par.o
+ 
 gcc  -g -Wall -Wextra -Werror -c SRC/builtin/unset.c -o SRC/builtin/unset.o
+ 
 gcc  -g -Wall -Wextra -Werror -c SRC/signals.c -o SRC/signals.o
 gcc  -g -Wall -Wextra -Werror -c SRC/rm_ctrl.c -o SRC/rm_ctrl.o
+ 
 gcc  -g -Wall -Wextra -Werror -c SRC/wd_split.c -o SRC/wd_split.o
+ 
 gcc  -g -Wall -Wextra -Werror -c SRC/wildcard.c -o SRC/wildcard.o
+ 
 gcc  -g -Wall -Wextra -Werror -c SRC/wildcard_help.c -o SRC/wildcard_help.o
 gcc  -g -Wall -Wextra -Werror -c SRC/re_dir.c -o SRC/re_dir.o
+ 
 gcc  -g -Wall -Wextra -Werror -c SRC/ft_pipe.c -o SRC/ft_pipe.o
+ 
 gcc  -g -Wall -Wextra -Werror -c SRC/ft_and_or.c -o SRC/ft_and_or.o
 gcc  -g -Wall -Wextra -Werror -c SRC/execute_b.c -o SRC/execute_b.o
+ 
 gcc  -g -Wall -Wextra -Werror -c SRC/ft_replace_b.c -o SRC/ft_replace_b.o
+ 
 gcc  -g -Wall -Wextra -Werror -c SRC/syntax_error.c -o SRC/syntax_error.o
+ 
 gcc  -g -Wall -Wextra -Werror -c SRC/ft_find.c -o SRC/ft_find.o
+ 
+gcc  -g -Wall -Wextra -Werror -c SRC/ft_find_utils.c -o SRC/ft_find_utils.o
+ 
 gcc  -g -Wall -Wextra -Werror -c SRC/ft_par.c -o SRC/ft_par.o
-gcc  -Wall -Wextra -Werror ./SRC/main.o ./SRC/path.o ./SRC/ms_split.o ./SRC/ms_split_utils.o ./SRC/ft_replace.o ./SRC/parse.o ./SRC/list_utils.o ./SRC/execute.o ./SRC/builtin/check_builtin.o ./SRC/builtin/builtin.o ./SRC/builtin/echo.o ./SRC/builtin/chdir.o ./SRC/builtin/export.o ./SRC/builtin/export_one.o ./SRC/builtin/export_two.o ./SRC/builtin/unset.o ./SRC/signals.o ./SRC/rm_ctrl.o ./SRC/wd_split.o ./SRC/wildcard.o ./SRC/wildcard_help.o ./SRC/re_dir.o ./SRC/ft_pipe.o ./SRC/ft_and_or.o ./SRC/execute_b.o ./SRC/ft_replace_b.o ./SRC/syntax_error.o ./SRC/ft_find.o ./SRC/ft_par.o libft/libft.a -o minishell -L/usr/include -lreadline -L/Users/fdrudi/.brew/opt/readline/lib -I/Users/fdrudi/.brew/opt/readline/include 
-make: Leaving directory `/Users/fdrudi/42_Cursus/42_minishell'
+gcc  -Wall -Wextra -Werror ./SRC/main.o ./SRC/path.o ./SRC/ms_split.o ./SRC/ms_split_utils.o ./SRC/ft_replace.o ./SRC/parse.o ./SRC/list_utils.o ./SRC/execute.o ./SRC/builtin/check_builtin.o ./SRC/builtin/builtin.o ./SRC/builtin/echo.o ./SRC/builtin/chdir.o ./SRC/builtin/export.o ./SRC/builtin/export_one.o ./SRC/builtin/export_two.o ./SRC/syntax_error_par.o ./SRC/builtin/unset.o ./SRC/signals.o ./SRC/rm_ctrl.o ./SRC/wd_split.o ./SRC/wildcard.o ./SRC/wildcard_help.o ./SRC/re_dir.o ./SRC/ft_pipe.o ./SRC/ft_and_or.o ./SRC/execute_b.o ./SRC/ft_replace_b.o ./SRC/syntax_error.o ./SRC/ft_find.o ./SRC/ft_find_utils.o ./SRC/ft_par.o libft/libft.a -o minishell -L/usr/include -lreadline -L/Users/evento/.brew/opt/readline/lib -I/Users/evento/.brew/opt/readline/include 
+make: Leaving directory `/Users/evento/Desktop/42_minishell'
  

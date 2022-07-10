@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_par.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 16:37:31 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/30 19:01:53 by mcerchi          ###   ########.fr       */
+/*   Updated: 2022/07/10 12:44:43 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ft_nbr_par(char *line)
 	pos[0] = i;
 	pos[1] = ft_strlen(line) - 1 - j;
 	if (i > 0 && j < ((int) ft_strlen(line) - 1))
-		tmp = ft_substr(line, i, j);
+		tmp = ft_substr(line, i, j - (i - 1));
 	else
 		tmp = ft_substr(line, i, j + 1);
 	free(line);

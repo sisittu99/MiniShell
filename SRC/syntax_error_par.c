@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_error_par.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 19:12:35 by mcerchi           #+#    #+#             */
-/*   Updated: 2022/06/30 19:12:38 by mcerchi          ###   ########.fr       */
+/*   Updated: 2022/07/10 12:45:58 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	ft_par_error(char *line, int i, int j)
 	int		pos2;
 	char	*tmp;
 
-	tmp = ft_substr(line, i, j);
+	tmp = ft_substr(line, i, j - (i - 1));
 	pos = ms_strchr(tmp, 0, '(');
 	if (pos != -1 && j < (int)ft_strlen(line))
 		j += 1;

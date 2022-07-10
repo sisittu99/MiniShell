@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+         #
+#    By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/22 15:36:33 by fdrudi            #+#    #+#              #
-#    Updated: 2022/06/30 19:13:25 by mcerchi          ###   ########.fr        #
+#    Updated: 2022/07/10 11:53:46 by fdrudi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ OBJ			=	$(SRC:.c=.o)
 LIBFT		=	libft/libft.a
 
 READLINE	=	-L/usr/include -lreadline -L$(HOME)/.brew/opt/readline/lib \
-				-I$(HOME)/.brew/opt/readline/include\
+				-I$(HOME)/.brew/opt/readline/include \
 
 CC			=	gcc #-fsanitize=address
 
