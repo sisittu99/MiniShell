@@ -50,7 +50,10 @@ char	*ft_prompt(t_bash **bash, char **envp)
 	while (line[i] == ' ')
 		i++;
 	if (line[i] == '\0')
+	{
+		free(line);
 		return (NULL);
+	}
 	return (line);
 }
 
@@ -97,10 +100,10 @@ void	ft_command(t_bash **bash, struct sigaction *sa, char **envp)
 				add_history((*bash)->new_line);
 			else
 				add_history(line);
+			free(line);
 		}
 		ft_check_env(bash, &env);
 		ft_delete_lst(bash);
-		free(line);
 	}
 }
 
