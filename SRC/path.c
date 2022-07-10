@@ -18,7 +18,8 @@ char	**ft_path(char **envp)
 
 	index = find_it(envp, "PATH");
 	if (index != NULL)
-		return (ft_split(envp[index[0]], ':'));
+		return (ft_split(ft_substr(envp[index[0]], 5
+					, ft_strlen(envp[index[0]]) - 5), ':'));
 	return (NULL);
 }
 
