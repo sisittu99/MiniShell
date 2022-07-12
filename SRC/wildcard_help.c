@@ -6,7 +6,7 @@
 /*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 16:47:55 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/24 17:41:29 by fdrudi           ###   ########.fr       */
+/*   Updated: 2022/07/12 13:01:25 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,13 @@ int	wd_strncmp(char **s1, char *s2, int *pos, int j)
 			return (0);
 		if (s1[j + 1] == NULL)
 		{
-			if (s1[j][i] == '\0' && s2[(*pos)] != '\0')
-				return (0);
+			if (s1[j][i + 1] == '\0' && s2[(*pos) + 1] != '\0')
+			{
+				(*pos)++;
+				while (s1[j][i] != s2[(*pos)])
+					if (s2[(*pos)++] == '\0')
+						return (0);
+			}
 		}
 		if (s1[j][i] == '\0')
 			return (1);
@@ -41,15 +46,18 @@ int	wd_strncmp(char **s1, char *s2, int *pos, int j)
 */
 int	wd_check(char **wild, char *name, int *i, int *j)
 {
-	if (wild[(*i) + 1] != NULL)
-	{
+	while (wild[(*i)] != NULL && wild[(*i)][0] == '*')
 		(*i)++;
+	if (wild[(*i)] != NULL)
+	{
 		while (wild[(*i)][0] != name[(*j)])
 		{
 			if (name[(*j)] == '\0')
 				return (0);
 			(*j)++;
 		}
+		if (wild[(*i) + 1] == NULL)
+			return (wd_strncmp(wild, name, j, *i));
 	}
 	else
 		return (1);
@@ -77,7 +85,6 @@ int	ft_check_wildcard(char **wild, char *name)
 		}
 		if (wd_strncmp(wild, name, &j, i) == 0)
 			return (0);
-		j++;
 		i++;
 	}
 	return (1);
