@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 16:48:17 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/07/09 19:01:46 by mcerchi          ###   ########.fr       */
+/*   Updated: 2022/07/12 14:49:37 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,7 +205,5 @@ t_bash	*ft_new_node(char *line, int pos, int len, char *sep);
 void	ft_node_add_back(t_bash **lst, t_bash *new);
 void	ft_delete_lst(t_bash **bash);
 t_bash	*ms_init_node(t_bash **tmp);
-
-// void	rl_replace_line (const char *text, int clear_undo);
 
 #endif
