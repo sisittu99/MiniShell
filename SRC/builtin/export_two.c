@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_two.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcerchi <mcerchi@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: fdrudi <fdrudi@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 15:30:53 by fdrudi            #+#    #+#             */
-/*   Updated: 2022/06/30 19:10:20 by mcerchi          ###   ########.fr       */
+/*   Updated: 2022/07/12 14:38:01 by fdrudi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	ft_env_var_found(char *cmd, t_bash **bash, int *index)
 */
 int	ft_handle_env_cycle(t_bash **bash, int *index, char *cmd, char *to_find)
 {
-	while ((*bash)->envp[index[0]])
+	while ((*bash)->envp && (*bash)->envp[index[0]])
 	{
 		while ((*bash)->envp[index[0]][index[1]] == to_find[index[2]])
 		{

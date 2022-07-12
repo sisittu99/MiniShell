@@ -67,7 +67,7 @@ int	ft_export_cycle(t_bash **bash, char *cmd)
 		if ((cmd[j + 1] == '\0' || cmd[j] == '='
 				|| (cmd[j + 1] == '=' && cmd[j] == '+'))
 			&& ((*bash)->pipe[0] == 0 && (*bash)->pipe[1] == 0)
-			&& (*bash)->next == NULL)
+			&& ((*bash)->next == NULL || (*bash)->sep == '&'))
 		{
 			ft_handle_env(cmd, bash);
 			break ;
@@ -94,7 +94,7 @@ int	ft_export(t_bash **bash, char **cmd, char **envp)
 	if (ft_invalid_option(ft_new_env(cmd, 0)) == 1)
 		return (1);
 	if (((*bash)->pipe[0] == 0 && (*bash)->pipe[1] == 0)
-		&& (*bash)->next == NULL)
+		&& ((*bash)->next == NULL || (*bash)->sep == '&'))
 		(*bash)->envp = ft_new_env(envp, 0);
 	status = 0;
 	while (cmd[i])
